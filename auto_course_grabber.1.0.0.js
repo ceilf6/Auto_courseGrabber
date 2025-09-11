@@ -1,6 +1,7 @@
 // 上海大学教务系统自动抢课脚本
 // 中欧 信息工程 ceilf
 // https://github.com/ceilf6
+// https://blog.csdn.net/2301_78856868
 // 3506456886@qq.com
 
 // 使用方法:
