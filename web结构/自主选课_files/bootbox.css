@@ -1,0 +1,127 @@
+.bootbox .modal-overflow{overflow-y: hidden !important;}
+.bootbox .bootbox-body-overflow{overflow-x: hidden; overflow-y: auto;}
+    
+/* .bootbox .modal-dialog {margin: 0px auto;} */
+/* .bootbox .modal-dialog-reset{margin-left:inherit !important;margin-right:inherit !important;} */ 
+  .bootbox .modal-dialog-reset{margin: inherit !important;} 
+/* .modal-dialog.ui-draggable-dragging{
+	margin:inherit !important;
+} */
+
+.bootbox .modal-header{padding: 10px;position: relative;}
+.bootbox .close{border-radius: 0px;}
+.bootbox .modal-body{padding: 8px;}
+.bootbox.bootbox-alert .modal-body,.bootbox.bootbox-confirm .modal-body{overflow-y: auto;}
+.bootbox .loading-spinner { margin: 40px auto !important; width: 300px !important; line-height: 30px !important; padding: 10px !important; }
+.bootbox .loading-spinner span { vertical-align: bottom; color: #31708f; font-family: "Helvetica Neue", Helvetica, Microsoft Yahei, Hiragino Sans GB, WenQuanYi Micro Hei, sans-serif; font-size: 16px; font-weight: bold; }
+.bootbox .modal-progress{padding: 0px;min-height: 12px;}
+.bootbox .progress,.ajax-progress { border-radius: 1px; height: 12px; margin-bottom: 0px; display: none;}
+.bootbox .progress-bar,.ajax-progress .progress-bar {line-height: 12px;}
+.bootbox .modal-footer{padding: 10px 15px;}
+.bootbox .alert-modal,.bootbox .confirm-modal,.bootbox .error-modal,.bootbox .success-modal{margin: auto 1em ;padding-bottom: 15px;padding-left: 50px;padding-top: 15px;min-height: 48px;height: auto;border: 0px !important;	display:block !important;word-break: break-all;  word-wrap:break-word;}
+.bootbox .alert-modal p,.bootbox .confirm-modal p,.bootbox .error-modal p,.bootbox .success-modal p{font-weight:400;font-size: 14px;text-align: left;margin: auto 0px !important;}
+.bootbox .alert-modal{color:#000000;background: url(../images/alert.png) no-repeat left center;}
+.bootbox .confirm-modal{color:#8a6d3b;background: url(../images/confirm.png) no-repeat left center;}
+.bootbox .error-modal{color:#a94442;background: url(../images/error.png) no-repeat left center;}
+.bootbox .success-modal{color:#3c763d;background: url(../images/success.png) no-repeat left center;}
+/* .bootbox-alert .modal-dialog { SET THE WIDTH OF THE MODAL 设置Modal的宽度 margin: 250px auto; }
+.bootbox-confirm .modal-dialog { position: relative; margin: 250px auto; }
+.bootbox-prompt .modal-dialog { position: relative; margin: 250px auto; }
+.bootbox-300 .modal-dialog { margin: 150px auto; }*/
+
+/*.bootbox .mCSB_dragger,.mCSB_draggerContainer{display:none;}*/
+.bootbox .mCustomScrollBox{max-height: inherit !important;}
+.bootbox .sl_all_form{padding:0px;}
+
+.bootbox-body{/* overflow-y: auto;overflow-x: hidden; */}
+.bootbox.modal{overflow-y: hidden !important;}
+
+/*.modal-open{
+	overflow:auto;
+}
+*/
+
+/* 新增放大至全屏参数 */
+.bootbox-full{
+	display: inline-block;
+	position: absolute;
+    right:30px;
+    top:15px;
+    font-size:12px;
+    cursor:pointer;
+}
+
+.bootbox-full span{
+	color:#fff;
+}
+
+.box-full-screen .modal-dialog{
+	width:100% !important;
+	height:100% !important;
+	margin:0px !important;
+	top:0px !important;
+}
+
+
+
+/* bootbox换肤 */
+.blue-third-skin .sl_mod .modal-header {
+	background: #75c5e0;
+}
+.blue-third-skin .modal-footer .btn-primary{
+	background: #75c5e0;
+	border:1px solid #5bbdde;
+}
+
+.basic-skin .sl_mod .modal-header {
+	background: #505965;
+}
+.basic-skin .modal-footer .btn-primary{
+	background: #505965;
+    border: 1px solid #434a54;
+}
+
+.wood-grain-skin .sl_mod .modal-header {
+	background: #ffc124;
+}
+.wood-grain-skin .modal-footer .btn-primary{
+	background: #ffc124;
+	border:1px solid #e0a819;
+} 
+
+.green-skin  .sl_mod .modal-header {
+	background: #64ad36;
+}
+.green-skin  .modal-footer .btn-primary{
+	background: #64ad36;
+    border: 1px solid #57a029;
+}
+
+
+.blue-lightblue-skin  .sl_mod .modal-header {
+	background: #62a3d2;
+}
+.blue-lightblue-skin  .modal-footer .btn-primary{
+	background: #62a3d2;
+    border: 1px solid #1470d6;
+}
+
+
+.blue-second-skin  .sl_mod .modal-header {
+	background: #409bff;
+}
+.blue-second-skin  .modal-footer .btn-primary{
+	background: #409bff;
+    border: 1px solid #1470d6;
+}
+
+
+.blue-third-skin  .sl_mod .modal-header {
+	background: #628b96;
+}
+.blue-third-skin  .modal-footer .btn-primary{
+	background: #628b96;
+    border: 1px solid #2d4a52;
+}
+    
+

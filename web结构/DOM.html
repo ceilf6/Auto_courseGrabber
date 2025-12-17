@@ -1,0 +1,3020 @@
+<html lang="zh-CN" class="trancy-zh-CN desktop landscape">
+
+<head>
+    <style type="text/css">
+        .jsqh {
+            float: left;
+            height: 50px;
+            padding: 15px 15px;
+            font-size: 18px;
+            line-height: 20px;
+        }
+
+        .top-input {
+            margin: 0 !important;
+
+        }
+
+        .inp-name {
+            display: inline-block;
+            height: 50px;
+            margin-right: 10px;
+            line-height: 50px;
+            color: #fff;
+            font-size: 16px;
+        }
+
+        @media (max-width: 767px) {
+            .navbar-form {
+                border: 0 !important
+            }
+
+            .role-inp {
+                display: inline-block !important;
+                width: 72% !important
+            }
+        }
+    </style>
+
+    <title>自主选课</title>
+
+
+
+
+
+
+
+
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="Copyright" content="zfsoft">
+    <link rel="icon" href="/jwglxt/xtgl/dlycssz_cxDlycsszZp.html?zplx=0&amp;t=1765963620374" type="image/x-icon">
+    <link rel="shortcut icon" href="/jwglxt/xtgl/dlycssz_cxDlycsszZp.html?zplx=0&amp;t=1765963620374"
+        type="image/x-icon">
+    <style type="text/css">
+        .active {
+            font-weight: bolder;
+        }
+
+        #navbar-tabs li {
+            margin-top: 2px;
+        }
+
+        #navbar-tabs li a {
+            border-top: 2px solid transparent;
+        }
+
+        #navbar-tabs li.active a {
+            border-top: 2px solid #0770cd;
+        }
+    </style>
+
+
+
+    <!--jQuery核心框架库 -->
+    <script type="text/javascript" src="/zftal-ui-v5-1.0.2/assets/js/other_jquery/jquery.min.js?ver=29430995"></script>
+    <script type="text/javascript" src="/zftal-ui-v5-1.0.2/assets/js/jquery-migrate.min.js?ver=29430995"></script>
+    <!--多选框CSS及js -->
+    <link rel="stylesheet" type="text/css" href="/jwglxt/css/multiSelect/multiSelect.css">
+    <script type="text/javascript" src="/jwglxt/js/plugins/multiSelect/multiSelect.js?ver=29430995"></script>
+    <!--jQuery浏览器检测 -->
+    <script type="text/javascript" src="/jwglxt/js/browse/browse-judge.js?ver=29430995"></script>
+    <script type="text/javascript">
+        //浏览器版本验证
+        var broswer = broswer();
+        if (broswer.msie == true || broswer.safari == true || broswer.mozilla == true || broswer.chrome == true) {
+            if (broswer.msie == true && broswer.version < 9) {
+                window.location.href = _path + "/xtgl/init_cxBrowser.html";
+            }
+        } else {
+            window.location.href = _path + "/xtgl/init_cxBrowser.html";
+        }
+    </script>
+    <script type="text/javascript">
+        var _path = "/jwglxt";
+        var _systemPath = "/jwglxt";
+        var _stylePath = "/zftal-ui-v5-1.0.2";
+        var _reportPath = "https://jwxt.shu.edu.cn/WebReport";
+        var _refreshInterval = "10";
+        var _localeKey = "zh_CN";
+    </script>
+    <!--
+jquery.ui 需要在bootstrap之前加载，解决冲突问题
+http://blog.csdn.net/remote_roamer/article/details/14105999
+-->
+    <script type="text/javascript"
+        src="/zftal-ui-v5-1.0.2/assets/js/jquery-ui-custom.contact-1.0.0.js?ver=29430995"></script>
+    <!--Bootstrap布局框架-->
+    <link rel="stylesheet" type="text/css"
+        href="/zftal-ui-v5-1.0.2/assets/plugins/bootstrap/css/bootstrap.min.css?ver=29430995">
+    <link rel="stylesheet" type="text/css" href="/zftal-ui-v5-1.0.2/assets/css/error.css?ver=29430995">
+
+    <link rel="stylesheet" type="text/css" href="/zftal-ui-v5-1.0.2/assets/css/zftal-ui.css?ver=29430995">
+
+    <script type="text/javascript" src="/zftal-ui-v5-1.0.2/assets/plugins/bootstrap/js/bootstrap.min.js?ver=29430995"
+        charset="utf-8"></script>
+    <!--jQuery常用工具扩展库：基础工具,资源加载工具,元素尺寸相关工具 -->
+    <script type="text/javascript" src="/zftal-ui-v5-1.0.2/assets/js/zftal/jquery.utils.contact-min.js?ver=29430995"
+        charset="utf-8"></script>
+    <!--jQuery基础工具库：$.browser,$.cookie,$.actual等 -->
+    <script type="text/javascript" src="/zftal-ui-v5-1.0.2/assets/js/zftal/jquery.plugins.contact-min.js?ver=29430995"
+        charset="utf-8"></script>
+    <!--jQuery自定义event事件库 -->
+    <script type="text/javascript" src="/zftal-ui-v5-1.0.2/assets/js/zftal/jquery.events.contact-min.js?ver=29430995"
+        charset="utf-8"></script>
+    <!--JavaScript对象扩展库：Array,Date,Number,String -->
+
+    <script type="text/javascript" src="/zftal-ui-v5-1.0.2/assets/js/zftal/jquery.extends.contact-min.js?ver=29430995"
+        charset="utf-8"></script>
+
+    <!--Bootbox弹窗插件-->
+    <link rel="stylesheet" type="text/css"
+        href="/zftal-ui-v5-1.0.2/assets/plugins/bootbox/css/bootbox.css?ver=29430995">
+    <script src="/zftal-ui-v5-1.0.2/assets/plugins/bootbox/bootbox.concat-min.js?ver=29430995" type="text/javascript"
+        charset="utf-8"></script>
+    <script src="/zftal-ui-v5-1.0.2/assets/plugins/bootbox/lang/zh_CN.js?ver=29430995" type="text/javascript"
+        charset="utf-8"></script>
+
+    <!--jQuery模拟滚动条库-->
+    <link rel="stylesheet" type="text/css"
+        href="/zftal-ui-v5-1.0.2/assets/plugins/customscrollbar/css/jquery.mCustomScrollbar.min.css?ver=29430995">
+    <script type="text/javascript"
+        src="/zftal-ui-v5-1.0.2/assets/plugins/customscrollbar/js/jquery.mCustomScrollbar.min.js?ver=29430995"
+        charset="utf-8"></script>
+    <!--jQuery.chosen美化插件-->
+    <link rel="stylesheet" type="text/css"
+        href="/zftal-ui-v5-1.0.2/assets/plugins/chosen/css/chosen-min.css?ver=29430995">
+    <script type="text/javascript"
+        src="/zftal-ui-v5-1.0.2/assets/plugins/chosen/jquery.choosen.concat-min.js?ver=29430995"
+        charset="utf-8"></script>
+    <script type="text/javascript" src="/zftal-ui-v5-1.0.2/assets/plugins/chosen/lang/zh_CN-min.js?ver=29430995"
+        charset="utf-8"></script>
+    <script type="text/javascript" src="/zftal-ui-v5-1.0.2/assets/js/utils/jquery.utils.pinyin.min.js?ver=29430995"
+        charset="utf-8"></script>
+    <!--[if lt IE 9]>
+<script type="text/javascript" src="/zftal-ui-v5-1.0.2/assets/js/html5shiv.min.js?ver=29430995" charset="utf-8"></script>
+<script type="text/javascript" src="/zftal-ui-v5-1.0.2/assets/js/respond.min.js?ver=29430995" charset="utf-8"></script>
+<![endif]-->
+    <!--业务框架jQuery全局设置和通用函数库-->
+    <script type="text/javascript" src="/jwglxt/js/jquery.zftal.contact-min.js?ver=29430995"></script>
+    <!--国际化js库 -->
+    <script type="text/javascript" src="/zftal-ui-v5-1.0.2/assets/plugins/i18n/jquery.i18n-min.js?ver=29430995"
+        charset="utf-8"></script>
+    <!--全局国际化js. -->
+    <script type="text/javascript" src="/jwglxt/js/globalweb/i18n-global_zh_CN.js?ver=29430995"
+        charset="utf-8"></script>
+    <!--业务框架前端脚本国际化库-->
+    <script type="text/javascript"
+        src="/zftal-ui-v5-1.0.2/assets/js/zftal/lang/jquery.zftal_zh_CN-min.js?ver=29430995"></script>
+    <!--密码强弱判断-->
+    <script type="text/javascript"
+        src="/zftal-ui-v5-1.0.2/assets/js/utils/jquery.utils.strength.min.js?ver=29430995"></script>
+    <!--jQuery浏览器检测 -->
+    <script type="text/javascript" src="/jwglxt/js/globalweb/comp/xtgl/device.js?ver=29430995"></script>
+    <!-- 调用第三方报表 api -->
+    <script type="text/javascript" src="/jwglxt/js/globalweb/report/api.js?ver=29430995"></script>
+
+
+
+
+
+
+
+
+
+    <script type="text/javascript">
+
+        var _path = "/jwglxt";
+        var _systemPath = "/jwglxt";
+        var _stylePath = "/zftal-ui-v5-1.0.2";
+        var _reportPath = "https://jwxt.shu.edu.cn/WebReport";
+        var _localeKey = "zh_CN";
+
+        jQuery(function ($) {
+            window.sessionStorage.setItem('_path', _path)
+            $('[data-toggle*="validation"]').trigger("validation");
+            $('[data-toggle*="fixed"]').trigger("fixed");
+            $('[data-toggle*="tagTree"]').trigger("tagTree");
+            if ($.fn.tooltip) {
+                $('[data-toggle*="tooltip"]').tooltip({ container: 'body' });
+            }
+        });
+
+    </script>
+    <style type="text/css">
+        .captcha_modal {
+            width: 380px;
+            height: 330px;
+            z-index: 9999;
+            top: 150px;
+            margin: auto;
+            position: absolute;
+            box-sizing: border-box;
+            border-radius: 2px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, .3);
+            left: 40%;
+        }
+
+        .ui-jqgrid-bdiv .item-list>li {
+            position: static;
+        }
+    </style>
+    <!-- 文件操作相关js -->
+    <script type="text/javascript" src="/jwglxt/js/globalweb/comp/file/file.js?ver=29430995"></script>
+    <!--教务系统通用业务js引用:比如学年，学期等公共的信息会放在这里-->
+    <script type="text/javascript" src="/jwglxt/js/globalweb/comp/i18n/jwglxt-common_zh_CN.js?ver=29430995"></script>
+    <!--业务模块的properties初始化-->
+    <!--国际化js库 -->
+    <script type="text/javascript" src="/jwglxt/js\globalweb\comp\i18n\N253512_zh_CN.js?ver=29430996"
+        charset="utf-8"></script>
+
+    <!--移动端审核-->
+    <script type="text/javascript" src="/jwglxt/js/globalweb/comm/dynaForm/index.js?ver=29430995"></script>
+    <link rel="stylesheet" type="text/css" href="/jwglxt/css/dynaForm/index.css?ver=29430995">
+    <script type="text/javascript" src="/jwglxt/js/globalweb/comm/explan/index.js?ver=29430995"></script>
+    <script type="text/javascript" src="/jwglxt/js/cascade.js?ver=29430995"></script>
+    <script type="text/javascript" src="/jwglxt/js/plugins/multiSelect/pinyin-pro.js?ver=29430995"></script>
+
+
+    <style type="text/css">
+        .btn-quick {
+            margin-right: 30px;
+            height: 25px;
+            padding: 0px 10px;
+        }
+
+        .outer_left .glyphicon:before {
+            margin: 14px;
+        }
+
+        .jxb-wyl {
+            background-color: #f400006e !important;
+        }
+
+        #but_ancd {
+            margin-right: 50px;
+        }
+
+        #sl_add_btn_groups {
+            margin-bottom: -20px;
+        }
+
+        .xhxmxx {
+            float: left;
+            height: 50px;
+            padding: 15px 15px;
+            color: #fff;
+            font-size: 16px !important;
+            margin-left: 100px;
+        }
+
+        .cursj {
+            float: left;
+            height: 50px;
+            padding: 18px 15px;
+            color: #fff;
+            font-size: 16px !important;
+            margin-left: 20px;
+        }
+
+        .l-kc-xf {
+            display: none;
+        }
+    </style>
+
+    <style data-id="immersive-translate-input-injected-css">
+        .immersive-translate-input {
+            position: absolute;
+            top: 0;
+            right: 0;
+            left: 0;
+            bottom: 0;
+            z-index: 2147483647;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .immersive-translate-attach-loading::after {
+            content: " ";
+
+            --loading-color: #f78fb6;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            display: block;
+            margin: 12px auto;
+            position: relative;
+            color: white;
+            left: -100px;
+            box-sizing: border-box;
+            animation: immersiveTranslateShadowRolling 1.5s linear infinite;
+
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-2000%, -50%);
+            z-index: 100;
+        }
+
+        .immersive-translate-loading-spinner {
+            vertical-align: middle !important;
+            width: 10px !important;
+            height: 10px !important;
+            display: inline-block !important;
+            margin: 0 4px !important;
+            border: 2px rgba(221, 244, 255, 0.6) solid !important;
+            border-top: 2px rgba(0, 0, 0, 0.375) solid !important;
+            border-left: 2px rgba(0, 0, 0, 0.375) solid !important;
+            border-radius: 50% !important;
+            padding: 0 !important;
+            -webkit-animation: immersive-translate-loading-animation 0.6s infinite linear !important;
+            animation: immersive-translate-loading-animation 0.6s infinite linear !important;
+        }
+
+        @-webkit-keyframes immersive-translate-loading-animation {
+            from {
+                -webkit-transform: rotate(0deg);
+            }
+
+            to {
+                -webkit-transform: rotate(359deg);
+            }
+        }
+
+        @keyframes immersive-translate-loading-animation {
+            from {
+                transform: rotate(0deg);
+            }
+
+            to {
+                transform: rotate(359deg);
+            }
+        }
+
+        .immersive-translate-input-loading {
+            --loading-color: #f78fb6;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            display: block;
+            margin: 12px auto;
+            position: relative;
+            color: white;
+            left: -100px;
+            box-sizing: border-box;
+            animation: immersiveTranslateShadowRolling 1.5s linear infinite;
+        }
+
+        @keyframes immersiveTranslateShadowRolling {
+            0% {
+                box-shadow: 0px 0 rgba(255, 255, 255, 0), 0px 0 rgba(255, 255, 255, 0),
+                    0px 0 rgba(255, 255, 255, 0), 0px 0 rgba(255, 255, 255, 0);
+            }
+
+            12% {
+                box-shadow: 100px 0 var(--loading-color), 0px 0 rgba(255, 255, 255, 0),
+                    0px 0 rgba(255, 255, 255, 0), 0px 0 rgba(255, 255, 255, 0);
+            }
+
+            25% {
+                box-shadow: 110px 0 var(--loading-color), 100px 0 var(--loading-color),
+                    0px 0 rgba(255, 255, 255, 0), 0px 0 rgba(255, 255, 255, 0);
+            }
+
+            36% {
+                box-shadow: 120px 0 var(--loading-color), 110px 0 var(--loading-color),
+                    100px 0 var(--loading-color), 0px 0 rgba(255, 255, 255, 0);
+            }
+
+            50% {
+                box-shadow: 130px 0 var(--loading-color), 120px 0 var(--loading-color),
+                    110px 0 var(--loading-color), 100px 0 var(--loading-color);
+            }
+
+            62% {
+                box-shadow: 200px 0 rgba(255, 255, 255, 0), 130px 0 var(--loading-color),
+                    120px 0 var(--loading-color), 110px 0 var(--loading-color);
+            }
+
+            75% {
+                box-shadow: 200px 0 rgba(255, 255, 255, 0), 200px 0 rgba(255, 255, 255, 0),
+                    130px 0 var(--loading-color), 120px 0 var(--loading-color);
+            }
+
+            87% {
+                box-shadow: 200px 0 rgba(255, 255, 255, 0), 200px 0 rgba(255, 255, 255, 0),
+                    200px 0 rgba(255, 255, 255, 0), 130px 0 var(--loading-color);
+            }
+
+            100% {
+                box-shadow: 200px 0 rgba(255, 255, 255, 0), 200px 0 rgba(255, 255, 255, 0),
+                    200px 0 rgba(255, 255, 255, 0), 200px 0 rgba(255, 255, 255, 0);
+            }
+        }
+
+        .immersive-translate-toast {
+            display: flex;
+            position: fixed;
+            z-index: 2147483647;
+            left: 0;
+            right: 0;
+            top: 1%;
+            width: fit-content;
+            padding: 12px 20px;
+            margin: auto;
+            overflow: auto;
+            background: #fef6f9;
+            box-shadow: 0px 4px 10px 0px rgba(0, 10, 30, 0.06);
+            font-size: 15px;
+            border-radius: 8px;
+            color: #333;
+        }
+
+        .immersive-translate-toast-content {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+        }
+
+        .immersive-translate-toast-hidden {
+            margin: 0 20px 0 72px;
+            text-decoration: underline;
+            cursor: pointer;
+        }
+
+        .immersive-translate-toast-close {
+            color: #666666;
+            font-size: 20px;
+            font-weight: bold;
+            padding: 0 10px;
+            cursor: pointer;
+        }
+
+        @media screen and (max-width: 768px) {
+            .immersive-translate-toast {
+                top: 0;
+                padding: 12px 0px 0 10px;
+            }
+
+            .immersive-translate-toast-content {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .immersive-translate-toast-hidden {
+                margin: 10px auto;
+            }
+        }
+
+        .immersive-translate-dialog {
+            position: fixed;
+            z-index: 2147483647;
+            left: 0;
+            top: 0;
+            display: flex;
+            width: 300px;
+            flex-direction: column;
+            align-items: center;
+            font-size: 15px;
+            left: 0;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            margin: auto;
+            height: fit-content;
+            border-radius: 20px;
+            background-color: #fff;
+        }
+
+        .immersive-translate-modal {
+            display: none;
+            position: fixed;
+            z-index: 2147483647;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgb(0, 0, 0);
+            background-color: rgba(0, 0, 0, 0.4);
+            font-size: 15px;
+        }
+
+        .immersive-translate-modal-content {
+            background-color: #fefefe;
+            margin: 10% auto;
+            padding: 40px 24px 24px;
+            border-radius: 12px;
+            width: 350px;
+            font-family: system-ui, -apple-system, "Segoe UI", "Roboto", "Ubuntu",
+                "Cantarell", "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
+                "Segoe UI Symbol", "Noto Color Emoji";
+            position: relative;
+        }
+
+        @media screen and (max-width: 768px) {
+            .immersive-translate-modal-content {
+                margin: 25% auto !important;
+            }
+        }
+
+        @media screen and (max-width: 480px) {
+            .immersive-translate-modal-content {
+                width: 80vw !important;
+                margin: 20vh auto !important;
+                padding: 20px 12px 12px !important;
+            }
+
+            .immersive-translate-modal-title {
+                font-size: 14px !important;
+            }
+
+            .immersive-translate-modal-body {
+                font-size: 13px !important;
+                max-height: 60vh !important;
+            }
+
+            .immersive-translate-btn {
+                font-size: 13px !important;
+                padding: 8px 16px !important;
+                margin: 0 4px !important;
+            }
+
+            .immersive-translate-modal-footer {
+                gap: 6px !important;
+                margin-top: 16px !important;
+            }
+        }
+
+        .immersive-translate-modal .immersive-translate-modal-content-in-input {
+            max-width: 500px;
+        }
+
+        .immersive-translate-modal-content-in-input .immersive-translate-modal-body {
+            text-align: left;
+            max-height: unset;
+        }
+
+        .immersive-translate-modal-title {
+            text-align: center;
+            font-size: 16px;
+            font-weight: 700;
+            color: #333333;
+        }
+
+        .immersive-translate-modal-body {
+            text-align: center;
+            font-size: 14px;
+            font-weight: 400;
+            color: #333333;
+            margin-top: 24px;
+            word-break: break-all;
+        }
+
+        @media screen and (max-width: 768px) {
+            .immersive-translate-modal-body {
+                max-height: 250px;
+                overflow-y: auto;
+            }
+        }
+
+        .immersive-translate-close {
+            color: #666666;
+            position: absolute;
+            right: 16px;
+            top: 16px;
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .immersive-translate-close:hover,
+        .immersive-translate-close:focus {
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .immersive-translate-modal-footer {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 24px;
+        }
+
+        .immersive-translate-btn {
+            width: fit-content;
+            color: #fff;
+            background-color: #ea4c89;
+            border: none;
+            font-size: 14px;
+            margin: 0 8px;
+            padding: 9px 30px;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .immersive-translate-btn-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .immersive-translate-btn:hover {
+            background-color: #f082ac;
+        }
+
+        .immersive-translate-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .immersive-translate-btn:disabled:hover {
+            background-color: #ea4c89;
+        }
+
+        .immersive-translate-link-btn {
+            background-color: transparent;
+            color: #ea4c89;
+            border: none;
+            cursor: pointer;
+            height: 30px;
+            line-height: 30px;
+        }
+
+        .immersive-translate-cancel-btn {
+            /* gray color */
+            background-color: rgb(89, 107, 120);
+        }
+
+        .immersive-translate-cancel-btn:hover {
+            background-color: hsl(205, 20%, 32%);
+        }
+
+        .immersive-translate-action-btn {
+            background-color: transparent;
+            color: #ea4c89;
+            border: 1px solid #ea4c89;
+        }
+
+        .immersive-translate-btn svg {
+            margin-right: 5px;
+        }
+
+        .immersive-translate-link {
+            cursor: pointer;
+            user-select: none;
+            -webkit-user-drag: none;
+            text-decoration: none;
+            color: #ea4c89;
+            -webkit-tap-highlight-color: rgba(0, 0, 0, 0.1);
+        }
+
+        .immersive-translate-primary-link {
+            cursor: pointer;
+            user-select: none;
+            -webkit-user-drag: none;
+            text-decoration: none;
+            color: #ea4c89;
+            -webkit-tap-highlight-color: rgba(0, 0, 0, 0.1);
+        }
+
+        .immersive-translate-modal input[type="radio"] {
+            margin: 0 6px;
+            cursor: pointer;
+        }
+
+        .immersive-translate-modal label {
+            cursor: pointer;
+        }
+
+        .immersive-translate-close-action {
+            position: absolute;
+            top: 2px;
+            right: 0px;
+            cursor: pointer;
+        }
+
+        .imt-image-status {
+            background-color: rgba(0, 0, 0, 0.5) !important;
+            display: flex !important;
+            flex-direction: column !important;
+            align-items: center !important;
+            justify-content: center !important;
+            border-radius: 16px !important;
+        }
+
+        .imt-image-status img,
+        .imt-image-status svg,
+        .imt-img-loading {
+            width: 28px !important;
+            height: 28px !important;
+            margin: 0 0 8px 0 !important;
+            min-height: 28px !important;
+            min-width: 28px !important;
+            position: relative !important;
+        }
+
+        .imt-img-loading {
+            background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADgAAAA4CAMAAACfWMssAAAAtFBMVEUAAAD////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////oK74hAAAAPHRSTlMABBMIDyQXHwyBfFdDMSw+OjXCb+5RG51IvV/k0rOqlGRM6KKMhdvNyZBz9MaupmxpWyj437iYd/yJVNZeuUC7AAACt0lEQVRIx53T2XKiUBCA4QYOiyCbiAsuuGBcYtxiYtT3f6/pbqoYHVFO5r+iivpo6DpAWYpqeoFfr9f90DsYAuRSWkFnPO50OgR9PwiCUFcl2GEcx+N/YBh6pvKaefHlUgZd1zVe0NbYcQjGBfzrPE8Xz8aF+71D8gG6DHFPpc4a7xFiCDuhaWgKgGIJQ3d5IMGDrpS4S5KgpIm+en9f6PlAhKby4JwEIxlYJV9h5k5nee9GoxHJ2IDSNB0dwdad1NAxDJ/uXDHYmebdk4PdbkS58CIVHdYSUHTYYRWOJblWSyu2lmy3KNFVJNBhxcuGW4YBVCbYGRZwIooipHsNqjM4FbgOQqQqSKQQU9V8xmi1QlgHqQQ6DDBvRUVCDirs+EzGDGOQTCATgtYTnbCVLgsVgRE0T1QE0qHCFAht2z6dLvJQs3Lo2FQoDxWNUiBhaP4eRgwNkI+dAjVOA/kUrIDwf3CG8NfNOE0eiFotSuo+rBiq8tD9oY4Qzc6YJw99hl1wzpQvD7ef2M8QgnOGJfJw+EltQc+oX2yn907QB22WZcvlUpd143dqQu+8pCJZuGE4xCuPXJqqcs5sNpsI93Rmzym1k4Npk+oD1SH3/a3LOK/JpUBpWfqNySxWzCfNCUITuDG5dtuphrUJ1myeIE9bIsPiKrfqTai5WZxbhtNphYx6GEIHihyGFTI69lje/rxajdh0s0msZ0zYxyPLhYCb1CyHm9Qsd2H37Y3lugVwL9kNh8Ot8cha6fUNQ8nuXi5z9/ExsAO4zQrb/ev1yrCB7lGyQzgYDGuxq1toDN/JGvN+HyWNHKB7zEoK+PX11e12G431erGYzwmytAWU56fkMHY5JJnDRR2eZji3AwtIcrEV8Cojat/BdQ7XOwGV1e1hDjGGjXbdArm8uJZtCH5MbcctVX8A1WpqumJHwckAAAAASUVORK5CYII=");
+            background-size: 28px 28px;
+            animation: image-loading-rotate 1s linear infinite !important;
+        }
+
+        .imt-image-status span {
+            color: var(--bg-2, #fff) !important;
+            font-size: 14px !important;
+            line-height: 14px !important;
+            font-weight: 500 !important;
+            font-family: "PingFang SC", Arial, sans-serif !important;
+        }
+
+        .imt-primary-button {
+            display: flex;
+            padding: 12px 80px;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+            border-radius: 8px;
+            background: #ea4c89;
+            color: #fff;
+            font-size: 16px;
+            font-style: normal;
+            font-weight: 700;
+            line-height: 24px;
+            border: none;
+            cursor: pointer;
+        }
+
+        .imt-retry-text {
+            color: #999;
+            text-align: center;
+            font-size: 14px;
+            font-style: normal;
+            font-weight: 400;
+            line-height: 21px;
+            cursor: pointer;
+        }
+
+        .imt-action-container {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .imt-modal-content-text {
+            text-align: left;
+            color: #333;
+            font-size: 16px;
+            font-weight: 400;
+            line-height: 24px;
+        }
+
+        @keyframes image-loading-rotate {
+            from {
+                transform: rotate(360deg);
+            }
+
+            to {
+                transform: rotate(0deg);
+            }
+        }
+
+        .imt-linear-gradient-text {
+            background: linear-gradient(90deg, #00a6ff 0%, #c369ff 52.4%, #ff4590 100%);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .imt-flex-center {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .imt-linear-black-btn {
+            border-radius: 50px;
+            background: linear-gradient(66deg, #222 19%, #696969 94.25%);
+            height: 48px;
+            width: 100%;
+            color: #fff;
+            font-size: 16px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            justify-content: center;
+        }
+    </style>
+</head>
+<link rel="stylesheet" asset="eduser.css" href="chrome-extension://mjdbhokoopacimoekfgkcoogikbfgngb/assets/eduser.css">
+<xt-control-center id="trancy-card">
+    <div></div>
+</xt-control-center>
+
+<body>
+    <input type="hidden" id="pkey" name="pkey" value="">
+    <input type="hidden" id="kqhjs" name="kqhjs" value="0">
+    <input type="hidden" id="shyjsfbt" name="shyjsfbt" value="0">
+    <input type="hidden" id="plshyjsfbt" name="plshyjsfbt" value="">
+    <input type="hidden" id="localeKey" name="localeKey" value="zh_CN">
+    <input type="hidden" id="csrftoken" name="csrftoken"
+        value="5a4a78ca-1cfb-47ac-b5b3-1a0d1d20a76c,5a4a78ca1cfb47acb5b31a0d1d20a76c">
+    <input type="hidden" id="cdTsxx" name="cdTsxx" value="-zfsplit-">
+    <input type="hidden" id="wjylSfkf" name="wjylSfkf" value="1">
+    <input type="hidden" id="dingdingbj" name="dingdingbj" value="">
+    <input type="hidden" id="pageNumber" name="pageNumber" value="15">
+    <input type="hidden" id="sfsygdgdt" name="sfsygdgdt" value="0">
+    <input type="hidden" id="jysqkkxyjys" name="jysqkkxyjys" value="0">
+    <input type="hidden" id="sfaxbgljg" name="sfaxbgljg" value="0">
+    <input type="hidden" id="sfasyglxs" name="sfasyglxs" value="0">
+    <input type="hidden" id="bbxtlx" name="bbxtlx" value="">
+    <input type="hidden" id="kkxydejmc" name="kkxydejmc" value="教研室">
+    <input type="hidden" id="jsdermc" name="jsdermc" value="course open department">
+    <input type="hidden" id="sfkfzts" name="sfkfzts" value="0">
+    <input type="hidden" id="sycdbjfs" name="sycdbjfs" value="1">
+
+    <div id="mobile-div" style="display:none"></div>
+
+    <!-- 头部 开始 -->
+    <header class="navbar-inverse top2" id="show-head">
+        <div class="container" id="navbar_container">
+            <!-- 判断是否可切换角色 -->
+
+            <div class="container">
+                <div class="navbar-header">
+                    <button class="navbar-toggle" type="button" data-toggle="collapse"
+                        data-target=".bs-navbar-collapse">
+                        <span class="sr-only"> 自主选课</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a href="#" id="topButton" class="navbar-brand"
+                        onclick="onClickMenu('/xsxk/zzxkyzb_cxZzxkYzbIndex.html?doType=details','N253512')">
+                        自主选课
+                    </a>
+                    <script type="text/javascript">
+                        document.title = "自主选课";
+                    </script>
+                </div>
+            </div>
+            <!-- navbar-end  -->
+        </div>
+    </header>
+    <script>
+        if (window.self !== window.top) {
+            $('body').css({
+                "background": "#fff"
+            })
+            $('body').find('.navbar-inverse').hide();
+        }
+    </script>
+
+    <!--头部 结束 -->
+    <div style="width: 100%; padding: 0px; margin: 0px;" id="bodyContainer">
+        <!-- requestMap中的参数为系统级别控制参数，请勿删除 -->
+        <form id="requestMap">
+            <input type="hidden" id="sessionUserKey" value="23123994">
+
+            <input type="hidden" id="gnmkdmKey" value="N253512">
+
+
+            <input type="hidden" id="hidxxdm" name="hidxxdm" value="10280">
+        </form>
+        <div class="container container-func sl_all_bg" id="yhgnPage" style="min-height: 1001px;">
+            <div id="innerContainer">
+                <!-- 放置页面显示内容 -->
+                <div class="all-mask" style="position: fixed; top: 0; left: 0; z-index: 99; background: #f7f7f7;"></div>
+
+                <div id="sl_add_btn_groups" class="row sl_add_btn">
+                    <div id="btn-groups" class="col-sm-12">
+                        <!-- 加载当前菜单栏目下操作   -->
+                        <div class="col-sm-12 col-lg-12 col-md-12" style="border-width: 0px">
+                            <div class="btn-toolbar" role="toolbar" style="float: right; z-index: 1060;">
+                                <div class="btn-group" id="but_ancd"> </div>
+                            </div>
+                            <div></div>
+                        </div>
+                        <!-- 加载当前菜单栏目下操作 -->
+                    </div>
+                </div>
+                <div id="searchBox">
+                    <div class="form-horizontal sl_all_form searchbox" style="display: block;border: 0px;">
+                        <!-- fuzzy search -->
+                        <div class="row search-filter ">
+                            <div class="col-sm-12 col-md-12">
+                                <div class="form-group form-group-sm" style="margin-bottom:0px;"><label for=""
+                                        class="col-sm-2 col-md-2 control-label">&nbsp;</label>
+                                    <div class="col-sm-8 col-md-8  buttons">
+                                        <div class="input-group"><input type="text" value="" name="searchInput"
+                                                class="form-control input-sm filter-input"
+                                                placeholder="可输入课程号/课程名称/教学班名称/教师姓名/教师工号查询!"><span
+                                                class="input-group-btn"><button class="btn btn-primary btn-sm"
+                                                    type="button" name="query"><i
+                                                        class=" bigger-110 icon-search"></i>&nbsp;查询</button><button
+                                                    class="btn btn-default btn-sm" type="button" name="reset"><i
+                                                        class="bigger-110 icon-repeat"></i>重置条件</button></span></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div><!-- fuzzy search end--><!-- selected conditions -->
+                        <div class="row selected-attr">
+                            <div class="col-sm-12 col-md-12">
+                                <div class="form-group form-group-sm" style="margin-bottom:5px;"><label for=""
+                                        class="col-sm-2 col-md-2 control-label">已选条件：</label>
+                                    <div class="col-sm-9 col-md-9 selecteds"></div>
+                                </div>
+                            </div>
+                        </div><!-- selected conditions end--><!-- advanced query-->
+                        <div class="row condition-item">
+                            <div class="col-sm-12 col-md-12 condition-row" style="display: block;">
+                                <div class="form-group form-group-sm" style="margin-bottom:5px;"><label for=""
+                                        class="col-sm-2 col-md-2 control-label title">开课学院：</label>
+                                    <div class="col-sm-9 col-md-9 items" name="kkbm_id_list">
+                                        <ul>
+                                            <li class="col-sm-1 col-md-1" name="fixed" index="kkbm_id_list_01010000"><a
+                                                    href="javascript:void(0);">理学院</a></li>
+                                            <li class="col-sm-1 col-md-1" name="fixed" index="kkbm_id_list_01430000"><a
+                                                    href="javascript:void(0);">力学与工程科学学院</a></li>
+                                            <li class="col-sm-1 col-md-1" name="fixed" index="kkbm_id_list_01440000"><a
+                                                    href="javascript:void(0);">微电子学院</a></li>
+                                            <li class="col-sm-1 col-md-1" name="fixed" index="kkbm_id_list_01020000"><a
+                                                    href="javascript:void(0);">文学院</a></li>
+                                            <li class="col-sm-1 col-md-1" name="fixed" index="kkbm_id_list_01370000"><a
+                                                    href="javascript:void(0);">社会学院</a></li>
+                                            <li class="col-sm-1 col-md-1" name="fixed" index="kkbm_id_list_01030000"><a
+                                                    href="javascript:void(0);">外国语学院</a></li>
+                                        </ul>
+                                    </div>
+                                    <div class="col-sm-1 col-md-1 more" index="kkbm_id_list"><a
+                                            href="javascript:void(0);" class="more_up" style="display: block;">&nbsp;更 多
+                                        </a></div>
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-md-12 condition-row" style="display: block;">
+                                <div class="form-group form-group-sm" style="margin-bottom:5px;"><label for=""
+                                        class="col-sm-2 col-md-2 control-label title">年级：</label>
+                                    <div class="col-sm-9 col-md-9 items" name="njdm_id_list">
+                                        <ul>
+                                            <li class="col-sm-1 col-md-1" name="fixed" index="njdm_id_list_2025"><a
+                                                    href="javascript:void(0);">2025</a></li>
+                                            <li class="col-sm-1 col-md-1" name="fixed" index="njdm_id_list_2024"><a
+                                                    href="javascript:void(0);">2024</a></li>
+                                            <li class="col-sm-1 col-md-1" name="fixed" index="njdm_id_list_2023"><a
+                                                    href="javascript:void(0);">2023</a></li>
+                                            <li class="col-sm-1 col-md-1" name="fixed" index="njdm_id_list_2022"><a
+                                                    href="javascript:void(0);">2022</a></li>
+                                            <li class="col-sm-1 col-md-1" name="fixed" index="njdm_id_list_2021"><a
+                                                    href="javascript:void(0);">2021</a></li>
+                                            <li class="col-sm-1 col-md-1" name="fixed" index="njdm_id_list_2020"><a
+                                                    href="javascript:void(0);">2020</a></li>
+                                            <li class="col-sm-1 col-md-1" name="fixed" index="njdm_id_list_2019"><a
+                                                    href="javascript:void(0);">2019</a></li>
+                                            <li class="col-sm-1 col-md-1" name="fixed" index="njdm_id_list_2018"><a
+                                                    href="javascript:void(0);">2018</a></li>
+                                            <li class="col-sm-1 col-md-1" name="fixed" index="njdm_id_list_2017"><a
+                                                    href="javascript:void(0);">2017</a></li>
+                                            <li class="col-sm-1 col-md-1" name="fixed" index="njdm_id_list_2016"><a
+                                                    href="javascript:void(0);">2016</a></li>
+                                        </ul>
+                                    </div>
+                                    <div class="col-sm-1 col-md-1 more" index="njdm_id_list"><a
+                                            href="javascript:void(0);" class="more_up" style="display: block;">&nbsp;更 多
+                                        </a></div>
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-md-12 condition-row" style="display: block;">
+                                <div class="form-group form-group-sm" style="margin-bottom:5px;"><label for=""
+                                        class="col-sm-2 col-md-2 control-label title">学院：</label>
+                                    <div class="col-sm-9 col-md-9 items" name="jg_id_list">
+                                        <ul>
+                                            <li class="col-sm-1 col-md-1" name="fixed" index="jg_id_list_01010000"><a
+                                                    href="javascript:void(0);">理学院</a></li>
+                                            <li class="col-sm-1 col-md-1" name="fixed" index="jg_id_list_01430000"><a
+                                                    href="javascript:void(0);">力学与工程科学学院</a></li>
+                                            <li class="col-sm-1 col-md-1" name="fixed" index="jg_id_list_01440000"><a
+                                                    href="javascript:void(0);">微电子学院</a></li>
+                                            <li class="col-sm-1 col-md-1" name="fixed" index="jg_id_list_01020000"><a
+                                                    href="javascript:void(0);">文学院</a></li>
+                                            <li class="col-sm-1 col-md-1" name="fixed" index="jg_id_list_01370000"><a
+                                                    href="javascript:void(0);">社会学院</a></li>
+                                            <li class="col-sm-1 col-md-1" name="fixed" index="jg_id_list_01030000"><a
+                                                    href="javascript:void(0);">外国语学院</a></li>
+                                        </ul>
+                                    </div>
+                                    <div class="col-sm-1 col-md-1 more" index="jg_id_list"><a href="javascript:void(0);"
+                                            class="more_up" style="display: block;">&nbsp;更 多 </a></div>
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-md-12 condition-row" style="display: block;">
+                                <div class="form-group form-group-sm" style="margin-bottom:5px;"><label for=""
+                                        class="col-sm-2 col-md-2 control-label title">专业：</label>
+                                    <div class="col-sm-9 col-md-9 items" name="zyh_id_list">
+                                        <ul>
+                                            <li class="col-sm-1 col-md-1" name="fixed"
+                                                index="zyh_id_list_20130101010000"><a
+                                                    href="javascript:void(0);">哲学(20130101010000)</a></li>
+                                            <li class="col-sm-1 col-md-1" name="fixed"
+                                                index="zyh_id_list_20130101010029"><a
+                                                    href="javascript:void(0);">哲学(理工类)(20130101010029)</a></li>
+                                            <li class="col-sm-1 col-md-1" name="fixed"
+                                                index="zyh_id_list_20130201010000"><a
+                                                    href="javascript:void(0);">经济学(20130201010000)</a></li>
+                                            <li class="col-sm-1 col-md-1" name="fixed"
+                                                index="zyh_id_list_20130203010000"><a
+                                                    href="javascript:void(0);">金融学(20130203010000)</a></li>
+                                            <li class="col-sm-1 col-md-1" name="fixed"
+                                                index="zyh_id_list_20130204010000"><a
+                                                    href="javascript:void(0);">国际经济与贸易(20130204010000)</a></li>
+                                            <li class="col-sm-1 col-md-1" name="fixed"
+                                                index="zyh_id_list_20130204010H00"><a
+                                                    href="javascript:void(0);">国际经济与贸易(20130204010H00)</a></li>
+                                        </ul>
+                                    </div>
+                                    <div class="col-sm-1 col-md-1 more" index="zyh_id_list"><a
+                                            href="javascript:void(0);" class="more_up" style="display: block;">&nbsp;更 多
+                                        </a></div>
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-md-12 condition-row" style="display: block;">
+                                <div class="form-group form-group-sm" style="margin-bottom:5px;"><label for=""
+                                        class="col-sm-2 col-md-2 control-label title">校区：</label>
+                                    <div class="col-sm-9 col-md-9 items" name="xq_list">
+                                        <ul>
+                                            <li class="col-sm-1 col-md-1" name="fixed" index="xq_list_Y1"><a
+                                                    href="javascript:void(0);">延长主区</a></li>
+                                            <li class="col-sm-1 col-md-1" name="fixed" index="xq_list_B1"><a
+                                                    href="javascript:void(0);">宝山主区</a></li>
+                                            <li class="col-sm-1 col-md-1" name="fixed" index="xq_list_B2"><a
+                                                    href="javascript:void(0);">宝山东区</a></li>
+                                            <li class="col-sm-1 col-md-1" name="fixed" index="xq_list_J1"><a
+                                                    href="javascript:void(0);">嘉定主区</a></li>
+                                            <li class="col-sm-1 col-md-1" name="fixed" index="xq_list_D1"><a
+                                                    href="javascript:void(0);">东京校区</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-md-12 condition-row" style="display: block;">
+                                <div class="form-group form-group-sm" style="margin-bottom:5px;"><label for=""
+                                        class="col-sm-2 col-md-2 control-label title">教学模式：</label>
+                                    <div class="col-sm-9 col-md-9 items" name="jxms_list">
+                                        <ul>
+                                            <li class="col-sm-1 col-md-1" name="fixed" index="jxms_list_1"><a
+                                                    href="javascript:void(0);">双语教学</a></li>
+                                            <li class="col-sm-1 col-md-1" name="fixed" index="jxms_list_2"><a
+                                                    href="javascript:void(0);">中文教学</a></li>
+                                            <li class="col-sm-1 col-md-1" name="fixed" index="jxms_list_3"><a
+                                                    href="javascript:void(0);">全英语教学</a></li>
+                                            <li class="col-sm-1 col-md-1" name="fixed" index="jxms_list_4"><a
+                                                    href="javascript:void(0);">非中/英文教学</a></li>
+                                            <li class="col-sm-1 col-md-1" name="fixed" index="jxms_list_5"><a
+                                                    href="javascript:void(0);">线下线上混合式教学</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-md-12 condition-row" style="display: block;">
+                                <div class="form-group form-group-sm" style="margin-bottom:5px;"><label for=""
+                                        class="col-sm-2 col-md-2 control-label title">上课星期：</label>
+                                    <div class="col-sm-9 col-md-9 items" name="sksj_list">
+                                        <ul>
+                                            <li class="col-sm-1 col-md-1" name="fixed" index="sksj_list_1"><a
+                                                    href="javascript:void(0);">星期一</a></li>
+                                            <li class="col-sm-1 col-md-1" name="fixed" index="sksj_list_2"><a
+                                                    href="javascript:void(0);">星期二</a></li>
+                                            <li class="col-sm-1 col-md-1" name="fixed" index="sksj_list_3"><a
+                                                    href="javascript:void(0);">星期三</a></li>
+                                            <li class="col-sm-1 col-md-1" name="fixed" index="sksj_list_4"><a
+                                                    href="javascript:void(0);">星期四</a></li>
+                                            <li class="col-sm-1 col-md-1" name="fixed" index="sksj_list_5"><a
+                                                    href="javascript:void(0);">星期五</a></li>
+                                            <li class="col-sm-1 col-md-1" name="fixed" index="sksj_list_6"><a
+                                                    href="javascript:void(0);">星期六</a></li>
+                                            <li class="col-sm-1 col-md-1" name="fixed" index="sksj_list_7"><a
+                                                    href="javascript:void(0);">星期日</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-md-12 condition-row" style="display: block;">
+                                <div class="form-group form-group-sm" style="margin-bottom:5px;"><label for=""
+                                        class="col-sm-2 col-md-2 control-label title">上课节次：</label>
+                                    <div class="col-sm-9 col-md-9 items" name="skjc_list">
+                                        <ul>
+                                            <li class="col-sm-1 col-md-1" name="fixed" index="skjc_list_1"><a
+                                                    href="javascript:void(0);">1</a></li>
+                                            <li class="col-sm-1 col-md-1" name="fixed" index="skjc_list_2"><a
+                                                    href="javascript:void(0);">2</a></li>
+                                            <li class="col-sm-1 col-md-1" name="fixed" index="skjc_list_3"><a
+                                                    href="javascript:void(0);">3</a></li>
+                                            <li class="col-sm-1 col-md-1" name="fixed" index="skjc_list_4"><a
+                                                    href="javascript:void(0);">4</a></li>
+                                            <li class="col-sm-1 col-md-1" name="fixed" index="skjc_list_5"><a
+                                                    href="javascript:void(0);">5</a></li>
+                                            <li class="col-sm-1 col-md-1" name="fixed" index="skjc_list_6"><a
+                                                    href="javascript:void(0);">6</a></li>
+                                            <li class="col-sm-1 col-md-1" name="fixed" index="skjc_list_7"><a
+                                                    href="javascript:void(0);">7</a></li>
+                                            <li class="col-sm-1 col-md-1" name="fixed" index="skjc_list_8"><a
+                                                    href="javascript:void(0);">8</a></li>
+                                            <li class="col-sm-1 col-md-1" name="fixed" index="skjc_list_9"><a
+                                                    href="javascript:void(0);">9</a></li>
+                                            <li class="col-sm-1 col-md-1" name="fixed" index="skjc_list_10"><a
+                                                    href="javascript:void(0);">10</a></li>
+                                            <li class="col-sm-1 col-md-1" name="fixed" index="skjc_list_11"><a
+                                                    href="javascript:void(0);">11</a></li>
+                                            <li class="col-sm-1 col-md-1" name="fixed" index="skjc_list_12"><a
+                                                    href="javascript:void(0);">12</a></li>
+                                            <li class="col-sm-1 col-md-1" name="fixed" index="skjc_list_13"><a
+                                                    href="javascript:void(0);">13</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-md-12 condition-row" style="display: block;">
+                                <div class="form-group form-group-sm" style="margin-bottom:5px;"><label for=""
+                                        class="col-sm-2 col-md-2 control-label title">学分：</label>
+                                    <div class="col-sm-9 col-md-9 items" name="xf_list">
+                                        <ul>
+                                            <li class="col-sm-12 col-md-12" name="fixed" index="xf_list">
+                                                <div class="input-group input-group-xs"><input type="text" value=""
+                                                        class="form-control pull-left input-xs input-xs-last fixed"><span
+                                                        class="input-group-btn pull-left"><button
+                                                            class="btn btn-default btn-xs sure"
+                                                            type="button">确定</button></span></div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-md-12 condition-row" style="display: block;">
+                                <div class="form-group form-group-sm" style="margin-bottom:5px;"><label for=""
+                                        class="col-sm-2 col-md-2 control-label title">有无余量：</label>
+                                    <div class="col-sm-9 col-md-9 items" name="yl_list">
+                                        <ul>
+                                            <li class="col-sm-1 col-md-1" name="fixed" index="yl_list_1"><a
+                                                    href="javascript:void(0);">有</a></li>
+                                            <li class="col-sm-1 col-md-1" name="fixed" index="yl_list_0"><a
+                                                    href="javascript:void(0);">无</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-md-12 condition-row" style="display: block;">
+                                <div class="form-group form-group-sm"><label for=""
+                                        class="col-sm-2 col-md-2 control-label title">上课时间冲突：</label>
+                                    <div class="col-sm-9 col-md-9 items" name="sksjct_list">
+                                        <ul>
+                                            <li class="col-sm-1 col-md-1" name="fixed" index="sksjct_list_1"><a
+                                                    href="javascript:void(0);">是</a></li>
+                                            <li class="col-sm-1 col-md-1" name="fixed" index="sksjct_list_0"><a
+                                                    href="javascript:void(0);">否</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-md-12 condition-retract">
+                                <p><a class="up" href="javascript:void(0);">收起</a></p>
+                            </div>
+                        </div><!-- advanced query end-->
+                    </div>
+                </div>
+
+
+
+
+
+                <div class="col-md-12 col-sm-12 border-b" style="padding:8px 0px;">
+                    <div style="float:left;padding:10px 15px;">
+                        <h5>
+                            <font id="xkxn">2025-2026</font> 学年 <font id="xkxq">春</font> 学期&nbsp;<font id="txt_xklc">
+                                <font color="red">第2轮</font>
+                            </font>
+                            <span id="sysj">（<b>
+                                    <font size="3px">选课时间：2025-12-19 12:00:00 - 2025-12-24 08:00:00</font>
+                                </b>）</span>
+                            <!--&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>本学期选课要求</b>&nbsp;总学分最低&nbsp;<font color="red">1</font>
+				
+					&nbsp;&nbsp;最高&nbsp;<font color="red">59</font>
+				-->
+
+                            &nbsp;&nbsp;&nbsp;
+
+
+                            本学期已选学分&nbsp;&nbsp;<font color="red" id="yxxfs">38.0</font>
+
+
+
+
+
+                        </h5>
+                    </div>
+                    <div style="margin-right:20px;float:right;padding:8px 15px;">
+                        <!-- <div style="float:left;margin-top:-2px;margin-right:20px;font-size:20px">【<a style="text-decoration:underline;" href="javascript:void(0)" onclick="$.showDialog(_path+'/xjyj/xsxyqk_ckXsXyxxHtmlView.html','我的修业情况',$.extend({},viewConfig,{width: ($('#yhgnPage').innerWidth()-200)+'px'}));">我的修业情况</a>】</div> -->
+                        <div id="quickXk" style="float:left;"></div>
+                        <div style="float:left;">
+                            <p
+                                style="margin-top:4px;margin-right:5px;float:left;border:1px solid #BCE8F1;background-color:#D9EDF7;height:15px;width:30px;">
+                            </p>未选
+                        </div>
+                        <div style="float:left;margin-left:20px">
+                            <p
+                                style="margin-top:4px;margin-right:5px;float:left;border:1px solid #BCE8F1;background-color:#fff7b2;height:15px;width:30px;">
+                            </p>重修未选
+                        </div>
+                        <div style="float:left;margin-left:20px">
+                            <p
+                                style="margin-top:4px;margin-right:5px;float:left;border:1px solid #BCE8F1;background-color:#C1FFC1;height:15px;width:30px;">
+                            </p>已选
+                        </div>
+                    </div>
+                </div>
+
+                <input type="hidden" name="iskxk" id="iskxk" value="1">
+                <input type="hidden" name="jgh_id" id="jgh_id">
+                <input type="hidden" name="to_kch" id="to_kch" value="">
+                <input type="hidden" name="jzxkf" id="jzxkf" value="0">
+                <input type="hidden" name="tkzgcs_qt" id="tkzgcs_qt" value="-1">
+
+                <input type="hidden" name="xkzgmc" id="xkzgmc" value="100">
+                <input type="hidden" name="xkzgxf" id="xkzgxf" value="59">
+                <input type="hidden" name="zkcs" id="zkcs" value="11">
+                <input type="hidden" name="zxfs" id="zxfs" value="38.0">
+                <input type="hidden" name="bdzcbj" id="bdzcbj" value="2">
+                <input type="hidden" name="xkxnm" id="xkxnm" value="2025">
+                <input type="hidden" name="xkxqm" id="xkxqm" value="16">
+                <input type="hidden" name="xkxnmc" id="xkxnmc" value="2025-2026">
+                <input type="hidden" name="xkxqmc" id="xkxqmc" value="春">
+                <input type="hidden" name="xh_id" id="xh_id" value="23123994">
+                <input type="hidden" name="xqh_id" id="xqh_id" value="B1">
+                <input type="hidden" name="jg_id_1" id="jg_id_1" value="01250000">
+                <input type="hidden" name="zyh_id" id="zyh_id" value="20130807060H00">
+
+                <input type="hidden" name="zyfx_id" id="zyfx_id" value="wfx">
+                <input type="hidden" name="njdm_id" id="njdm_id" value="2023">
+
+                <input type="hidden" name="bh_id" id="bh_id" value="202320130807060H0001">
+                <input type="hidden" name="xbm" id="xbm" value="1">
+                <input type="hidden" name="zh" id="zh" value="">
+                <input type="hidden" name="qzz" id="qzz" value="100">
+                <input type="hidden" name="xslbdm" id="xslbdm" value="01">
+                <input type="hidden" name="mzm" id="mzm" value="01">
+                <input type="hidden" name="xz" id="xz" value="4">
+                <input type="hidden" name="xh" id="xh" value="23123994">
+                <input type="hidden" name="xm" id="xm" value="王景宏">
+                <input type="hidden" name="currentsj" id="currentsj" value="2025-12-17 17:27:00">
+                <input type="hidden" name="ccdm" id="ccdm" value="3">
+                <input type="hidden" name="xsbj" id="xsbj" value="0">
+                <input type="hidden" name="sjhm" id="sjhm" value="00000000000">
+                <input type="hidden" name="xszxzt" id="xszxzt" value="1">
+                <input type="hidden" name="njdm_id_1" id="njdm_id_1" value="2023">
+                <input type="hidden" name="zyh_id_1" id="zyh_id_1" value="20130807060H00">
+                <input type="hidden" name="sfxsxkbz" id="sfxsxkbz" value="1">
+                <input type="hidden" name="sfxskssj" id="sfxskssj" value="0">
+                <input type="hidden" name="wrljxbbhkg" id="wrljxbbhkg" value="0">
+                <input type="hidden" name="jxbzbkg" id="jxbzbkg" value="1">
+                <input type="hidden" name="tykpzykg" id="tykpzykg" value="0">
+                <input type="hidden" name="tkdxyzms" id="tkdxyzms" value="0">
+                <input type="hidden" name="jxbzhkg" id="jxbzhkg" value="0">
+                <input type="hidden" name="xxdm" id="xxdm" value="10280">
+                <input type="hidden" name="xkgwckg" id="xkgwckg" value="0">
+                <input type="hidden" name="cxkctskg" id="cxkctskg" value="0">
+                <input type="hidden" name="kxqxktskg" id="kxqxktskg" value="0">
+                <input type="hidden" name="tbtkxqxktskg" id="tbtkxqxktskg" value="0">
+                <input type="hidden" name="xkwkxkcqjtsqkg" id="xkwkxkcqjtsqkg" value="0">
+                <input type="hidden" name="xkkczdsqkg" id="xkkczdsqkg" value="1">
+                <input type="hidden" name="xkmcjzxskcs" id="xkmcjzxskcs" value="10">
+
+                <input type="hidden" name="xkckctkckg" id="xkckctkckg" value="">
+                <input type="hidden" name="xkbzsyljkg" id="xkbzsyljkg" value="0">
+                <input type="hidden" name="xyjskljdz" id="xyjskljdz" value="http://">
+                <input type="hidden" name="dsfrlxskg" id="dsfrlxskg" value="0">
+                <input type="hidden" name="xsckxkgzkg" id="xsckxkgzkg" value="0">
+                <input type="hidden" name="xxkbkztskg" id="xxkbkztskg" value="0">
+                <input type="hidden" name="xkxfqzfs" id="xkxfqzfs" value="0">
+                <input type="hidden" name="zzxkxsrwxfkg" id="zzxkxsrwxfkg" value="0">
+                <input type="hidden" name="zzxkxsxkrsmxkg" id="zzxkxsxkrsmxkg" value="1">
+                <input type="hidden" name="zzxkxfmcjckg" id="zzxkxfmcjckg" value="0">
+                <input type="hidden" name="zzxkwylksqxkyxkg" id="zzxkwylksqxkyxkg" value="0">
+                <input type="hidden" name="rlmsbsfrlkg" id="rlmsbsfrlkg" value="0">
+                <input type="hidden" name="xkkzrlsrlmxsfs" id="xkkzrlsrlmxsfs" value="0">
+                <input type="hidden" name="xksjjfsjxskg" id="xksjjfsjxskg" value="0">
+                <input type="hidden" name="xsckgrkbkg" id="xsckgrkbkg" value="0">
+                <input type="hidden" name="sfxsjxdd" id="sfxsjxdd" value="0">
+                <input type="hidden" name="xkjsxxxsfs" id="xkjsxxxsfs" value="0">
+                <input type="hidden" name="xkjxbxskcxf" id="xkjxbxskcxf" value="0">
+                <input type="hidden" name="xkpksjctqrkg" id="xkpksjctqrkg" value="0">
+
+                <input type="hidden" name="zzxkgjcxkg_xf" id="zzxkgjcxkg_xf" value="1">
+                <input type="hidden" name="zzxkgjcxkg_fatj" id="zzxkgjcxkg_fatj" value="0">
+                <input type="hidden" name="zzxkgjcxkg_zyfx" id="zzxkgjcxkg_zyfx" value="0">
+                <input type="hidden" name="zzxkgjcxkg_bj" id="zzxkgjcxkg_bj" value="0">
+                <input type="hidden" name="zzxkgjcxkg_kcz" id="zzxkgjcxkg_kcz" value="0">
+                <input type="hidden" name="zzxkgjcxkg_nj" id="zzxkgjcxkg_nj" value="1">
+                <input type="hidden" name="zzxkgjcxkg_xy" id="zzxkgjcxkg_xy" value="1">
+                <input type="hidden" name="zzxkgjcxkg_zy" id="zzxkgjcxkg_zy" value="1">
+                <input type="hidden" name="zzxkgjcxkg_kkxy" id="zzxkgjcxkg_kkxy" value="1">
+                <input type="hidden" name="zzxkgjcxkg_xqu" id="zzxkgjcxkg_xqu" value="1">
+                <input type="hidden" name="zzxkgjcxkg_yqu" id="zzxkgjcxkg_yqu" value="0">
+                <input type="hidden" name="zzxkgjcxkg_tjbj" id="zzxkgjcxkg_tjbj" value="0">
+                <input type="hidden" name="zzxkgjcxkg_kclb" id="zzxkgjcxkg_kclb" value="0">
+                <input type="hidden" name="zzxkgjcxkg_kcxz" id="zzxkgjcxkg_kcxz" value="0">
+                <input type="hidden" name="zzxkgjcxkg_jxms" id="zzxkgjcxkg_jxms" value="1">
+                <input type="hidden" name="zzxkgjcxkg_kcgs" id="zzxkgjcxkg_kcgs" value="0">
+                <input type="hidden" name="zzxkgjcxkg_skxq" id="zzxkgjcxkg_skxq" value="1">
+                <input type="hidden" name="zzxkgjcxkg_skjc" id="zzxkgjcxkg_skjc" value="1">
+                <input type="hidden" name="zzxkgjcxkg_jxb" id="zzxkgjcxkg_jxb" value="0">
+                <input type="hidden" name="zzxkgjcxkg_sfcx" id="zzxkgjcxkg_sfcx" value="0">
+                <input type="hidden" name="zzxkgjcxkg_ywyl" id="zzxkgjcxkg_ywyl" value="1">
+                <input type="hidden" name="zzxkgjcxkg_sksjct" id="zzxkgjcxkg_sksjct" value="1">
+                <input type="hidden" name="xksdxjckg" id="xksdxjckg" value="0">
+                <input type="hidden" name="xkxskclxkg" id="xkxskclxkg" value="0">
+                <input type="hidden" name="jsjjgrlj" id="jsjjgrlj" value="">
+                <input type="hidden" name="mycos_sjtb_xkkg" id="mycos_sjtb_xkkg" value="0">
+
+                <input type="hidden" name="xkczbj" id="xkczbj" value="1">
+                <input type="hidden" name="isSlct" id="isSlct" value="0">
+                <input type="hidden" name="kklxdm" id="kklxdm" value="01">
+                <input type="hidden" name="kklxmc" id="kklxmc" value="本科生课程">
+                <input type="hidden" name="xkkz_id" id="xkkz_id" value="458F6379768D4061E063F1000A0AC4CD">
+                <input type="hidden" name="jxbzb" id="jxbzb" value="">
+
+
+                <div class="panel panel-info">
+                    <!-- 开始 -->
+                    <ul class="nav nav-tabs sl_nav_tabs" role="tablist" id="nav_tab">
+
+
+
+                        <li class="active"><a id="tab_kklx_01_458F6379768D4061E063F1000A0AC4CD_2023_20130807060H00"
+                                href="javascript:void(0)"
+                                onclick="queryCourse(this,'01','458F6379768D4061E063F1000A0AC4CD','2023','20130807060H00')"
+                                role="tab" data-toggle="tab">本科生课程</a></li>
+                        <input type="hidden" name="firstKklxdm" id="firstKklxdm" value="01">
+                        <input type="hidden" name="firstKklxmc" id="firstKklxmc" value="本科生课程">
+                        <input type="hidden" name="firstXkkzId" id="firstXkkzId"
+                            value="458F6379768D4061E063F1000A0AC4CD">
+                        <input type="hidden" name="firstNjdmId" id="firstNjdmId" value="2023">
+                        <input type="hidden" name="firstZyhId" id="firstZyhId" value="20130807060H00">
+
+
+
+
+
+
+                        <li><a id="tab_kklx_01_43ED19C6D2AAB32DE063F0000A0A7C74_2023_20130807060H00"
+                                href="javascript:void(0)"
+                                onclick="queryCourse(this,'01','43ED19C6D2AAB32DE063F0000A0A7C74','2023','20130807060H00')"
+                                role="tab" data-toggle="tab">本科生课程</a></li>
+
+
+                        <div class="pull-right" style="margin-top:4px;margin-right:30px">
+
+                        </div>
+                    </ul>
+                </div>
+
+
+
+                <div id="displayBox">
+
+
+
+
+
+
+
+
+
+
+
+
+
+                    <script type="text/javascript">
+
+                        var _path = "/jwglxt";
+                        var _systemPath = "/jwglxt";
+                        var _stylePath = "/zftal-ui-v5-1.0.2";
+                        var _reportPath = "https://jwxt.shu.edu.cn/WebReport";
+                        var _localeKey = "zh_CN";
+
+                        jQuery(function ($) {
+                            window.sessionStorage.setItem('_path', _path)
+                            $('[data-toggle*="validation"]').trigger("validation");
+                            $('[data-toggle*="fixed"]').trigger("fixed");
+                            $('[data-toggle*="tagTree"]').trigger("tagTree");
+                            if ($.fn.tooltip) {
+                                $('[data-toggle*="tooltip"]').tooltip({ container: 'body' });
+                            }
+                        });
+
+                    </script>
+                    <style type="text/css">
+                        .captcha_modal {
+                            width: 380px;
+                            height: 330px;
+                            z-index: 9999;
+                            top: 150px;
+                            margin: auto;
+                            position: absolute;
+                            box-sizing: border-box;
+                            border-radius: 2px;
+                            background-color: #fff;
+                            box-shadow: 0 0 10px rgba(0, 0, 0, .3);
+                            left: 40%;
+                        }
+
+                        .ui-jqgrid-bdiv .item-list>li {
+                            position: static;
+                        }
+                    </style>
+                    <!-- 文件操作相关js -->
+                    <script type="text/javascript" src="/jwglxt/js/globalweb/comp/file/file.js?ver=29430995"></script>
+                    <!--教务系统通用业务js引用:比如学年，学期等公共的信息会放在这里-->
+                    <script type="text/javascript"
+                        src="/jwglxt/js/globalweb/comp/i18n/jwglxt-common_zh_CN.js?ver=29430995"></script>
+                    <!--业务模块的properties初始化-->
+                    <!--国际化js库 -->
+                    <script type="text/javascript" src="/jwglxt/js\globalweb\comp\i18n\N253512_zh_CN.js?ver=29430996"
+                        charset="utf-8"></script>
+
+                    <!--移动端审核-->
+                    <script type="text/javascript"
+                        src="/jwglxt/js/globalweb/comm/dynaForm/index.js?ver=29430995"></script>
+                    <link rel="stylesheet" type="text/css" href="/jwglxt/css/dynaForm/index.css?ver=29430995">
+                    <script type="text/javascript"
+                        src="/jwglxt/js/globalweb/comm/explan/index.js?ver=29430995"></script>
+                    <script type="text/javascript" src="/jwglxt/js/cascade.js?ver=29430995"></script>
+                    <script type="text/javascript"
+                        src="/jwglxt/js/plugins/multiSelect/pinyin-pro.js?ver=29430995"></script>
+
+
+                    <style type="text/css">
+                        .kcgs,
+                        .kcxz {
+                            text-align: center
+                        }
+                    </style>
+
+
+
+                    <input type="hidden" name="rwlx" id="rwlx" value="1">
+                    <input type="hidden" name="kczxskg" id="kczxskg" value="0">
+                    <input type="hidden" name="kklxpx" id="kklxpx" value="501">
+                    <input type="hidden" name="xklc" id="xklc" value="2">
+                    <input type="hidden" name="xklcmc" id="xklcmc" value="第2轮">
+                    <input type="hidden" name="bklx_id" id="bklx_id" value="0">
+                    <input type="hidden" name="zckz" id="zckz" value="0">
+                    <input type="hidden" name="sfzyxk" id="sfzyxk" value="0">
+                    <input type="hidden" name="sfyjxk" id="sfyjxk" value="0">
+                    <input type="hidden" name="zdzys" id="zdzys" value="1">
+                    <input type="hidden" name="sfqzxk" id="sfqzxk" value="0">
+                    <input type="hidden" name="sfkknj" id="sfkknj" value="1">
+                    <input type="hidden" name="gnjkxdnj" id="gnjkxdnj" value="0">
+                    <input type="hidden" name="sfkkzy" id="sfkkzy" value="1">
+                    <input type="hidden" name="kzybkxy" id="kzybkxy" value="0">
+                    <input type="hidden" name="sfznkx" id="sfznkx" value="0">
+                    <input type="hidden" name="zdkxms" id="zdkxms" value="0">
+                    <input type="hidden" name="sfkxq" id="sfkxq" value="1">
+                    <input type="hidden" name="sfkcfx" id="sfkcfx" value="1">
+                    <input type="hidden" name="kkbk" id="kkbk" value="0">
+                    <input type="hidden" name="kkbkdj" id="kkbkdj" value="0">
+                    <input type="hidden" name="bklbkcj" id="bklbkcj" value="0">
+                    <input type="hidden" name="sfkxk" id="sfkxk" value="1">
+                    <input type="hidden" name="sfktk" id="sfktk" value="1">
+                    <input type="hidden" name="txbsfrl" id="txbsfrl" value="0">
+                    <input type="hidden" name="jsfrlsj" id="jsfrlsj" value="0">
+                    <input type="hidden" name="txbsfrl_1" id="txbsfrl_1" value="0">
+                    <input type="hidden" name="tktjrs" id="tktjrs" value="0">
+                    <input type="hidden" name="rlzlkz" id="rlzlkz" value="1">
+                    <input type="hidden" name="cdrlkz" id="cdrlkz" value="0">
+                    <input type="hidden" name="rlkz" id="rlkz" value="0">
+                    <input type="hidden" name="xkly" id="xkly" value="1">
+                    <input type="hidden" name="sfyxsksjct" id="sfyxsksjct" value="0">
+                    <input type="hidden" name="ddkzbj" id="ddkzbj" value="0">
+                    <input type="hidden" name="cxddkzbj" id="cxddkzbj" value="0">
+                    <input type="hidden" name="sfkkjyxdxnxq" id="sfkkjyxdxnxq" value="0">
+                    <input type="hidden" name="sfkgbcx" id="sfkgbcx" value="1">
+                    <input type="hidden" name="xkxskcgskg" id="xkxskcgskg" value="0">
+                    <input type="hidden" name="tkzgcs_jb" id="tkzgcs_jb" value="-1">
+                    <input type="hidden" name="jxbzcxskg" id="jxbzcxskg" value="0">
+                    <input type="hidden" name="xkzgbj" id="xkzgbj" value="0">
+                    <input type="hidden" name="sfrxtgkcxd" id="sfrxtgkcxd" value="1">
+                    <input type="hidden" name="tykczgxdcs" id="tykczgxdcs" value="0">
+                    <input type="hidden" name="sxrlkzlx" id="sxrlkzlx" value="">
+                    <input type="hidden" name="isinxksj" id="isinxksj" value="0">
+                    <input type="hidden" name="isInylsj" id="isInylsj" value="1">
+                    <input type="hidden" name="xksjxskz" id="xksjxskz" value="0">
+                    <input type="hidden" name="lnzkcs" id="lnzkcs" value="">
+                    <input type="hidden" name="lnzxfs" id="lnzxfs" value="">
+                    <input type="hidden" name="bxqzdxkxf" id="bxqzdxkxf" value="0">
+                    <input type="hidden" name="bxqzgxkxf" id="bxqzgxkxf" value="59">
+                    <input type="hidden" name="bxqzdxkmc" id="bxqzdxkmc" value="0">
+                    <input type="hidden" name="bxqzgxkmc" id="bxqzgxkmc" value="0">
+                    <input type="hidden" name="lnzdxkxf" id="lnzdxkxf" value="0">
+                    <input type="hidden" name="lnzgxkxf" id="lnzgxkxf" value="0">
+                    <input type="hidden" name="lnzdyhxf" id="lnzdyhxf" value="-1">
+                    <input type="hidden" name="lnzgyhxf" id="lnzgyhxf" value="-1">
+                    <input type="hidden" name="lnzdxkmc" id="lnzdxkmc" value="0">
+                    <input type="hidden" name="lnzgxkmc" id="lnzgxkmc" value="0">
+                    <input type="hidden" name="bbhzxjxb" id="bbhzxjxb" value="0">
+                    <input type="hidden" name="syts" id="syts" value="1">
+                    <input type="hidden" name="syxs" id="syxs" value="42">
+                    <input type="hidden" name="jdlx" id="jdlx" value="0">
+                    <input type="hidden" name="bjgkczxbbjwcx" id="bjgkczxbbjwcx" value="0">
+                    <input type="hidden" name="jspage" id="jspage" value="0">
+                    <input type="hidden" name="xkydjc" id="xkydjc" value="0">
+                    <input type="hidden" name="lnzgxkxs" id="lnzgxkxs" value="0">
+                    <input type="hidden" name="bxqzgxkxs" id="bxqzgxkxs" value="0">
+                    <input type="hidden" name="kzkcgs" id="kzkcgs" value="0">
+                    <input type="hidden" name="hdmc" id="hdmc" value="">
+                    <input type="hidden" name="xkkssj" id="xkkssj" value="2025-12-19 12:00:00">
+                    <input type="hidden" name="xkjssj" id="xkjssj" value="2025-12-24 08:00:00">
+                    <input type="hidden" name="globJsPage" id="globJsPage" value="0">
+                    <input type="hidden" name="js_kcrow" id="js_kcrow" value="0">
+                    <input type="hidden" name="isEnd" id="isEnd" value="false">
+                    <div id="contentBox">
+
+
+                        <div class="clearfix"></div>
+                        <div class="panel panel-info">
+                            <div class="panel-heading">&nbsp;</div>
+                            <div class="panel-body">
+                                <!-- 请使用上方的查询工具条查询所需要选的教学班！ -->
+                                <div class="nodata"><span>请使用上方的查询工具条查询所需要选的教学班！</span></div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <script type="text/javascript"
+                        src="/jwglxt/js/comp/jwglxt/xkgl/xsxk/zzxkYzbZy.js?ver=29430995"></script>
+
+                </div>
+                <div id="choosedBox">
+
+
+
+
+
+
+
+
+
+
+
+                    <script type="text/javascript">
+
+                        var _path = "/jwglxt";
+                        var _systemPath = "/jwglxt";
+                        var _stylePath = "/zftal-ui-v5-1.0.2";
+                        var _reportPath = "https://jwxt.shu.edu.cn/WebReport";
+                        var _localeKey = "zh_CN";
+
+                        jQuery(function ($) {
+                            window.sessionStorage.setItem('_path', _path)
+                            $('[data-toggle*="validation"]').trigger("validation");
+                            $('[data-toggle*="fixed"]').trigger("fixed");
+                            $('[data-toggle*="tagTree"]').trigger("tagTree");
+                            if ($.fn.tooltip) {
+                                $('[data-toggle*="tooltip"]').tooltip({ container: 'body' });
+                            }
+                        });
+
+                    </script>
+                    <style type="text/css">
+                        .captcha_modal {
+                            width: 380px;
+                            height: 330px;
+                            z-index: 9999;
+                            top: 150px;
+                            margin: auto;
+                            position: absolute;
+                            box-sizing: border-box;
+                            border-radius: 2px;
+                            background-color: #fff;
+                            box-shadow: 0 0 10px rgba(0, 0, 0, .3);
+                            left: 40%;
+                        }
+
+                        .ui-jqgrid-bdiv .item-list>li {
+                            position: static;
+                        }
+                    </style>
+                    <!-- 文件操作相关js -->
+                    <script type="text/javascript" src="/jwglxt/js/globalweb/comp/file/file.js?ver=29430995"></script>
+                    <!--教务系统通用业务js引用:比如学年，学期等公共的信息会放在这里-->
+                    <script type="text/javascript"
+                        src="/jwglxt/js/globalweb/comp/i18n/jwglxt-common_zh_CN.js?ver=29430995"></script>
+                    <!--业务模块的properties初始化-->
+                    <!--国际化js库 -->
+                    <script type="text/javascript" src="/jwglxt/js\globalweb\comp\i18n\N253512_zh_CN.js?ver=29430996"
+                        charset="utf-8"></script>
+
+                    <!--移动端审核-->
+                    <script type="text/javascript"
+                        src="/jwglxt/js/globalweb/comm/dynaForm/index.js?ver=29430995"></script>
+                    <link rel="stylesheet" type="text/css" href="/jwglxt/css/dynaForm/index.css?ver=29430995">
+                    <script type="text/javascript"
+                        src="/jwglxt/js/globalweb/comm/explan/index.js?ver=29430995"></script>
+                    <script type="text/javascript" src="/jwglxt/js/cascade.js?ver=29430995"></script>
+                    <script type="text/javascript"
+                        src="/jwglxt/js/plugins/multiSelect/pinyin-pro.js?ver=29430995"></script>
+
+
+                    <style type="text/css">
+                        @media (max-width: 767px) {
+                            body {
+                                padding-right: 40px;
+                            }
+                        }
+
+                        .outer_xkxx_list h6 {
+                            border-bottom: 1px solid #E6E6E6;
+                        }
+
+                        h4 small {
+                            color: #000000;
+                            font-weight: 600;
+                            line-height: 1;
+                        }
+
+                        .right_table_head {
+                            text-align: center;
+                            border-bottom: 1px solid #E6E6E6;
+                            height: 25px;
+                            font-size: 12px;
+                            width: 100%;
+                        }
+
+                        .h_num {
+                            width: 30px;
+                        }
+
+                        .outer_xkxx_list .list-group li p.num {
+                            color: #CCCCCC;
+                            font: oblique 24px/40px Arial, Helvetica, sans-serif;
+                            width: 30px;
+                        }
+
+                        .arraw-px {
+                            width: 25px;
+                        }
+
+                        .outer_xkxx_list .list-group li p.arraw-px {
+                            width: 25px;
+                        }
+
+                        .h_sxbj {
+                            width: 60px;
+                        }
+
+                        .outer_xkxx_list .list-group li p.sxbj {
+                            font: 15px/40px Arial, Helvetica, sans-serif;
+                            width: 60px;
+                        }
+
+                        .h_jxb {
+                            width: 60px;
+                        }
+
+                        .outer_xkxx_list .list-group li p.jxb {
+                            font: 15px/40px Arial, Helvetica, sans-serif;
+                            width: 70px;
+                        }
+
+                        .h_teacher {
+                            width: 90px;
+                        }
+
+                        .outer_xkxx_list .list-group li p.teachers {
+                            padding: 0 5px;
+                            width: 90px;
+                        }
+
+                        .h_time {
+                            width: 180px;
+                        }
+
+                        .outer_xkxx_list .list-group li p.time {
+                            font: 12px/20px SimSun;
+                            color: #000000;
+                            width: 180px;
+                            text-align: left;
+                        }
+
+                        .h_addr {
+                            width: 70px;
+                        }
+
+                        .outer_xkxx_list .list-group li p.addr {
+                            font: 12px/20px SimSun;
+                            color: #000000;
+                            width: 70px;
+                        }
+
+                        .h_zixf {
+                            width: 85px;
+                        }
+
+                        .outer_xkxx_list .list-group li p.zixf {
+                            font: 15px/40px SimSun;
+                            color: #000000;
+                            width: 85px;
+                            text-align: center;
+                        }
+
+                        .h_cz {
+                            width: 50px;
+                        }
+
+                        .btn-lg {
+                            line-height: 2.33;
+                            margin-left: -5px;
+                            color: #ffffff;
+                        }
+
+                        .but button {
+                            margin-top: -6px;
+                        }
+
+                        .outer_right_wrapper .w_680 {
+                            width: 740px;
+                        }
+                    </style>
+
+
+
+                    <!-- 右侧内容开始 -->
+                    <div class="outer" style="width: 40px;">
+                        <div class="outer_left" onclick="reLoadKb()">
+                            <span class="bigger-150 glyphicon glyphicon-arrow-left btn-lg"></span>
+
+                            <a id="outer_xkxx" href="javascript:" class="outer_left_xkxx">
+                                <h5 class="outer_tran">选课信息</h5>
+                                <span class="outer_tran">已选</span>
+                                <span><b id="yxkcs">11</b></span>
+                            </a>
+                        </div>
+                        <div class="outer_right">
+                            <div class="outer_right_wrapper mCustomScrollbar _mCS_1"
+                                style="position: relative; overflow: visible;">
+                                <div id="mCSB_1"
+                                    class="mCustomScrollBox mCS-light mCSB_vertical_horizontal mCSB_outside"
+                                    tabindex="0">
+                                    <div id="mCSB_1_container" class="mCSB_container"
+                                        style="position: relative; top: 0px; left: 0px; width: 740px;" dir="ltr">
+                                        <div class="w_680">
+                                            <div id="myCourseTableZzxk"></div>
+                                            <div class="right_div">
+                                                <div id="right_16583109" class="outer_xkxx_list">
+                                                    <h6>(16583109)形势与政策 - <i id="r-xf-16583109">0.0</i> 学分<span
+                                                            class="pull-right"></span></h6>
+                                                    <table class="right_table_head">
+                                                        <thead>
+                                                            <tr>
+                                                                <td class="h_num" style="display:none">志愿</td>
+                                                                <td class="arraw-px" style="display: none;">排序</td>
+                                                                <td class="h_sxbj">选上否</td>
+                                                                <td class="h_jxb">教学班</td>
+                                                                <td class="h_teacher">教师/职称</td>
+                                                                <td class="h_time">上课时间</td>
+                                                                <td class="h_zixf">自选否</td>
+                                                                <td class="h_cz">操作</td>
+                                                            </tr>
+                                                        </thead>
+                                                    </table>
+                                                    <ul id="right_ul_16583109" class="list-group" data-kklxdm="01"
+                                                        data-listidx="0"><input type="hidden" name="right_kchid"
+                                                            value="16583109"><input type="hidden" id="right_xf_16583109"
+                                                            name="right_xf" value="0.0"><input type="hidden"
+                                                            name="right_jdlx" value="0"><input type="hidden"
+                                                            name="right_kklxpx" value="501"><input type="hidden"
+                                                            name="right_ddkzbj" value="0"><input type="hidden"
+                                                            name="right_cxbj" value="0">
+                                                        <li id="right_42BCEA8C0D3E4B90E063F0000A0A248E"
+                                                            class="list-group-item" data-itemidx="0"
+                                                            style="cursor: pointer;">
+                                                            <div class="item" style="cursor: pointer;">
+                                                                <table width="100%">
+                                                                    <tbody>
+                                                                        <tr>
+                                                                            <td style="display:none">
+                                                                                <p class="num">1</p>
+                                                                            </td>
+                                                                            <td class="arraw-px" style="display: none;">
+                                                                                <a class="fa fa-arrow-up padding-lr10"
+                                                                                    href="javascript:void(0);"></a><br><a
+                                                                                    class="fa fa-arrow-down padding-lr10"
+                                                                                    href="javascript:void(0);"></a></td>
+                                                                            <td>
+                                                                                <p class="sxbj">
+                                                                                    <font color="blue">已选上</font>
+                                                                                </p>
+                                                                            </td>
+                                                                            <td>
+                                                                                <p class="jxb popover-demo"
+                                                                                    title="形势与政策-0006">形势与…</p>
+                                                                            </td>
+                                                                            <td>
+                                                                                <p class="teachers" title="宋津明(讲师)">
+                                                                                    <span>宋津明</span>讲师</p>
+                                                                            </td>
+                                                                            <td>
+                                                                                <p class="time">星期一第3-4节{4周,8周,12周,16周}
+                                                                                </p>
+                                                                            </td>
+                                                                            <td nowrap="">
+                                                                                <p class="zixf">自选上</p>
+                                                                            </td>
+                                                                            <td>
+                                                                                <p class="but"><span
+                                                                                        style="font-size:15px;color:#428BCA;"><b>已选</b></span>
+                                                                                </p>
+                                                                            </td>
+                                                                        </tr>
+                                                                    </tbody>
+                                                                </table>
+                                                            </div><input type="hidden" name="right_sub_kchid"
+                                                                value="16583109"><input type="hidden"
+                                                                name="right_jxb_id"
+                                                                value="42BCEA8C0D3E4B90E063F0000A0A248E"><input
+                                                                type="hidden" name="right_qz" value="0"><input
+                                                                type="hidden" name="right_jxbxf" value="0.0"><input
+                                                                type="hidden" name="right_do_jxb_id"
+                                                                value="42BCEA8C0D3E4B90E063F0000A0A248E"><input
+                                                                type="hidden" name="right_xkkz_id"
+                                                                value="43ED19C6D2AAB32DE063F0000A0A7C74"><input
+                                                                type="hidden" name="right_jxbzls" value="1"><input
+                                                                type="hidden" name="right_kklxdm" value="01">
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                                <div id="right_23005523" class="outer_xkxx_list">
+                                                    <h6>(23005523)质量管理 - <i id="r-xf-23005523">5.0</i> 学分<span
+                                                            class="pull-right"></span></h6>
+                                                    <table class="right_table_head">
+                                                        <thead>
+                                                            <tr>
+                                                                <td class="h_num" style="display:none">志愿</td>
+                                                                <td class="arraw-px" style="display: none;">排序</td>
+                                                                <td class="h_sxbj">选上否</td>
+                                                                <td class="h_jxb">教学班</td>
+                                                                <td class="h_teacher">教师/职称</td>
+                                                                <td class="h_time">上课时间</td>
+                                                                <td class="h_zixf">自选否</td>
+                                                                <td class="h_cz">操作</td>
+                                                            </tr>
+                                                        </thead>
+                                                    </table>
+                                                    <ul id="right_ul_23005523" class="list-group" data-kklxdm="01"
+                                                        data-listidx="0"><input type="hidden" name="right_kchid"
+                                                            value="23005523"><input type="hidden" id="right_xf_23005523"
+                                                            name="right_xf" value="5.0"><input type="hidden"
+                                                            name="right_jdlx" value="0"><input type="hidden"
+                                                            name="right_kklxpx" value="501"><input type="hidden"
+                                                            name="right_ddkzbj" value="0"><input type="hidden"
+                                                            name="right_cxbj" value="0">
+                                                        <li id="right_42E30F4C5C543676E063F0000A0A872E"
+                                                            class="list-group-item" data-itemidx="0"
+                                                            style="cursor: pointer;">
+                                                            <div class="item" style="cursor: pointer;">
+                                                                <table width="100%">
+                                                                    <tbody>
+                                                                        <tr>
+                                                                            <td style="display:none">
+                                                                                <p class="num">1</p>
+                                                                            </td>
+                                                                            <td class="arraw-px" style="display: none;">
+                                                                                <a class="fa fa-arrow-up padding-lr10"
+                                                                                    href="javascript:void(0);"></a><br><a
+                                                                                    class="fa fa-arrow-down padding-lr10"
+                                                                                    href="javascript:void(0);"></a></td>
+                                                                            <td>
+                                                                                <p class="sxbj">
+                                                                                    <font color="blue">已选上</font>
+                                                                                </p>
+                                                                            </td>
+                                                                            <td>
+                                                                                <p class="jxb popover-demo"
+                                                                                    title="质量管理-0005">质量管…</p>
+                                                                            </td>
+                                                                            <td>
+                                                                                <p class="teachers"
+                                                                                    title="LAMROUS Sid(无)">
+                                                                                    <span>LAMRO…</span>无</p>
+                                                                            </td>
+                                                                            <td>
+                                                                                <p class="time">
+                                                                                    星期一第1-2节{1-16周}<br>星期三第3-4节{1-16周}
+                                                                                </p>
+                                                                            </td>
+                                                                            <td nowrap="">
+                                                                                <p class="zixf">系统调整</p>
+                                                                            </td>
+                                                                            <td>
+                                                                                <p class="but"><span
+                                                                                        style="font-size:15px;color:#428BCA;"><b>已选</b></span>
+                                                                                </p>
+                                                                            </td>
+                                                                        </tr>
+                                                                    </tbody>
+                                                                </table>
+                                                            </div><input type="hidden" name="right_sub_kchid"
+                                                                value="23005523"><input type="hidden"
+                                                                name="right_jxb_id"
+                                                                value="42E30F4C5C543676E063F0000A0A872E"><input
+                                                                type="hidden" name="right_qz" value="0"><input
+                                                                type="hidden" name="right_jxbxf" value="5.0"><input
+                                                                type="hidden" name="right_do_jxb_id"
+                                                                value="42E30F4C5C543676E063F0000A0A872E"><input
+                                                                type="hidden" name="right_xkkz_id" value="0"><input
+                                                                type="hidden" name="right_jxbzls" value="1"><input
+                                                                type="hidden" name="right_kklxdm" value="01">
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                                <div id="right_23005524" class="outer_xkxx_list">
+                                                    <h6>(23005524)数值分析 - <i id="r-xf-23005524">5.0</i> 学分<span
+                                                            class="pull-right"></span></h6>
+                                                    <table class="right_table_head">
+                                                        <thead>
+                                                            <tr>
+                                                                <td class="h_num" style="display:none">志愿</td>
+                                                                <td class="arraw-px" style="display: none;">排序</td>
+                                                                <td class="h_sxbj">选上否</td>
+                                                                <td class="h_jxb">教学班</td>
+                                                                <td class="h_teacher">教师/职称</td>
+                                                                <td class="h_time">上课时间</td>
+                                                                <td class="h_zixf">自选否</td>
+                                                                <td class="h_cz">操作</td>
+                                                            </tr>
+                                                        </thead>
+                                                    </table>
+                                                    <ul id="right_ul_23005524" class="list-group" data-kklxdm="01"
+                                                        data-listidx="0"><input type="hidden" name="right_kchid"
+                                                            value="23005524"><input type="hidden" id="right_xf_23005524"
+                                                            name="right_xf" value="5.0"><input type="hidden"
+                                                            name="right_jdlx" value="0"><input type="hidden"
+                                                            name="right_kklxpx" value="501"><input type="hidden"
+                                                            name="right_ddkzbj" value="0"><input type="hidden"
+                                                            name="right_cxbj" value="0">
+                                                        <li id="right_42E2D0ACBCF02CBEE063F0000A0ABAD6"
+                                                            class="list-group-item" data-itemidx="0"
+                                                            style="cursor: pointer;">
+                                                            <div class="item" style="cursor: pointer;">
+                                                                <table width="100%">
+                                                                    <tbody>
+                                                                        <tr>
+                                                                            <td style="display:none">
+                                                                                <p class="num">1</p>
+                                                                            </td>
+                                                                            <td class="arraw-px" style="display: none;">
+                                                                                <a class="fa fa-arrow-up padding-lr10"
+                                                                                    href="javascript:void(0);"></a><br><a
+                                                                                    class="fa fa-arrow-down padding-lr10"
+                                                                                    href="javascript:void(0);"></a></td>
+                                                                            <td>
+                                                                                <p class="sxbj">
+                                                                                    <font color="blue">已选上</font>
+                                                                                </p>
+                                                                            </td>
+                                                                            <td>
+                                                                                <p class="jxb popover-demo"
+                                                                                    title="数值分析-0005">数值分…</p>
+                                                                            </td>
+                                                                            <td>
+                                                                                <p class="teachers"
+                                                                                    title="Elias KHOURY(无)">
+                                                                                    <span>Elias…</span>无</p>
+                                                                            </td>
+                                                                            <td>
+                                                                                <p class="time">
+                                                                                    星期四第9-11节{1-16周}<br>星期五第3-4节{1-16周}
+                                                                                </p>
+                                                                            </td>
+                                                                            <td nowrap="">
+                                                                                <p class="zixf">系统调整</p>
+                                                                            </td>
+                                                                            <td>
+                                                                                <p class="but"><span
+                                                                                        style="font-size:15px;color:#428BCA;"><b>已选</b></span>
+                                                                                </p>
+                                                                            </td>
+                                                                        </tr>
+                                                                    </tbody>
+                                                                </table>
+                                                            </div><input type="hidden" name="right_sub_kchid"
+                                                                value="23005524"><input type="hidden"
+                                                                name="right_jxb_id"
+                                                                value="42E2D0ACBCF02CBEE063F0000A0ABAD6"><input
+                                                                type="hidden" name="right_qz" value="0"><input
+                                                                type="hidden" name="right_jxbxf" value="5.0"><input
+                                                                type="hidden" name="right_do_jxb_id"
+                                                                value="42E2D0ACBCF02CBEE063F0000A0ABAD6"><input
+                                                                type="hidden" name="right_xkkz_id" value="0"><input
+                                                                type="hidden" name="right_jxbzls" value="1"><input
+                                                                type="hidden" name="right_kklxdm" value="01">
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                                <div id="right_23006139" class="outer_xkxx_list">
+                                                    <h6>(23006139)企业创新项目实战 - <i id="r-xf-23006139">4.0</i> 学分<span
+                                                            class="pull-right"></span></h6>
+                                                    <table class="right_table_head">
+                                                        <thead>
+                                                            <tr>
+                                                                <td class="h_num" style="display:none">志愿</td>
+                                                                <td class="arraw-px" style="display: none;">排序</td>
+                                                                <td class="h_sxbj">选上否</td>
+                                                                <td class="h_jxb">教学班</td>
+                                                                <td class="h_teacher">教师/职称</td>
+                                                                <td class="h_time">上课时间</td>
+                                                                <td class="h_zixf">自选否</td>
+                                                                <td class="h_cz">操作</td>
+                                                            </tr>
+                                                        </thead>
+                                                    </table>
+                                                    <ul id="right_ul_23006139" class="list-group" data-kklxdm="01"
+                                                        data-listidx="0"><input type="hidden" name="right_kchid"
+                                                            value="23006139"><input type="hidden" id="right_xf_23006139"
+                                                            name="right_xf" value="4.0"><input type="hidden"
+                                                            name="right_jdlx" value="0"><input type="hidden"
+                                                            name="right_kklxpx" value="501"><input type="hidden"
+                                                            name="right_ddkzbj" value="0"><input type="hidden"
+                                                            name="right_cxbj" value="0">
+                                                        <li id="right_422F8369E486265CE063F1000A0AE023"
+                                                            class="list-group-item" data-itemidx="0"
+                                                            style="cursor: pointer;">
+                                                            <div class="item" style="cursor: pointer;">
+                                                                <table width="100%">
+                                                                    <tbody>
+                                                                        <tr>
+                                                                            <td style="display:none">
+                                                                                <p class="num">1</p>
+                                                                            </td>
+                                                                            <td class="arraw-px" style="display: none;">
+                                                                                <a class="fa fa-arrow-up padding-lr10"
+                                                                                    href="javascript:void(0);"></a><br><a
+                                                                                    class="fa fa-arrow-down padding-lr10"
+                                                                                    href="javascript:void(0);"></a></td>
+                                                                            <td>
+                                                                                <p class="sxbj">
+                                                                                    <font color="blue">已选上</font>
+                                                                                </p>
+                                                                            </td>
+                                                                            <td>
+                                                                                <p class="jxb popover-demo"
+                                                                                    title="企业创新项目实战-0001">企业创…</p>
+                                                                            </td>
+                                                                            <td>
+                                                                                <p class="teachers" title="赵凌(工程师)">
+                                                                                    <span>赵凌</span>工程师</p>
+                                                                            </td>
+                                                                            <td>
+                                                                                <p class="time">
+                                                                                    星期三第11-12节{1-8周}<br>星期五第9-10节{1-8周}
+                                                                                </p>
+                                                                            </td>
+                                                                            <td nowrap="">
+                                                                                <p class="zixf">自选上</p>
+                                                                            </td>
+                                                                            <td>
+                                                                                <p class="but"><span
+                                                                                        style="font-size:15px;color:#428BCA;"><b>已选</b></span>
+                                                                                </p>
+                                                                            </td>
+                                                                        </tr>
+                                                                    </tbody>
+                                                                </table>
+                                                            </div><input type="hidden" name="right_sub_kchid"
+                                                                value="23006139"><input type="hidden"
+                                                                name="right_jxb_id"
+                                                                value="422F8369E486265CE063F1000A0AE023"><input
+                                                                type="hidden" name="right_qz" value="0"><input
+                                                                type="hidden" name="right_jxbxf" value="4.0"><input
+                                                                type="hidden" name="right_do_jxb_id"
+                                                                value="422F8369E486265CE063F1000A0AE023"><input
+                                                                type="hidden" name="right_xkkz_id"
+                                                                value="43ED19C6D2AAB32DE063F0000A0A7C74"><input
+                                                                type="hidden" name="right_jxbzls" value="1"><input
+                                                                type="hidden" name="right_kklxdm" value="01">
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                                <div id="right_23006149" class="outer_xkxx_list">
+                                                    <h6>(23006149)中级法语(3) - <i id="r-xf-23006149">2.0</i> 学分<span
+                                                            class="pull-right"></span></h6>
+                                                    <table class="right_table_head">
+                                                        <thead>
+                                                            <tr>
+                                                                <td class="h_num" style="display:none">志愿</td>
+                                                                <td class="arraw-px" style="display: none;">排序</td>
+                                                                <td class="h_sxbj">选上否</td>
+                                                                <td class="h_jxb">教学班</td>
+                                                                <td class="h_teacher">教师/职称</td>
+                                                                <td class="h_time">上课时间</td>
+                                                                <td class="h_zixf">自选否</td>
+                                                                <td class="h_cz">操作</td>
+                                                            </tr>
+                                                        </thead>
+                                                    </table>
+                                                    <ul id="right_ul_23006149" class="list-group" data-kklxdm="01"
+                                                        data-listidx="0"><input type="hidden" name="right_kchid"
+                                                            value="23006149"><input type="hidden" id="right_xf_23006149"
+                                                            name="right_xf" value="2.0"><input type="hidden"
+                                                            name="right_jdlx" value="0"><input type="hidden"
+                                                            name="right_kklxpx" value="501"><input type="hidden"
+                                                            name="right_ddkzbj" value="0"><input type="hidden"
+                                                            name="right_cxbj" value="0">
+                                                        <li id="right_422F8369EA69265CE063F1000A0AE023"
+                                                            class="list-group-item" data-itemidx="0"
+                                                            style="cursor: pointer;">
+                                                            <div class="item" style="cursor: pointer;">
+                                                                <table width="100%">
+                                                                    <tbody>
+                                                                        <tr>
+                                                                            <td style="display:none">
+                                                                                <p class="num">1</p>
+                                                                            </td>
+                                                                            <td class="arraw-px" style="display: none;">
+                                                                                <a class="fa fa-arrow-up padding-lr10"
+                                                                                    href="javascript:void(0);"></a><br><a
+                                                                                    class="fa fa-arrow-down padding-lr10"
+                                                                                    href="javascript:void(0);"></a></td>
+                                                                            <td>
+                                                                                <p class="sxbj">
+                                                                                    <font color="blue">已选上</font>
+                                                                                </p>
+                                                                            </td>
+                                                                            <td>
+                                                                                <p class="jxb popover-demo"
+                                                                                    title="中级法语(3)-0004">中级法…</p>
+                                                                            </td>
+                                                                            <td>
+                                                                                <p class="teachers" title="胡晓燕(讲师)">
+                                                                                    <span>胡晓燕</span>讲师</p>
+                                                                            </td>
+                                                                            <td>
+                                                                                <p class="time">星期三第1-2节{9-16周}</p>
+                                                                            </td>
+                                                                            <td nowrap="">
+                                                                                <p class="zixf">自选上</p>
+                                                                            </td>
+                                                                            <td>
+                                                                                <p class="but"><span
+                                                                                        style="font-size:15px;color:#428BCA;"><b>已选</b></span>
+                                                                                </p>
+                                                                            </td>
+                                                                        </tr>
+                                                                    </tbody>
+                                                                </table>
+                                                            </div><input type="hidden" name="right_sub_kchid"
+                                                                value="23006149"><input type="hidden"
+                                                                name="right_jxb_id"
+                                                                value="422F8369EA69265CE063F1000A0AE023"><input
+                                                                type="hidden" name="right_qz" value="0"><input
+                                                                type="hidden" name="right_jxbxf" value="2.0"><input
+                                                                type="hidden" name="right_do_jxb_id"
+                                                                value="422F8369EA69265CE063F1000A0AE023"><input
+                                                                type="hidden" name="right_xkkz_id"
+                                                                value="43ED19C6D2AAB32DE063F0000A0A7C74"><input
+                                                                type="hidden" name="right_jxbzls" value="1"><input
+                                                                type="hidden" name="right_kklxdm" value="01">
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                                <div id="right_23006153" class="outer_xkxx_list">
+                                                    <h6>(23006153)法语综合实践(DELF) - <i id="r-xf-23006153">2.0</i> 学分<span
+                                                            class="pull-right"></span></h6>
+                                                    <table class="right_table_head">
+                                                        <thead>
+                                                            <tr>
+                                                                <td class="h_num" style="display:none">志愿</td>
+                                                                <td class="arraw-px" style="display: none;">排序</td>
+                                                                <td class="h_sxbj">选上否</td>
+                                                                <td class="h_jxb">教学班</td>
+                                                                <td class="h_teacher">教师/职称</td>
+                                                                <td class="h_time">上课时间</td>
+                                                                <td class="h_zixf">自选否</td>
+                                                                <td class="h_cz">操作</td>
+                                                            </tr>
+                                                        </thead>
+                                                    </table>
+                                                    <ul id="right_ul_23006153" class="list-group" data-kklxdm="01"
+                                                        data-listidx="0"><input type="hidden" name="right_kchid"
+                                                            value="23006153"><input type="hidden" id="right_xf_23006153"
+                                                            name="right_xf" value="2.0"><input type="hidden"
+                                                            name="right_jdlx" value="0"><input type="hidden"
+                                                            name="right_kklxpx" value="501"><input type="hidden"
+                                                            name="right_ddkzbj" value="0"><input type="hidden"
+                                                            name="right_cxbj" value="0">
+                                                        <li id="right_422F8369ED26265CE063F1000A0AE023"
+                                                            class="list-group-item" data-itemidx="0"
+                                                            style="cursor: pointer;">
+                                                            <div class="item" style="cursor: pointer;">
+                                                                <table width="100%">
+                                                                    <tbody>
+                                                                        <tr>
+                                                                            <td style="display:none">
+                                                                                <p class="num">1</p>
+                                                                            </td>
+                                                                            <td class="arraw-px" style="display: none;">
+                                                                                <a class="fa fa-arrow-up padding-lr10"
+                                                                                    href="javascript:void(0);"></a><br><a
+                                                                                    class="fa fa-arrow-down padding-lr10"
+                                                                                    href="javascript:void(0);"></a></td>
+                                                                            <td>
+                                                                                <p class="sxbj">
+                                                                                    <font color="blue">已选上</font>
+                                                                                </p>
+                                                                            </td>
+                                                                            <td>
+                                                                                <p class="jxb popover-demo"
+                                                                                    title="法语综合实践(DELF)-0006">法语综…</p>
+                                                                            </td>
+                                                                            <td>
+                                                                                <p class="teachers" title="章婵(无)">
+                                                                                    <span>章婵</span>无</p>
+                                                                            </td>
+                                                                            <td>
+                                                                                <p class="time">星期一第7-8节{9-16周}</p>
+                                                                            </td>
+                                                                            <td nowrap="">
+                                                                                <p class="zixf">自选上</p>
+                                                                            </td>
+                                                                            <td>
+                                                                                <p class="but"><span
+                                                                                        style="font-size:15px;color:#428BCA;"><b>已选</b></span>
+                                                                                </p>
+                                                                            </td>
+                                                                        </tr>
+                                                                    </tbody>
+                                                                </table>
+                                                            </div><input type="hidden" name="right_sub_kchid"
+                                                                value="23006153"><input type="hidden"
+                                                                name="right_jxb_id"
+                                                                value="422F8369ED26265CE063F1000A0AE023"><input
+                                                                type="hidden" name="right_qz" value="0"><input
+                                                                type="hidden" name="right_jxbxf" value="2.0"><input
+                                                                type="hidden" name="right_do_jxb_id"
+                                                                value="422F8369ED26265CE063F1000A0AE023"><input
+                                                                type="hidden" name="right_xkkz_id"
+                                                                value="43ED19C6D2AAB32DE063F0000A0A7C74"><input
+                                                                type="hidden" name="right_jxbzls" value="1"><input
+                                                                type="hidden" name="right_kklxdm" value="01">
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                                <div id="right_23006156" class="outer_xkxx_list">
+                                                    <h6>(23006156)高级法语口语 - <i id="r-xf-23006156">2.0</i> 学分<span
+                                                            class="pull-right"></span></h6>
+                                                    <table class="right_table_head">
+                                                        <thead>
+                                                            <tr>
+                                                                <td class="h_num" style="display:none">志愿</td>
+                                                                <td class="arraw-px" style="display: none;">排序</td>
+                                                                <td class="h_sxbj">选上否</td>
+                                                                <td class="h_jxb">教学班</td>
+                                                                <td class="h_teacher">教师/职称</td>
+                                                                <td class="h_time">上课时间</td>
+                                                                <td class="h_zixf">自选否</td>
+                                                                <td class="h_cz">操作</td>
+                                                            </tr>
+                                                        </thead>
+                                                    </table>
+                                                    <ul id="right_ul_23006156" class="list-group" data-kklxdm="01"
+                                                        data-listidx="0"><input type="hidden" name="right_kchid"
+                                                            value="23006156"><input type="hidden" id="right_xf_23006156"
+                                                            name="right_xf" value="2.0"><input type="hidden"
+                                                            name="right_jdlx" value="0"><input type="hidden"
+                                                            name="right_kklxpx" value="501"><input type="hidden"
+                                                            name="right_ddkzbj" value="0"><input type="hidden"
+                                                            name="right_cxbj" value="0">
+                                                        <li id="right_422F8369ED7E265CE063F1000A0AE023"
+                                                            class="list-group-item" data-itemidx="0"
+                                                            style="cursor: pointer;">
+                                                            <div class="item" style="cursor: pointer;">
+                                                                <table width="100%">
+                                                                    <tbody>
+                                                                        <tr>
+                                                                            <td style="display:none">
+                                                                                <p class="num">1</p>
+                                                                            </td>
+                                                                            <td class="arraw-px" style="display: none;">
+                                                                                <a class="fa fa-arrow-up padding-lr10"
+                                                                                    href="javascript:void(0);"></a><br><a
+                                                                                    class="fa fa-arrow-down padding-lr10"
+                                                                                    href="javascript:void(0);"></a></td>
+                                                                            <td>
+                                                                                <p class="sxbj">
+                                                                                    <font color="blue">已选上</font>
+                                                                                </p>
+                                                                            </td>
+                                                                            <td>
+                                                                                <p class="jxb popover-demo"
+                                                                                    title="高级法语口语-0001">高级法…</p>
+                                                                            </td>
+                                                                            <td>
+                                                                                <p class="teachers"
+                                                                                    title="DIARD NICOLAS JEAN HENRI(无)">
+                                                                                    <span>DIARD…</span>无</p>
+                                                                            </td>
+                                                                            <td>
+                                                                                <p class="time">星期一第9-10节{1-8周}</p>
+                                                                            </td>
+                                                                            <td nowrap="">
+                                                                                <p class="zixf">自选上</p>
+                                                                            </td>
+                                                                            <td>
+                                                                                <p class="but"><span
+                                                                                        style="font-size:15px;color:#428BCA;"><b>已选</b></span>
+                                                                                </p>
+                                                                            </td>
+                                                                        </tr>
+                                                                    </tbody>
+                                                                </table>
+                                                            </div><input type="hidden" name="right_sub_kchid"
+                                                                value="23006156"><input type="hidden"
+                                                                name="right_jxb_id"
+                                                                value="422F8369ED7E265CE063F1000A0AE023"><input
+                                                                type="hidden" name="right_qz" value="0"><input
+                                                                type="hidden" name="right_jxbxf" value="2.0"><input
+                                                                type="hidden" name="right_do_jxb_id"
+                                                                value="422F8369ED7E265CE063F1000A0AE023"><input
+                                                                type="hidden" name="right_xkkz_id"
+                                                                value="43ED19C6D2AAB32DE063F0000A0A7C74"><input
+                                                                type="hidden" name="right_jxbzls" value="1"><input
+                                                                type="hidden" name="right_kklxdm" value="01">
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                                <div id="right_23006159" class="outer_xkxx_list">
+                                                    <h6>(23006159)法语专业写作(2) - <i id="r-xf-23006159">2.0</i> 学分<span
+                                                            class="pull-right"></span></h6>
+                                                    <table class="right_table_head">
+                                                        <thead>
+                                                            <tr>
+                                                                <td class="h_num" style="display:none">志愿</td>
+                                                                <td class="arraw-px" style="display: none;">排序</td>
+                                                                <td class="h_sxbj">选上否</td>
+                                                                <td class="h_jxb">教学班</td>
+                                                                <td class="h_teacher">教师/职称</td>
+                                                                <td class="h_time">上课时间</td>
+                                                                <td class="h_zixf">自选否</td>
+                                                                <td class="h_cz">操作</td>
+                                                            </tr>
+                                                        </thead>
+                                                    </table>
+                                                    <ul id="right_ul_23006159" class="list-group" data-kklxdm="01"
+                                                        data-listidx="0"><input type="hidden" name="right_kchid"
+                                                            value="23006159"><input type="hidden" id="right_xf_23006159"
+                                                            name="right_xf" value="2.0"><input type="hidden"
+                                                            name="right_jdlx" value="0"><input type="hidden"
+                                                            name="right_kklxpx" value="501"><input type="hidden"
+                                                            name="right_ddkzbj" value="0"><input type="hidden"
+                                                            name="right_cxbj" value="0">
+                                                        <li id="right_422F8369EE85265CE063F1000A0AE023"
+                                                            class="list-group-item" data-itemidx="0"
+                                                            style="cursor: pointer;">
+                                                            <div class="item" style="cursor: pointer;">
+                                                                <table width="100%">
+                                                                    <tbody>
+                                                                        <tr>
+                                                                            <td style="display:none">
+                                                                                <p class="num">1</p>
+                                                                            </td>
+                                                                            <td class="arraw-px" style="display: none;">
+                                                                                <a class="fa fa-arrow-up padding-lr10"
+                                                                                    href="javascript:void(0);"></a><br><a
+                                                                                    class="fa fa-arrow-down padding-lr10"
+                                                                                    href="javascript:void(0);"></a></td>
+                                                                            <td>
+                                                                                <p class="sxbj">
+                                                                                    <font color="blue">已选上</font>
+                                                                                </p>
+                                                                            </td>
+                                                                            <td>
+                                                                                <p class="jxb popover-demo"
+                                                                                    title="法语专业写作(2)-0001">法语专…</p>
+                                                                            </td>
+                                                                            <td>
+                                                                                <p class="teachers"
+                                                                                    title="DIARD NICOLAS JEAN HENRI(无)">
+                                                                                    <span>DIARD…</span>无</p>
+                                                                            </td>
+                                                                            <td>
+                                                                                <p class="time">星期二第1-2节{9-16周}</p>
+                                                                            </td>
+                                                                            <td nowrap="">
+                                                                                <p class="zixf">自选上</p>
+                                                                            </td>
+                                                                            <td>
+                                                                                <p class="but"><span
+                                                                                        style="font-size:15px;color:#428BCA;"><b>已选</b></span>
+                                                                                </p>
+                                                                            </td>
+                                                                        </tr>
+                                                                    </tbody>
+                                                                </table>
+                                                            </div><input type="hidden" name="right_sub_kchid"
+                                                                value="23006159"><input type="hidden"
+                                                                name="right_jxb_id"
+                                                                value="422F8369EE85265CE063F1000A0AE023"><input
+                                                                type="hidden" name="right_qz" value="0"><input
+                                                                type="hidden" name="right_jxbxf" value="2.0"><input
+                                                                type="hidden" name="right_do_jxb_id"
+                                                                value="422F8369EE85265CE063F1000A0AE023"><input
+                                                                type="hidden" name="right_xkkz_id"
+                                                                value="43ED19C6D2AAB32DE063F0000A0A7C74"><input
+                                                                type="hidden" name="right_jxbzls" value="1"><input
+                                                                type="hidden" name="right_kklxdm" value="01">
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                                <div id="right_23285027" class="outer_xkxx_list">
+                                                    <h6>(23285027)通信原理(1) - <i id="r-xf-23285027">4.0</i> 学分<span
+                                                            class="pull-right"></span></h6>
+                                                    <table class="right_table_head">
+                                                        <thead>
+                                                            <tr>
+                                                                <td class="h_num" style="display:none">志愿</td>
+                                                                <td class="arraw-px" style="display: none;">排序</td>
+                                                                <td class="h_sxbj">选上否</td>
+                                                                <td class="h_jxb">教学班</td>
+                                                                <td class="h_teacher">教师/职称</td>
+                                                                <td class="h_time">上课时间</td>
+                                                                <td class="h_zixf">自选否</td>
+                                                                <td class="h_cz">操作</td>
+                                                            </tr>
+                                                        </thead>
+                                                    </table>
+                                                    <ul id="right_ul_23285027" class="list-group" data-kklxdm="01"
+                                                        data-listidx="0"><input type="hidden" name="right_kchid"
+                                                            value="23285027"><input type="hidden" id="right_xf_23285027"
+                                                            name="right_xf" value="4.0"><input type="hidden"
+                                                            name="right_jdlx" value="0"><input type="hidden"
+                                                            name="right_kklxpx" value="501"><input type="hidden"
+                                                            name="right_ddkzbj" value="0"><input type="hidden"
+                                                            name="right_cxbj" value="0">
+                                                        <li id="right_422F8369F7CB265CE063F1000A0AE023"
+                                                            class="list-group-item" data-itemidx="0"
+                                                            style="cursor: pointer;">
+                                                            <div class="item" style="cursor: pointer;">
+                                                                <table width="100%">
+                                                                    <tbody>
+                                                                        <tr>
+                                                                            <td style="display:none">
+                                                                                <p class="num">1</p>
+                                                                            </td>
+                                                                            <td class="arraw-px" style="display: none;">
+                                                                                <a class="fa fa-arrow-up padding-lr10"
+                                                                                    href="javascript:void(0);"></a><br><a
+                                                                                    class="fa fa-arrow-down padding-lr10"
+                                                                                    href="javascript:void(0);"></a></td>
+                                                                            <td>
+                                                                                <p class="sxbj">
+                                                                                    <font color="blue">已选上</font>
+                                                                                </p>
+                                                                            </td>
+                                                                            <td>
+                                                                                <p class="jxb popover-demo"
+                                                                                    title="通信原理(1)-0002">通信原…</p>
+                                                                            </td>
+                                                                            <td>
+                                                                                <p class="teachers" title="伍仕宝(高级工程师)">
+                                                                                    <span>伍仕宝</span>高级工程师</p>
+                                                                            </td>
+                                                                            <td>
+                                                                                <p class="time">
+                                                                                    星期二第3-4节{1-16周}<br>星期五第9-10节{13-16周}
+                                                                                </p>
+                                                                            </td>
+                                                                            <td nowrap="">
+                                                                                <p class="zixf">系统调整</p>
+                                                                            </td>
+                                                                            <td>
+                                                                                <p class="but"><span
+                                                                                        style="font-size:15px;color:#428BCA;"><b>已选</b></span>
+                                                                                </p>
+                                                                            </td>
+                                                                        </tr>
+                                                                    </tbody>
+                                                                </table>
+                                                            </div><input type="hidden" name="right_sub_kchid"
+                                                                value="23285027"><input type="hidden"
+                                                                name="right_jxb_id"
+                                                                value="422F8369F7CB265CE063F1000A0AE023"><input
+                                                                type="hidden" name="right_qz" value="0"><input
+                                                                type="hidden" name="right_jxbxf" value="4.0"><input
+                                                                type="hidden" name="right_do_jxb_id"
+                                                                value="422F8369F7CB265CE063F1000A0AE023"><input
+                                                                type="hidden" name="right_xkkz_id" value="0"><input
+                                                                type="hidden" name="right_jxbzls" value="1"><input
+                                                                type="hidden" name="right_kklxdm" value="01">
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                                <div id="right_23286505" class="outer_xkxx_list">
+                                                    <h6>(23286505)网络结构及互联网应用 - <i id="r-xf-23286505">6.0</i> 学分<span
+                                                            class="pull-right"></span></h6>
+                                                    <table class="right_table_head">
+                                                        <thead>
+                                                            <tr>
+                                                                <td class="h_num" style="display:none">志愿</td>
+                                                                <td class="arraw-px" style="display: none;">排序</td>
+                                                                <td class="h_sxbj">选上否</td>
+                                                                <td class="h_jxb">教学班</td>
+                                                                <td class="h_teacher">教师/职称</td>
+                                                                <td class="h_time">上课时间</td>
+                                                                <td class="h_zixf">自选否</td>
+                                                                <td class="h_cz">操作</td>
+                                                            </tr>
+                                                        </thead>
+                                                    </table>
+                                                    <ul id="right_ul_23286505" class="list-group" data-kklxdm="01"
+                                                        data-listidx="0"><input type="hidden" name="right_kchid"
+                                                            value="23286505"><input type="hidden" id="right_xf_23286505"
+                                                            name="right_xf" value="6.0"><input type="hidden"
+                                                            name="right_jdlx" value="0"><input type="hidden"
+                                                            name="right_kklxpx" value="501"><input type="hidden"
+                                                            name="right_ddkzbj" value="0"><input type="hidden"
+                                                            name="right_cxbj" value="0">
+                                                        <li id="right_42E2D0ACBDFB2CBEE063F0000A0ABAD6"
+                                                            class="list-group-item" data-itemidx="0"
+                                                            style="cursor: pointer;">
+                                                            <div class="item" style="cursor: pointer;">
+                                                                <table width="100%">
+                                                                    <tbody>
+                                                                        <tr>
+                                                                            <td style="display:none">
+                                                                                <p class="num">1</p>
+                                                                            </td>
+                                                                            <td class="arraw-px" style="display: none;">
+                                                                                <a class="fa fa-arrow-up padding-lr10"
+                                                                                    href="javascript:void(0);"></a><br><a
+                                                                                    class="fa fa-arrow-down padding-lr10"
+                                                                                    href="javascript:void(0);"></a></td>
+                                                                            <td>
+                                                                                <p class="sxbj">
+                                                                                    <font color="blue">已选上</font>
+                                                                                </p>
+                                                                            </td>
+                                                                            <td>
+                                                                                <p class="jxb popover-demo"
+                                                                                    title="网络结构及互联网应用-0002">网络结…</p>
+                                                                            </td>
+                                                                            <td>
+                                                                                <p class="teachers"
+                                                                                    title="Moez Esseghir(无)"><span>Moez
+                                                                                        …</span>无</p>
+                                                                            </td>
+                                                                            <td>
+                                                                                <p class="time">
+                                                                                    星期一第5-6节{9-16周}<br>星期二第5-6节{9-16周}<br>星期四第5-6节{9-16周}<br>星期五第1-2节{9-16周}
+                                                                                </p>
+                                                                            </td>
+                                                                            <td nowrap="">
+                                                                                <p class="zixf">系统调整</p>
+                                                                            </td>
+                                                                            <td>
+                                                                                <p class="but"><span
+                                                                                        style="font-size:15px;color:#428BCA;"><b>已选</b></span>
+                                                                                </p>
+                                                                            </td>
+                                                                        </tr>
+                                                                    </tbody>
+                                                                </table>
+                                                            </div><input type="hidden" name="right_sub_kchid"
+                                                                value="23286505"><input type="hidden"
+                                                                name="right_jxb_id"
+                                                                value="42E2D0ACBDFB2CBEE063F0000A0ABAD6"><input
+                                                                type="hidden" name="right_qz" value="0"><input
+                                                                type="hidden" name="right_jxbxf" value="6.0"><input
+                                                                type="hidden" name="right_do_jxb_id"
+                                                                value="42E2D0ACBDFB2CBEE063F0000A0ABAD6"><input
+                                                                type="hidden" name="right_xkkz_id" value="0"><input
+                                                                type="hidden" name="right_jxbzls" value="1"><input
+                                                                type="hidden" name="right_kklxdm" value="01">
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                                <div id="right_23305502" class="outer_xkxx_list">
+                                                    <h6>(23305502)操作系统 - <i id="r-xf-23305502">6.0</i> 学分<span
+                                                            class="pull-right"></span></h6>
+                                                    <table class="right_table_head">
+                                                        <thead>
+                                                            <tr>
+                                                                <td class="h_num" style="display:none">志愿</td>
+                                                                <td class="arraw-px" style="display: none;">排序</td>
+                                                                <td class="h_sxbj">选上否</td>
+                                                                <td class="h_jxb">教学班</td>
+                                                                <td class="h_teacher">教师/职称</td>
+                                                                <td class="h_time">上课时间</td>
+                                                                <td class="h_zixf">自选否</td>
+                                                                <td class="h_cz">操作</td>
+                                                            </tr>
+                                                        </thead>
+                                                    </table>
+                                                    <ul id="right_ul_23305502" class="list-group" data-kklxdm="01"
+                                                        data-listidx="0"><input type="hidden" name="right_kchid"
+                                                            value="23305502"><input type="hidden" id="right_xf_23305502"
+                                                            name="right_xf" value="6.0"><input type="hidden"
+                                                            name="right_jdlx" value="0"><input type="hidden"
+                                                            name="right_kklxpx" value="501"><input type="hidden"
+                                                            name="right_ddkzbj" value="0"><input type="hidden"
+                                                            name="right_cxbj" value="0">
+                                                        <li id="right_42E2D0ACBE962CBEE063F0000A0ABAD6"
+                                                            class="list-group-item" data-itemidx="0"
+                                                            style="cursor: pointer;">
+                                                            <div class="item" style="cursor: pointer;">
+                                                                <table width="100%">
+                                                                    <tbody>
+                                                                        <tr>
+                                                                            <td style="display:none">
+                                                                                <p class="num">1</p>
+                                                                            </td>
+                                                                            <td class="arraw-px" style="display: none;">
+                                                                                <a class="fa fa-arrow-up padding-lr10"
+                                                                                    href="javascript:void(0);"></a><br><a
+                                                                                    class="fa fa-arrow-down padding-lr10"
+                                                                                    href="javascript:void(0);"></a></td>
+                                                                            <td>
+                                                                                <p class="sxbj">
+                                                                                    <font color="blue">已选上</font>
+                                                                                </p>
+                                                                            </td>
+                                                                            <td>
+                                                                                <p class="jxb popover-demo"
+                                                                                    title="操作系统-0003">操作系…</p>
+                                                                            </td>
+                                                                            <td>
+                                                                                <p class="teachers"
+                                                                                    title="Floreut RETRAINT(无)">
+                                                                                    <span>Flore…</span>无</p>
+                                                                            </td>
+                                                                            <td>
+                                                                                <p class="time">
+                                                                                    星期一第5-6节{1-8周}<br>星期二第5-6节{1-8周}<br>星期三第1-2节{1-8周}<br>星期五第1-2节{1-8周}
+                                                                                </p>
+                                                                            </td>
+                                                                            <td nowrap="">
+                                                                                <p class="zixf">系统调整</p>
+                                                                            </td>
+                                                                            <td>
+                                                                                <p class="but"><span
+                                                                                        style="font-size:15px;color:#428BCA;"><b>已选</b></span>
+                                                                                </p>
+                                                                            </td>
+                                                                        </tr>
+                                                                    </tbody>
+                                                                </table>
+                                                            </div><input type="hidden" name="right_sub_kchid"
+                                                                value="23305502"><input type="hidden"
+                                                                name="right_jxb_id"
+                                                                value="42E2D0ACBE962CBEE063F0000A0ABAD6"><input
+                                                                type="hidden" name="right_qz" value="0"><input
+                                                                type="hidden" name="right_jxbxf" value="6.0"><input
+                                                                type="hidden" name="right_do_jxb_id"
+                                                                value="42E2D0ACBE962CBEE063F0000A0ABAD6"><input
+                                                                type="hidden" name="right_xkkz_id" value="0"><input
+                                                                type="hidden" name="right_jxbzls" value="1"><input
+                                                                type="hidden" name="right_kklxdm" value="01">
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                            <div class="clearfix"></div>
+
+                                            <div id="xkyxArea" class="panel panel-default" style="display:none">
+                                                <div class="panel-heading">
+                                                    <h3 class="panel-title">
+                                                        <font>选课意向列表</font>
+                                                    </h3>
+                                                </div>
+                                                <div class="panel-body" style="padding:0px;">
+                                                    <table id="choosedXkyxGrid"></table>
+                                                </div>
+                                            </div>
+
+                                            <div id="jtbmArea" class="panel panel-default" style="display:none">
+                                                <div class="panel-heading">
+                                                    <h3 class="panel-title">
+                                                        <font>间听报名列表</font>
+                                                    </h3>
+                                                </div>
+                                                <div class="panel-body" style="padding:0px;">
+                                                    <table id="choosedJtbmGrid"></table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="mCSB_1_scrollbar_vertical"
+                                    class="mCSB_scrollTools mCSB_1_scrollbar mCS-light mCSB_scrollTools_vertical"
+                                    style="display: block;">
+                                    <div class="mCSB_draggerContainer">
+                                        <div id="mCSB_1_dragger_vertical" class="mCSB_dragger"
+                                            style="position: absolute; min-height: 30px; display: block; height: 290px; max-height: 703px;"
+                                            oncontextmenu="return false;">
+                                            <div class="mCSB_dragger_bar" style="line-height: 30px;"></div>
+                                        </div>
+                                        <div class="mCSB_draggerRail"></div>
+                                    </div>
+                                </div>
+                                <div id="mCSB_1_scrollbar_horizontal"
+                                    class="mCSB_scrollTools mCSB_1_scrollbar mCS-light mCSB_scrollTools_horizontal"
+                                    style="display: block;">
+                                    <div class="mCSB_draggerContainer">
+                                        <div id="mCSB_1_dragger_horizontal" class="mCSB_dragger"
+                                            style="position: absolute; min-width: 30px; display: block; width: 0px;"
+                                            oncontextmenu="return false;">
+                                            <div class="mCSB_dragger_bar"></div>
+                                        </div>
+                                        <div class="mCSB_draggerRail"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <!-- 排序保存在这里可以检索服务器上的回传 -->
+                        <input name="list1SortOrder" type="hidden">
+                    </div>
+                    <!-- 右侧内容结束 -->
+                    <script type="text/javascript">
+                        //按序同步加载js:这里加载ie 7 样式扩展
+
+                        jQuery(function ($) {
+                            if (_localeKey === "en_US") {
+                                $("#outer_xkxx").css("height", "auto").find(".outer_tran").each(function (i, item) {
+                                    $(item).css({
+                                        "transform": "rotate(90deg)",
+                                        "-ms-transform": "rotate(90deg)", 	/* IE 9 */
+                                        "-moz-transform": "rotate(90deg)", 	/* Firefox */
+                                        "-webkit-transform": "rotate(90deg)", /* Safari 和 Chrome */
+                                        "-o-transform": "rotate(90deg)",
+                                        "white-space": "nowrap"
+                                    });
+                                    var nextItem = $(item).next();
+                                    if ($(item).next()) {
+                                        if ($(item).index() == 0) {
+                                            $(item).next().css("margin-top", ($(item)[0].scrollWidth - $(item)[0].scrollHeight + 15) + "px");
+                                        } else {
+                                            $(item).next().css("margin-top", ($(item)[0].scrollWidth - $(item)[0].scrollHeight) + "px");
+                                        }
+                                    }
+                                });
+                            }
+                        });
+                    </script>
+
+                    <script type="text/javascript"
+                        src="/zftal-ui-v5-1.0.2/assets/plugins/jquery.dragsort/jquery.dragsort.js?ver=29430995"></script>
+
+                    <script type="text/javascript"
+                        src="/jwglxt/js/comp/jwglxt/xkgl/xsxk/zzxkYzbChoosedZy.js?ver=29430995"></script>
+
+
+                </div>
+                <div id="endsign" style="display:none; text-align:center; height: 50px"><i
+                        class="red">......已到最后......</i></div><!-- （共 <font id="searchCount"></font> 条记录） -->
+                <!-- <div id="waitsign" style="display:none; text-align:center; height: 50px"><i class="red bigger-300 icon-spinner icon-spin"></i></div> -->
+                <div id="more" style="text-align:center; display:none">
+                    <font color="#2a6496" size="5">[<a href="javascript:void(0)"
+                            onclick="loadCoursesByPaged();">点此查看更多</a>]</font>
+                </div>
+                <!--jQuery.jqGrid -->
+                <link rel="stylesheet" type="text/css"
+                    href="/zftal-ui-v5-1.0.2/assets/plugins/jqGrid/css/jquery.jqgrid.css?ver=29430995">
+                <script type="text/javascript"
+                    src="/zftal-ui-v5-1.0.2/assets/plugins/jqGrid/jquery.jqgrid.src-min.js?ver=29430995"
+                    charset="utf-8"></script>
+                <script type="text/javascript"
+                    src="/zftal-ui-v5-1.0.2/assets/plugins/jqGrid/jquery.jqgrid.contact-min.js?ver=29430995"
+                    charset="utf-8"></script>
+                <script type="text/javascript" src="/zftal-ui-v5-1.0.2/assets/plugins/jqGrid/lang/zh_CN.js?ver=29430995"
+                    charset="utf-8"></script>
+                <script type="text/javascript" src="/jwglxt/js/plugins/jqGrid4.6/jquery.jqgrid.settings.js?ver=29430995"
+                    charset="utf-8"></script>
+                <script type="text/javascript" src="/jwglxt/js/plugins/jqGrid4.6/jquery.jqGrid-min.js?ver=29430995"
+                    charset="utf-8"></script>
+                <!--jQuery.validation -->
+                <link rel="stylesheet" type="text/css"
+                    href="/zftal-ui-v5-1.0.2/assets/plugins/validation/css/jquery.validate-min.css?ver=29430995">
+                <script type="text/javascript"
+                    src="/zftal-ui-v5-1.0.2/assets/plugins/validation/js/jquery.validate-min.js?ver=29430995"
+                    charset="utf-8"></script>
+                <script type="text/javascript"
+                    src="/zftal-ui-v5-1.0.2/assets/plugins/validation/js/jquery.validate.contact-min.js?ver=29430995"
+                    charset="utf-8"></script>
+                <script type="text/javascript"
+                    src="/zftal-ui-v5-1.0.2/assets/plugins/validation/js/jquery.validate.methods.contact-min.js?ver=29430995"
+                    charset="utf-8"></script>
+                <script type="text/javascript"
+                    src="/zftal-ui-v5-1.0.2/assets/plugins/validation/lang/zh_CN-min.js?ver=29430995"
+                    charset="utf-8"></script>
+                <script type="text/javascript">
+                    jQuery(function ($) {
+                        $('[data-toggle*="validation"]').trigger("validation");
+                    });
+                </script>
+
+                <link rel="stylesheet" type="text/css"
+                    href="/jwglxt/js/plugins/searchbox/css/jquery.searchbox-min.css?ver=29430995">
+                <script type="text/javascript"
+                    src="/jwglxt/js/plugins/searchbox/jquery.searchbox.contact-min.js?ver=29430995"
+                    charset="utf-8"></script>
+                <script type="text/javascript"
+                    src="/jwglxt/js/plugins/searchbox/jquery.searchbox.contact-zh_CN.js?ver=29430995"
+                    charset="utf-8"></script>
+                <script type="text/javascript" src="/jwglxt/js/comp/jwglxt/xkgl/xsxk/zzxkYzb.js?ver=29430995"></script>
+
+
+
+                <script type="text/javascript">
+                    /* $(document).keydown(function(event) {
+                        if (event.keyCode === 27) {
+                            event.preventDefault();
+                            alert('ESC键已被禁用');
+                        }
+                    });  */
+
+                    /* 	    document.addEventListener('keyup', function(event) {
+                                // 检查按下的键是否是ESC键（键码为27）
+                                if (event.keyCode === 27) {
+                                    // 阻止默认行为
+                                    event.preventDefault();
+                                    // 可以在这里添加其他逻辑，例如显示提示信息
+                                    alert('ESC键已被禁用'); 
+                                }
+                            }); */
+                    /* $(document).off('keyup','#msgModal');
+                    $(document).off('keydown','#msgModal'); */
+                    /* $('#msgModal').off('keyup');$('#msgModal').off('keydown'); */
+                </script>
+
+
+
+
+
+
+            </div>
+        </div>
+    </div>
+    <!-- footer -->
+    <div id="footer-div" style="">
+
+
+
+
+
+
+
+
+        <!-- footer -->
+
+        <div id="footerID" class="footer" style="background-color: ">
+
+            <p>版权所有© Copyright 1999-2025 正方软件股份有限公司　　中国·杭州西湖区三墩镇数治路99号901室&nbsp;&nbsp;&nbsp;版本V-9.0</p>
+        </div>
+
+
+
+
+        <script type="text/javascript">
+            //系统中页面底部的时间随系统时间来定
+            /* var date=new Date;
+            var year=date.getFullYear();
+            var s = $("#footerID").text().indexOf('-');
+            var textNr =$("#footerID").text().substr(0,s+1)+year+$("#footerID").text().substr(s+5);
+            $("#footerID").text("");
+            $("#footerID").text(textNr); */
+
+        </script>
+        <!-- footer-end -->
+    </div>
+    <!-- footer-end -->
+
+    <script type="text/javascript">
+        jQuery(function ($) {
+            if ($("#navbar-tabs").length > 0) {
+                $("#navbar-tabs li:eq(0) a").tab('show');
+            }
+            setMinheight();
+            setCdtsxx();
+
+            $('#yhgnPage').resize(function () {
+                var minHeight = $(this).data('min-height');
+                var innerHeight = $('#innerContainer').outerHeight(true);
+                if (self != top) {
+                    $(this).css('min-height', "380");
+                } else {
+                    $(this).css('min-height', Math.max(minHeight, innerHeight));
+                }
+
+            });
+
+            function setMinheight() {
+                //计算grid页面高度
+                var docuemntHeight = $(document).height();
+                var topHeight = $('header').height();
+                var footerHeight = $('.footer').height();
+                var containerHeight = docuemntHeight - topHeight - footerHeight - 60;
+                if (self != top) {
+                    containerHeight = 380;
+                }
+                $('#yhgnPage').css('min-height', containerHeight).data('min-height', containerHeight);
+            }
+
+            //加载title名称，根据系统内置表设置，取菜单名称或者系统名称
+            $(document).attr("title", '自主选课');
+
+            //设置菜单提示信息
+            function setCdtsxx() {
+                if ($("#cdTsxx").val() != null && $("#cdTsxx").val() != "-zfsplit-") {
+                    var tsxx = $("#cdTsxx").val().split("-zfsplit-")[0];
+                    var tsxxljdz = $("#cdTsxx").val().split("-zfsplit-")[1];
+                    var tsxxHtml = "<a class='navbar-brand' " + (tsxxljdz != "" ? "href='" + tsxxljdz + "' target='_blank'" : "") + ">" + tsxx + "</a>";
+                    if ($("#hidxxdm").val() == '10290') {//中国矿业大学
+                        tsxxHtml = "<a class='navbar-brand' style='padding: 0;' " + (tsxxljdz != "" ? "href='" + tsxxljdz + "' target='_blank'" : "") + ">" + tsxx + "</a>";
+                        $(".navbar-header").append(tsxxHtml);
+                    } else {
+                        $(".navbar-header").prepend(tsxxHtml);
+                    }
+                }
+            }
+
+
+            //绑定角色切换功能
+            $(document).off('change', '#changeRole').on('change', '#changeRole', function (e, param) {
+                var key = $(this).val();
+                if (device.mobile()) {
+                    key = param ? param : $(this).val();
+                }
+                $.post(_path + "/xtgl/index_changeRole.html", { jsdm: key }, function (data) {
+                    window.location.href = window.location.href;//刷新页面
+                });
+            });
+
+            //进行相应判断是否可切换角色及是否移动端的判断
+            if ($("#kqhjs").val() == "1" && device.mobile()) {
+                $("#navbar_container").empty();
+                $("#navbar_container").append($("#mobile-div").html());
+                $("#mobile-div").empty();
+            } else {
+                $("#mobile-div").empty();
+            }
+
+            //设置底部版本信息是否显示
+            if ($("#sycdbjfs").val() == "1") {
+                $("#footer-div").show();
+            }
+        });
+    </script>
+    <!-- 设置元素固定位置显示插件  scrolltofixed 相应ini文件引用-->
+    <!-- è®¾ç½®åç´ åºå®ä½ç½®æ¾ç¤ºæä»¶  scrolltofixed -->
+    <script type="text/javascript"
+        src="/jwglxt/js/plugins/scrolltofixed/jquery-scrolltofixed-min.js?ver=29430995"></script>
+    <script>
+        $(document).ready(function () {
+            $("div.sl_add_btn .btn-toolbar").scrollToFixed({
+                marginTop: 35,
+                zIndex: 1060,
+                fixed: function () {
+                    //$(this).css({"width":"auto"});
+                },
+            });
+            $("#gbox_tabGrid div.ui-jqgrid-hdiv").scrollToFixed({
+                //marginTop:3,
+                spacerClass: 'hide-div'
+            });
+        });
+    </script>
+    <style>
+        .hide-div {
+            display: none;
+        }
+    </style>
+    <!-- 软件评价 相应ini文件引用-->
+
+
+    <link rel="stylesheet" type="text/css" href="/jwglxt/js/plugins/tagtree/tagTree.css?ver=29430995">
+    <script type="text/javascript" src="/jwglxt/js/plugins/tagtree/tagtree.js?ver=29430995"></script>
+    <script type="text/javascript" src="/jwglxt/js/plugins/tagtree/tagtreeBusiness.js?ver=29430995"></script>
+
+</body>
+<div id="immersive-translate-browser-popup" style="all: initial"></div>
+
+</html>
