@@ -257,6 +257,14 @@
                     }
                 }
 
+                // 提取容量信息（优先提取，避免与教师混淆）
+                if (!capacity) {
+                    // 匹配各种容量格式: 数字/数字 或 【数字/数字】 或 已满
+                    if (text.match(/^【?\d+\/\d+】?$/) || text === '已满') {
+                        capacity = text;
+                    }
+                }
+
                 // 提取教师信息（更宽松的匹配）
                 if (!teacher) {
                     // 首先尝试匹配 教师号/教师姓名/职称 格式
@@ -264,7 +272,8 @@
                     if (jsxxMatch) {
                         teacher = jsxxMatch[1].trim();
                     }
-                    else if (text.includes('【') && text.includes('】')) {
+                    // 检查【】内容，但要排除容量格式
+                    else if (text.includes('【') && text.includes('】') && !text.match(/【\d+\/\d+】/)) {
                         teacher = text;
                     }
                     // 匹配教师姓名（中文姓名），排除常见的非教师信息
@@ -280,14 +289,15 @@
                     }
                 }
 
-                // 提取容量信息
-                if (!capacity && text.match(/\d+\/\d+/)) {
-                    capacity = text;
-                }
-
-                // 提取时间信息
-                if (!timeInfo && (text.includes('星期') || text.includes('第') || text.includes('节'))) {
-                    timeInfo = text;
+                // 提取时间信息（支持多种格式，累积多个时间段）
+                // 匹配时间格式：星期X第X-X节 或 星期X第X-X节{X-X周} 或 星期X第X-X节｛X-X周
+                if (text.match(/星期[一二三四五六日天]/) || 
+                    (text.includes('第') && text.includes('节')) ||
+                    text.match(/\d+-\d+周/) ||
+                    text.match(/｛\d+-\d+周/) ||
+                    text.match(/\{\d+-\d+周/)) {
+                    // 累积时间信息，用空格分隔
+                    timeInfo = timeInfo ? `${timeInfo} ${text}` : text;
                 }
             }
 
@@ -307,6 +317,14 @@
                     }
                 }
 
+                // 尝试提取容量（优先提取）
+                if (!capacity) {
+                    const capacityMatch = fullText.match(/【?(\d+\/\d+)】?|已满/);
+                    if (capacityMatch) {
+                        capacity = capacityMatch[0];
+                    }
+                }
+
                 // 尝试提取教师
                 if (!teacher) {
                     // 首先尝试匹配 教师号/教师姓名/职称 格式
@@ -314,11 +332,20 @@
                     if (jsxxMatch) {
                         teacher = jsxxMatch[1].trim();
                     } else {
-                        const teacherMatch = fullText.match(/【([^】]+)】/);
-                        if (teacherMatch) {
-                            teacher = `【${teacherMatch[1]}】`;
-                        } else {
-                            // 匹配中文姓名，排除常见的非教师信息关键词
+                        // 查找【】包裹的内容，但排除容量格式
+                        const teacherMatches = fullText.match(/【([^】]+)】/g);
+                        if (teacherMatches) {
+                            for (let match of teacherMatches) {
+                                // 排除容量格式 【数字/数字】
+                                if (!match.match(/【\d+\/\d+】/)) {
+                                    teacher = match;
+                                    break;
+                                }
+                            }
+                        }
+                        
+                        // 如果还是没找到，尝试匹配中文姓名
+                        if (!teacher) {
                             const excludeWords = ['已满', '未满', '可选', '星期', '第一', '第二', '第三', '第四', '第五', '第六', '第七', '第八', '第九', '第十', '人数', '容量', '教学班'];
                             const nameMatches = fullText.match(/[\u4e00-\u9fa5]{2,4}/g);
                             if (nameMatches) {
@@ -333,17 +360,10 @@
                     }
                 }
 
-                // 尝试提取容量
-                if (!capacity) {
-                    const capacityMatch = fullText.match(/(\d+\/\d+|已满)/);
-                    if (capacityMatch) {
-                        capacity = capacityMatch[1];
-                    }
-                }
-
-                // 尝试提取时间
+                // 尝试提取时间（支持更多格式，包括全角字符）
                 if (!timeInfo) {
-                    const timeMatch = fullText.match(/(星期[一二三四五六日][^星期]*)/g);
+                    // 匹配：星期X第X-X节{X-X周} 或 星期X第X-X节｛X-X周 或 星期X第X-X节
+                    const timeMatch = fullText.match(/星期[一二三四五六日天]第\d+-\d+节[｛{]\d+-\d+周[｝}]?|星期[一二三四五六日天]第\d+-\d+节/g);
                     if (timeMatch) {
                         timeInfo = timeMatch.join(' ');
                     }
@@ -393,10 +413,17 @@
         }
 
         // 时间筛选
-        if (teachingClass.targetTime &&
-            teachingClass.info.timeInfo.indexOf(teachingClass.targetTime) === -1) {
-            log(`教学班 ${teachingClass.info.className} 时间不匹配: ${teachingClass.info.timeInfo} ≠ ${teachingClass.targetTime}`, 'info');
-            return false;
+        if (teachingClass.targetTime) {
+            // 如果没有提取到时间信息，检查原始文本
+            let timeToCheck = teachingClass.info.timeInfo;
+            if (timeToCheck === '未知时间' && teachingClass.info.rawText) {
+                timeToCheck = teachingClass.info.rawText;
+            }
+            
+            if (timeToCheck.indexOf(teachingClass.targetTime) === -1) {
+                log(`教学班 ${teachingClass.info.className} 时间不匹配: 提取到的时间="${teachingClass.info.timeInfo}" 目标时间="${teachingClass.targetTime}" (原始文本前50字: ${teachingClass.info.rawText.substring(0, 50)})`, 'info');
+                return false;
+            }
         }
 
         return true;
