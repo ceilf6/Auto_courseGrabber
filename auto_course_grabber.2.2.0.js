@@ -291,7 +291,7 @@
 
                 // 提取时间信息（支持多种格式，累积多个时间段）
                 // 匹配时间格式：星期X第X-X节 或 星期X第X-X节{X-X周} 或 星期X第X-X节｛X-X周
-                if (text.match(/星期[一二三四五六日天]/) || 
+                if (text.match(/星期[一二三四五六日天]/) ||
                     (text.includes('第') && text.includes('节')) ||
                     text.match(/\d+-\d+周/) ||
                     text.match(/｛\d+-\d+周/) ||
@@ -343,7 +343,7 @@
                                 }
                             }
                         }
-                        
+
                         // 如果还是没找到，尝试匹配中文姓名
                         if (!teacher) {
                             const excludeWords = ['已满', '未满', '可选', '星期', '第一', '第二', '第三', '第四', '第五', '第六', '第七', '第八', '第九', '第十', '人数', '容量', '教学班'];
@@ -419,7 +419,7 @@
             if (timeToCheck === '未知时间' && teachingClass.info.rawText) {
                 timeToCheck = teachingClass.info.rawText;
             }
-            
+
             if (timeToCheck.indexOf(teachingClass.targetTime) === -1) {
                 log(`教学班 ${teachingClass.info.className} 时间不匹配: 提取到的时间="${teachingClass.info.timeInfo}" 目标时间="${teachingClass.targetTime}" (原始文本前50字: ${teachingClass.info.rawText.substring(0, 50)})`, 'info');
                 return false;
