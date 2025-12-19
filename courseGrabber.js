@@ -8,7 +8,7 @@
 // 1. 登录教务系统并进入选课页面
 // 2. 配置目标课程列表 TARGET_COURSES
 // 3. 按F12打开控制台，粘贴此脚本并执行
-// 4. 输入 courseGrabber.start() 开始抢课
+// 4. 输入 grab.start() 开始抢课
 
 // 注意!!! 必须点击“点此查看更多”，DOM树一定得展开否则无法找到 !!!
 
@@ -950,9 +950,9 @@
     }
 
     // 暴露全局控制接口
-    window.courseGrabber = {
+    window.grab = {
         // 开始抢课 - 可以传入自定义课程列表
-        // 示例: courseGrabber.start([{code: 'CS101', priority: 1}, {code: 'CS102', priority: 2}])
+        // 示例: grab.start([{code: 'CS101', priority: 1}, {code: 'CS102', priority: 2}])
         start: startGrabbing,
 
         // 停止抢课
@@ -962,11 +962,11 @@
         status: getStatus,
 
         // 添加课程
-        // 示例: courseGrabber.addCourse('CS103', 1)
+        // 示例: grab.addCourse('CS103', 1)
         addCourse: addCourse,
 
         // 移除课程
-        // 示例: courseGrabber.removeCourse('CS103')
+        // 示例: grab.removeCourse('CS103')
         removeCourse: removeCourse,
 
         // 调试信息
@@ -1078,14 +1078,14 @@
     console.log('%c✨ 新特性: 支持多门课程同时抢课！', 'color: #00ff00; font-size: 16px; font-weight: bold;');
     console.log('%c📚 目标课程数: ' + TARGET_COURSES.length, 'color: #4ecdc4; font-size: 14px; font-weight: bold;');
     console.log('%c⚡ 使用方法:', 'color: #45b7d1; font-size: 14px; font-weight: bold;');
-    console.log('  courseGrabber.start()  - 🚀 开始抢课（使用配置的课程）');
-    console.log('  courseGrabber.start([{code:"CS101", priority:1}])  - 🚀 使用自定义课程列表');
-    console.log('  courseGrabber.stop()   - ⏹️ 停止抢课');
-    console.log('  courseGrabber.status() - 📊 查看状态');
-    console.log('  courseGrabber.debug()  - 🔍 调试所有课程');
-    console.log('  courseGrabber.debug("CS101")  - 🔍 调试指定课程');
-    console.log('  courseGrabber.addCourse("CS101", 1)  - ➕ 添加课程到监控列表');
-    console.log('  courseGrabber.removeCourse("CS101")  - ➖ 移除课程');
+    console.log('  grab.start()  - 🚀 开始抢课（使用配置的课程）');
+    console.log('  grab.start([{code:"CS101", priority:1}])  - 🚀 使用自定义课程列表');
+    console.log('  grab.stop()   - ⏹️ 停止抢课');
+    console.log('  grab.status() - 📊 查看状态');
+    console.log('  grab.debug()  - 🔍 调试所有课程');
+    console.log('  grab.debug("CS101")  - 🔍 调试指定课程');
+    console.log('  grab.addCourse("CS101", 1)  - ➕ 添加课程到监控列表');
+    console.log('  grab.removeCourse("CS101")  - ➖ 移除课程');
     console.log('%c⚠️ 提醒: 确保您在正确的选课页面且已登录！', 'color: #ffa500; font-weight: bold;');
     console.log('%c🛡️ 智能保护:', 'color: #ff69b4; font-weight: bold;');
     console.log('  • 多课程并发抢课（可配置）');
