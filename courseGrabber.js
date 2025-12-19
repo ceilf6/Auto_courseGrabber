@@ -25,10 +25,10 @@
         // { code: 'CS104', priority: 4, timeFilter: ['第1-2节'], teacherFilter: ['王五'] }  // 同时过滤时间和教师
     ];
 
-    const CHECK_INTERVAL = 500;            // 检查间隔(毫秒)
-    const MAX_ATTEMPTS = 1000000;              // 最大尝试次数
-    const MAX_FAILED_ATTEMPTS = 1000;          // 最大连续失败次数
-    const RETRY_DELAY = 500;               // 重试延迟(毫秒)
+    const CHECK_INTERVAL = 2000;            // 检查间隔(毫秒)
+    const MAX_ATTEMPTS = 1000;              // 最大尝试次数
+    const MAX_FAILED_ATTEMPTS = 10;          // 最大连续失败次数
+    const RETRY_DELAY = 3000;               // 重试延迟(毫秒)
     const CONCURRENT_ENABLED = true;        // 是否启用并发抢课
 
     // ========== 过滤器配置 ==========
@@ -41,63 +41,6 @@
     const GLOBAL_TEACHER_FILTER = [];
 
     // ========== 全局状态管理 ==========
-    // ========== DOM 展开状态恢复（最小侵入补丁） ==========
-    let __openedCourseCodes = new Set();
-    let __domObserver = null;
-    let __restoreTimer = null;
-
-    // 记录当前已展开课程（通过教学班行反推）
-    function __captureOpenedCourses() {
-        try {
-            document.querySelectorAll('tr.body_tr').forEach(tr => {
-                const kch = tr.querySelector('td.kch_id')?.textContent?.trim();
-                if (kch) __openedCourseCodes.add(kch);
-            });
-        } catch (e) { }
-    }
-
-    // 恢复展开（调用系统函数）
-    function __restoreOpenedCourses() {
-        if (typeof window.showCourseInfo !== 'function') return;
-
-        const targets = new Set([
-            ...__openedCourseCodes,
-            ...activeCourses   // 当前正在抢的课程
-        ]);
-
-        targets.forEach(code => {
-            try {
-                window.showCourseInfo(String(code));
-            } catch (e) { }
-        });
-    }
-
-    // 启动 DOM 监听（防抖）
-    function __startDomObserver() {
-        if (__domObserver) return;
-
-        __domObserver = new MutationObserver(() => {
-            __captureOpenedCourses();
-            clearTimeout(__restoreTimer);
-            __restoreTimer = setTimeout(__restoreOpenedCourses, 300);
-        });
-
-        __domObserver.observe(document.body, {
-            childList: true,
-            subtree: true
-        });
-    }
-
-    // 停止 DOM 监听
-    function __stopDomObserver() {
-        if (__domObserver) {
-            __domObserver.disconnect();
-            __domObserver = null;
-        }
-        clearTimeout(__restoreTimer);
-        __restoreTimer = null;
-    }
-
     let attemptCount = 0;
     let isRunning = false;
     let intervalId = null;
@@ -117,6 +60,43 @@
     let isScheduled = false;                // 是否已设置定时
 
     // ========== 工具函数 ==========
+
+    function expandCourseByCode(courseCode) {
+        // 找所有课程头
+        const heads = document.querySelectorAll('.panel-heading.kc_head');
+
+        for (let head of heads) {
+            const codeInput = head.querySelector('input[name="kch_id"]');
+            if (!codeInput) continue;
+
+            if (codeInput.value === String(courseCode)) {
+                // 直接触发 click（等价于用户点击）
+                head.click();
+                return true;
+            }
+        }
+        return false;
+    }
+
+    function forceExpandTargetCourses() {
+        const targets = new Set([
+            ...activeCourses,
+            ...TARGET_COURSES.map(c => typeof c === 'string' ? c : c.code)
+        ]);
+
+        targets.forEach(code => {
+            expandCourseByCode(code);
+        });
+    }
+
+    function forceExpandTargetCoursesAggressive() {
+        let count = 0;
+        const timer = setInterval(() => {
+            forceExpandTargetCourses();
+            if (++count >= 3) clearInterval(timer);
+        }, 300);
+    }
+
     // 彩色日志函数
     function log(message, type = 'info', courseCode = null) {
         const timestamp = new Date().toLocaleTimeString();
@@ -321,40 +301,6 @@
         }
 
         return allClasses;
-    }
-
-    // 打印符合过滤条件的教学班（班级号、时间、老师）
-    function printMatchingClasses(courseCode = null) {
-        const courses = courseCode ? [courseCode] : Array.from(activeCourses);
-
-        if (!courses || courses.length === 0) {
-            log('没有活跃的课程可供检查', 'warning');
-            return;
-        }
-
-        for (let code of courses) {
-            const teachingClasses = findAllTeachingClasses(code);
-            if (!teachingClasses || teachingClasses.length === 0) {
-                log(`课程 ${code} 未找到任何教学班`, 'warning', code);
-                continue;
-            }
-
-            let found = 0;
-            for (let tc of teachingClasses) {
-                if (!tc || !tc.info) continue;
-                const filterResult = matchesFilters(tc, code);
-                if (filterResult.match) {
-                    found++;
-                    log(`班级: ${tc.info.className} | 时间: ${tc.info.timeInfo} | 老师: ${tc.info.teacher}`, 'info', code);
-                }
-            }
-
-            if (found === 0) {
-                log(`课程 ${code} 未发现符合过滤条件的教学班`, 'info', code);
-            } else {
-                log(`已列出 ${found} 个符合条件的教学班`, 'success', code);
-            }
-        }
     }
 
     // 提取教学班信息
@@ -604,10 +550,10 @@
 
                 // 查找该课程的所有教学班
                 const teachingClasses = findAllTeachingClasses(courseCode);
+
                 if (teachingClasses.length === 0) {
-                    log(`未找到教学班，尝试恢复课程展开状态...`, 'warning', courseCode);
-                    __captureOpenedCourses();
-                    __restoreOpenedCourses();
+                    log(`未找到课程 ${courseCode} 的教学班`, 'warning', courseCode);
+                    resolve(false);
                     return;
                 }
 
@@ -948,20 +894,18 @@
     // 刷新课程列表
     function refreshCourseList() {
         try {
-            // 尝试触发页面刷新或重新搜索
-            const searchBtn = document.querySelector('button[onclick*="search"], input[value*="搜索"], input[value*="查询"]');
+            const searchBtn = document.querySelector(
+                'button[onclick*="search"], input[value*="搜索"], input[value*="查询"]'
+            );
             if (searchBtn) {
                 searchBtn.click();
                 log('已触发课程列表刷新');
-            } else {
-                // 如果没有搜索按钮，尝试刷新页面数据
-                if (typeof jQuery !== 'undefined' && jQuery('#searchBox').length) {
-                    jQuery('#searchBox').trigger('searchResult');
-                    log('已触发jQuery搜索刷新');
-                }
+
+                // 🔥 刷新后强制恢复展开
+                setTimeout(forceExpandTargetCoursesAggressive, 600);
             }
-        } catch (error) {
-            log(`刷新课程列表失败: ${error.message}`, 'warning');
+        } catch (e) {
+            log(`刷新课程列表失败: ${e.message}`, 'warning');
         }
     }
 
@@ -989,7 +933,8 @@
         // 查找所有教学班
         const teachingClasses = findAllTeachingClasses(courseCode);
         if (teachingClasses.length === 0) {
-            log(`未找到课程的任何教学班`, 'warning', courseCode);
+            log('未找到教学班，尝试重新展开课程', 'warning', courseCode);
+            forceExpandTargetCoursesAggressive();
             return;
         }
 
@@ -1164,9 +1109,6 @@
     // 开始抢课
     function startGrabbing(customCourses = null) {
         if (isRunning) {
-            __captureOpenedCourses();    // 记录起始展开状态
-            __startDomObserver();        // 监听 DOM 重建
-            __restoreOpenedCourses();    // 主动展开目标课程（非常关键）
             log('抢课脚本已在运行中！', 'warning');
             return;
         }
@@ -1250,7 +1192,6 @@
         isRunning = false;
         if (intervalId) {
             clearInterval(intervalId);
-            __stopDomObserver();
             intervalId = null;
         }
 
@@ -1351,10 +1292,6 @@
         // 移除课程
         // 示例: grab.removeCourse('CS103')
         removeCourse: removeCourse,
-
-        // 打印符合过滤条件的教学班（班级号、时间、老师）
-        // 示例: grab.printMatches() 或 grab.printMatches('CS101')
-        printMatches: printMatchingClasses,
 
         // 调试信息
         debug: (courseCode = null) => {
@@ -2463,126 +2400,6 @@
     } else {
         createUI();
     }
-
-    // ========== 展开恢复观察器 ==========
-    // 记录已展开课程并在 DOM 被重建/刷新后恢复调用 showCourseInfo(courseId)
-    (function initExpandRestorer() {
-        try {
-            const STORAGE_KEY = 'courseGrabber_expanded_courses';
-            const expanded = new Set(JSON.parse(sessionStorage.getItem(STORAGE_KEY) || '[]'));
-            let originalShow = window.showCourseInfo;
-            let isRestoring = false;
-            let restoreTimer = null;
-
-            function save() {
-                try { sessionStorage.setItem(STORAGE_KEY, JSON.stringify(Array.from(expanded))); } catch (e) { }
-            }
-
-            // 包装 showCourseInfo 以记录被展开的课程ID（仅在原函数存在时）
-            if (typeof originalShow === 'function') {
-                window._originalShowCourseInfo = originalShow;
-                window.showCourseInfo = function (courseId) {
-                    try {
-                        if (courseId) {
-                            expanded.add(String(courseId));
-                            save();
-                        }
-                    } catch (e) { }
-                    return window._originalShowCourseInfo.apply(this, arguments);
-                };
-            } else {
-                // 如果页面尚未定义 showCourseInfo，监听后再包装
-                const wrapperListener = setInterval(() => {
-                    if (typeof window.showCourseInfo === 'function') {
-                        clearInterval(wrapperListener);
-                        originalShow = window.showCourseInfo;
-                        window._originalShowCourseInfo = originalShow;
-                        window.showCourseInfo = function (courseId) {
-                            try { if (courseId) { expanded.add(String(courseId)); save(); } } catch (e) { }
-                            return window._originalShowCourseInfo.apply(this, arguments);
-                        };
-                    }
-                }, 300);
-            }
-
-            // 手动移除已展开记录（当用户点击折叠时，可调用此方法）
-            function removeExpanded(courseId) {
-                if (!courseId) return;
-                expanded.delete(String(courseId));
-                save();
-            }
-
-            // 恢复函数：在 DOM 重建后依次调用 showCourseInfo
-            function restoreExpanded() {
-                if (!window._originalShowCourseInfo) return;
-                // 防止在恢复过程中再次触发恢复
-                isRestoring = true;
-                const ids = Array.from(expanded);
-                // 逐个调用并加短延时，避免阻塞或冲突
-                ids.forEach((id, idx) => {
-                    setTimeout(() => {
-                        try {
-                            window._originalShowCourseInfo(id);
-                        } catch (e) { }
-                        if (idx === ids.length - 1) {
-                            // 恢复完成后短延时再解除标志
-                            setTimeout(() => { isRestoring = false; }, 200);
-                        }
-                    }, idx * 200);
-                });
-            }
-
-            // 观察器：当页面的课程列表节点发生增删时触发恢复（节流）
-            const observer = new MutationObserver((mutations) => {
-                if (isRestoring) return;
-                let relevant = false;
-                for (const m of mutations) {
-                    if (m.type === 'childList') {
-                        // 检测被移除或新增的节点是否可能是课程列表的重建
-                        const nodes = Array.from(m.removedNodes).concat(Array.from(m.addedNodes));
-                        for (const node of nodes) {
-                            if (!node) continue;
-                            try {
-                                // 常见页面结构中每门课程有 id 或 class，如 kcmc_ 或 panel panel-info
-                                if (node.nodeType === 1) {
-                                    const idAttr = node.id || '';
-                                    if (idAttr.startsWith('kcmc_') || node.classList.contains('panel') || node.className.indexOf('tjxk_list') !== -1) {
-                                        relevant = true; break;
-                                    }
-                                    // 也检查子元素中是否包含课程链接
-                                    if (node.querySelector && (node.querySelector('[id^="kcmc_"]') || node.querySelector('a[onclick*="showCourseInfo("]'))) {
-                                        relevant = true; break;
-                                    }
-                                }
-                            } catch (e) { }
-                        }
-                    }
-                    if (relevant) break;
-                }
-                if (relevant) {
-                    clearTimeout(restoreTimer);
-                    restoreTimer = setTimeout(() => {
-                        try { restoreExpanded(); } catch (e) { }
-                    }, 300);
-                }
-            });
-
-            // 开始观察整个 body（子树变化）
-            observer.observe(document.body, { childList: true, subtree: true });
-
-            // 将控制接口暴露到 window.grab
-            try {
-                if (!window.grab) window.grab = {};
-                window.grab._expandedCourses = expanded;
-                window.grab.restoreExpanded = restoreExpanded;
-                window.grab.removeExpanded = removeExpanded;
-            } catch (e) { }
-
-            log('✅ 展开恢复观察器已启动（自动记录并在 DOM 重建后恢复）', 'info');
-        } catch (e) {
-            console.error('展开恢复观察器初始化失败', e);
-        }
-    })();
 
     // 提供手动显示UI的方法
     window.showGrabberUI = () => {
