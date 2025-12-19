@@ -1982,6 +1982,7 @@
                 const stepTrim = stepSplit.map(s => {
                     try { return s.trim(); } catch (e) { return String(s); }
                 });
+                // const safeFilter = document.createElement('iframe').contentWindow.Array.prototype.filter;
                 // 手动过滤，避免页面或库篡改 Array.prototype.filter
                 const stepFilter = [];
                 for (let i = 0; i < stepTrim.length; i++) {
