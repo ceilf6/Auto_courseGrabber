@@ -560,21 +560,78 @@
                 log(`找到退选按钮，正在点击...`, 'info', courseCode);
                 dropButton.click();
 
-                // 等待并确认退选
+                // 等待模态框出现并确认退选
                 setTimeout(() => {
-                    // 查找确认按钮
-                    const confirmButtons = document.querySelectorAll('button, input[type="button"], a');
-                    for (let btn of confirmButtons) {
-                        const text = btn.textContent.trim();
-                        if (text.includes('确定') || text.includes('确认') || text.includes('OK')) {
-                            btn.click();
-                            log(`✅ 已确认退选课程 ${courseCode}`, 'success', courseCode);
-                            setTimeout(() => resolve(true), 1000);
-                            return;
+                    log(`等待退选确认模态框...`, 'info', courseCode);
+
+                    // 多种方式查找模态框中的确定按钮
+                    let confirmButton = null;
+
+                    // 方法1: 查找模态框内的确定按钮（优先）
+                    const modals = document.querySelectorAll('.modal, .bootbox, [role="dialog"]');
+                    for (let modal of modals) {
+                        // 检查模态框是否包含退选相关文本
+                        const modalText = modal.textContent || '';
+                        if (modalText.includes('退选') || modalText.includes('你是否')) {
+                            // 在这个模态框内查找确定按钮
+                            const buttons = modal.querySelectorAll('button, input[type="button"], a');
+                            for (let btn of buttons) {
+                                const btnText = btn.textContent.trim();
+                                const btnId = btn.id || '';
+                                const btnHandler = btn.getAttribute('data-bb-handler') || '';
+
+                                // 匹配确定按钮的多种特征
+                                if (btnText.includes('确定') || btnText.includes('确认') ||
+                                    btnText.includes('OK') || btnId === 'btn_ok' ||
+                                    btnHandler === 'ok' || btnHandler === 'confirm') {
+                                    confirmButton = btn;
+                                    log(`✅ 找到模态框确定按钮 (${btnText || btnId})`, 'info', courseCode);
+                                    break;
+                                }
+                            }
+                            if (confirmButton) break;
                         }
                     }
-                    resolve(false);
-                }, 500);
+
+                    // 方法2: 直接查找带有特定ID的确定按钮
+                    if (!confirmButton) {
+                        confirmButton = document.querySelector('#btn_ok, button[data-bb-handler="ok"], button[data-bb-handler="confirm"]');
+                        if (confirmButton) {
+                            log(`✅ 通过ID找到确定按钮`, 'info', courseCode);
+                        }
+                    }
+
+                    // 方法3: 查找所有可见的确定按钮（最后备选）
+                    if (!confirmButton) {
+                        const allButtons = document.querySelectorAll('button, input[type="button"], a.btn');
+                        for (let btn of allButtons) {
+                            const text = btn.textContent.trim();
+                            // 检查按钮是否可见
+                            const style = window.getComputedStyle(btn);
+                            const isVisible = style.display !== 'none' && style.visibility !== 'hidden' && btn.offsetParent !== null;
+
+                            if (isVisible && (text === '确定' || text === '确  定' || text.includes('确定'))) {
+                                confirmButton = btn;
+                                log(`✅ 找到可见的确定按钮`, 'info', courseCode);
+                                break;
+                            }
+                        }
+                    }
+
+                    if (confirmButton) {
+                        log(`正在点击确定按钮...`, 'info', courseCode);
+                        confirmButton.click();
+
+                        // 等待退选操作完成
+                        setTimeout(() => {
+                            log(`✅ 已确认退选课程 ${courseCode}`, 'success', courseCode);
+                            resolve(true);
+                        }, 1500);
+                    } else {
+                        log(`❌ 未找到退选确认按钮`, 'error', courseCode);
+                        resolve(false);
+                    }
+                }, 800); // 增加等待时间，确保模态框完全加载
 
             } catch (error) {
                 log(`退选课程失败: ${error.message}`, 'error', courseCode);
@@ -901,18 +958,22 @@
 
                 // 如果配置了替换课程，先执行退选
                 if (courseConfig && courseConfig.replaceCode) {
-                    log(`🔄 检测到需要替换课程 ${courseConfig.replaceCode}，先退选...`, 'info', courseCode);
+                    log(`🔄 检测到需要替换课程 ${courseConfig.replaceCode}，立即执行退选...`, 'warning', courseCode);
+                    addUILog && addUILog('warning', `[${courseCode}] 🔄 发现空位！开始退选 ${courseConfig.replaceCode}`);
 
                     // 异步执行退选，然后选课
                     dropCourse(courseConfig.replaceCode).then(dropSuccess => {
                         if (dropSuccess) {
-                            log(`✅ 退选成功，开始选择新课程`, 'success', courseCode);
-                            // 等待一小段时间后选课
+                            log(`✅ 退选成功，立即选择新课程 ${courseCode}`, 'success', courseCode);
+                            addUILog && addUILog('success', `[${courseCode}] ✅ 退选成功，开始抢课...`);
+
+                            // 等待页面更新后立即选课
                             setTimeout(() => {
                                 selectTeachingClass(tc);
-                            }, 1000);
+                            }, 1500);
                         } else {
-                            log(`⚠️ 退选失败，跳过本次选课尝试`, 'warning', courseCode);
+                            log(`❌ 退选失败，放弃本次选课`, 'error', courseCode);
+                            addUILog && addUILog('error', `[${courseCode}] ❌ 退选失败，等待下次机会`);
                             state.selecting = false;
                         }
                     });
