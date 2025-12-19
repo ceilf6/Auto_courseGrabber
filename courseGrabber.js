@@ -37,7 +37,7 @@
     const GLOBAL_TIME_FILTER = [];
 
     // 全局教师过滤器（可选）- 留空表示不过滤，支持多个关键词，满足任意一个即可
-    // 示例: ['叶利群', '张三', '讲师']
+    // 示例: ['张三', '张三', '讲师']
     const GLOBAL_TEACHER_FILTER = [];
 
     // ========== 全局状态管理 ==========
@@ -1748,15 +1748,15 @@
                     <input type="text" class="cg-input" id="cg-course-code" placeholder="课程号 (例: 23286514)">
                     <input type="number" class="cg-input" id="cg-course-priority" placeholder="优先级 (数字越小优先级越高)" value="1" min="1">
                     
-                    <div class="cg-section-title" style="font-size: 13px; margin-top: 12px; margin-bottom: 8px;">� 替换课程 (可选)</div>
-                    <input type="text" class="cg-input cg-filter-input" id="cg-replace-code" placeholder="要替换的课程号 (例: 23306047)">
-                    <div class="cg-help-text">选中新课程前，先退选此课程（用于换课）</div>
-                    
-                    <div class="cg-section-title" style="font-size: 13px; margin-top: 12px; margin-bottom: 8px;">�🔍 该课程的过滤器 (可选)</div>
+                    <div class="cg-section-title" style="font-size: 13px; margin-top: 12px; margin-bottom: 8px;"> 目标课程的过滤器 (可选)</div>
                     <input type="text" class="cg-input cg-filter-input" id="cg-time-filter" placeholder="时间过滤 (例: 星期一,第1-2节)">
                     <div class="cg-help-text">多个关键词用逗号分隔，满足任意一个即可</div>
-                    <input type="text" class="cg-input cg-filter-input" id="cg-teacher-filter" placeholder="教师过滤 (例: 叶利群,讲师)">
+                    <input type="text" class="cg-input cg-filter-input" id="cg-teacher-filter" placeholder="教师过滤 (例: 张三,讲师)">
                     <div class="cg-help-text">支持教师姓名或职称，满足任意一个即可</div>
+
+                    <div class="cg-section-title" style="font-size: 13px; margin-top: 12px; margin-bottom: 8px;"> 替换课程 (可选)</div>
+                    <input type="text" class="cg-input cg-filter-input" id="cg-replace-code" placeholder="要替换的课程号 (例: 23306047)">
+                    <div class="cg-help-text">选中新课程前，先退选此课程（用于换课）</div>
                     
                     <button class="cg-btn cg-btn-secondary cg-btn-small" id="cg-add-course" style="width: 100%; margin-top: 12px;">➕ 添加课程</button>
                 </div>
@@ -2041,7 +2041,7 @@
         if (timeFilter === null) return; // 用户取消
 
         const teacherFilter = prompt(
-            `编辑课程 ${course.code} 的教师过滤器\n\n多个关键词用逗号分隔，留空表示不过滤\n例如: 叶利群,讲师`,
+            `编辑课程 ${course.code} 的教师过滤器\n\n多个关键词用逗号分隔，留空表示不过滤\n例如: 张三,讲师`,
             course.teacherFilter ? course.teacherFilter.join(',') : ''
         );
 
