@@ -25,10 +25,10 @@
         // { code: 'CS104', priority: 4, timeFilter: ['第1-2节'], teacherFilter: ['王五'] }  // 同时过滤时间和教师
     ];
 
-    const CHECK_INTERVAL = 2000;            // 检查间隔(毫秒)
-    const MAX_ATTEMPTS = 1000;              // 最大尝试次数
-    const MAX_FAILED_ATTEMPTS = 10;          // 最大连续失败次数
-    const RETRY_DELAY = 3000;               // 重试延迟(毫秒)
+    const CHECK_INTERVAL = 500;            // 检查间隔(毫秒)
+    const MAX_ATTEMPTS = 1000000;              // 最大尝试次数
+    const MAX_FAILED_ATTEMPTS = 1000;          // 最大连续失败次数
+    const RETRY_DELAY = 500;               // 重试延迟(毫秒)
     const CONCURRENT_ENABLED = true;        // 是否启用并发抢课
 
     // ========== 过滤器配置 ==========
@@ -265,6 +265,182 @@
 
         return allClasses;
     }
+
+    // 打印符合过滤条件的教学班（班级号、时间、老师）
+    function printMatchingClasses(courseCode = null) {
+        const courses = courseCode ? [courseCode] : Array.from(activeCourses);
+
+        if (!courses || courses.length === 0) {
+            log('没有活跃的课程可供检查', 'warning');
+            return;
+        }
+
+        for (let code of courses) {
+            const teachingClasses = findAllTeachingClasses(code);
+            if (!teachingClasses || teachingClasses.length === 0) {
+                log(`课程 ${code} 未找到任何教学班`, 'warning', code);
+                continue;
+            }
+
+            let found = 0;
+            for (let tc of teachingClasses) {
+                if (!tc || !tc.info) continue;
+                const filterResult = matchesFilters(tc, code);
+                if (filterResult.match) {
+                    found++;
+                    log(`班级: ${tc.info.className} | 时间: ${tc.info.timeInfo} | 老师: ${tc.info.teacher}`, 'info', code);
+                }
+            }
+
+            if (found === 0) {
+                log(`课程 ${code} 未发现符合过滤条件的教学班`, 'info', code);
+            } else {
+                log(`已列出 ${found} 个符合条件的教学班`, 'success', code);
+            }
+        }
+    }
+
+    // ========== 记录并恢复已展开的课程卡片 ==========
+    // 将已展开的课程号集合保存在 localStorage 中，页面刷新或 DOM 更新后自动恢复展开
+    const EXPANDED_KEY = 'courseGrabber_expanded_courses_v1';
+
+    function getSavedExpandedCourses() {
+        try {
+            const raw = localStorage.getItem(EXPANDED_KEY);
+            return raw ? JSON.parse(raw) : [];
+        } catch (e) {
+            return [];
+        }
+    }
+
+    function saveExpandedCourses(arr) {
+        try {
+            localStorage.setItem(EXPANDED_KEY, JSON.stringify(Array.from(new Set(arr))));
+        } catch (e) {
+            // ignore
+        }
+    }
+
+    // 添加或移除已展开课程号
+    function markCourseExpanded(courseCode) {
+        const list = getSavedExpandedCourses();
+        if (!list.includes(courseCode)) {
+            list.push(courseCode);
+            saveExpandedCourses(list);
+        }
+    }
+
+    function unmarkCourseExpanded(courseCode) {
+        let list = getSavedExpandedCourses();
+        list = list.filter(c => c !== courseCode);
+        saveExpandedCourses(list);
+    }
+
+    // 监听页面上“展开”链接的点击，记录被展开的课程号
+    function attachExpandListeners() {
+        // 使用事件委托，匹配 onclick="showCourseInfo('23286514')" 或 class 名称
+        document.addEventListener('click', function (e) {
+            try {
+                const target = e.target.closest('a');
+                if (!target) return;
+
+                // 匹配内联 onclick 中调用 showCourseInfo('...') 的情况
+                const onclick = target.getAttribute && target.getAttribute('onclick');
+                if (onclick && onclick.includes('showCourseInfo')) {
+                    const m = onclick.match(/showCourseInfo\(['"]?(\d+)['"]?\)/);
+                    if (m && m[1]) {
+                        // 记录展开
+                        markCourseExpanded(m[1]);
+                    }
+                }
+                // 也支持带有 class="clj showJc" 的链接并包含课程号的情况
+                if (target.classList && (target.classList.contains('showJc') || target.classList.contains('clj'))) {
+                    // 尝试从最近的行或父元素中获取课程号元素 .kch_id 或 id like kcmc_xxx
+                    const row = target.closest('tr') || target.closest('div');
+                    if (row) {
+                        const kch = row.querySelector('.kch_id') || document.querySelector('#kcmc_' + (target.dataset && target.dataset.kcmc));
+                        if (kch && kch.textContent.trim()) {
+                            markCourseExpanded(kch.textContent.trim());
+                        }
+                    }
+                }
+            } catch (err) {
+                // ignore
+            }
+        }, true);
+    }
+
+    // 调用 showCourseInfo 恢复展开（带重试和节流）
+    function restoreExpandedCourses() {
+        const list = getSavedExpandedCourses();
+        if (!list || list.length === 0) return;
+
+        // 去重
+        const toOpen = Array.from(new Set(list));
+        // 逐个尝试打开
+        toOpen.forEach((courseCode, idx) => {
+            // 延迟调用，避免页面刚加载时找不到函数或元素
+            setTimeout(() => {
+                try {
+                    if (typeof showCourseInfo === 'function') {
+                        showCourseInfo(courseCode);
+                        log(`自动恢复展开课程 ${courseCode}`, 'info');
+                    } else {
+                        // 如果函数尚未加载，尝试在全局查找并调用
+                        const tryCall = window.showCourseInfo || window.top && window.top.showCourseInfo;
+                        if (tryCall) {
+                            tryCall(courseCode);
+                            log(`自动恢复展开课程 ${courseCode}`, 'info');
+                        } else {
+                            // 如果仍然不可用，再排队重试
+                            setTimeout(() => {
+                                if (typeof showCourseInfo === 'function') showCourseInfo(courseCode);
+                            }, 2000);
+                        }
+                    }
+                } catch (e) {
+                    // ignore
+                }
+            }, 800 + idx * 400);
+        });
+    }
+
+    // 当课程被收起（例如点击收起按钮或页面刷新后被移除）时，尝试清理记录
+    function attachCollapseObserver() {
+        const observer = new MutationObserver((muts) => {
+            muts.forEach(m => {
+                if (m.removedNodes && m.removedNodes.length) {
+                    // 尝试检测被移除的行是否包含课程号并移除记录
+                    m.removedNodes.forEach(node => {
+                        try {
+                            if (node.querySelector) {
+                                const kch = node.querySelector('.kch_id');
+                                if (kch && kch.textContent) {
+                                    // 当行被完全移除时，保持记录（因为可能是刷新），不自动删除
+                                }
+                            }
+                        } catch (e) { }
+                    });
+                }
+            });
+        });
+        observer.observe(document.body, { childList: true, subtree: true });
+    }
+
+    // 初始化展开恢复机制
+    function initExpandRestore() {
+        try {
+            attachExpandListeners();
+            attachCollapseObserver();
+            // 尝试在脚本加载后恢复一次
+            setTimeout(restoreExpandedCourses, 1200);
+            // 在后续 DOM 更新后再次尝试恢复（例如异步加载）
+            setTimeout(restoreExpandedCourses, 4000);
+        } catch (e) { }
+    }
+
+    // 立即初始化
+    initExpandRestore();
 
     // 提取教学班信息
     function extractTeachingClassInfo(row) {
@@ -1256,6 +1432,10 @@
         // 移除课程
         // 示例: grab.removeCourse('CS103')
         removeCourse: removeCourse,
+
+        // 打印符合过滤条件的教学班（班级号、时间、老师）
+        // 示例: grab.printMatches() 或 grab.printMatches('CS101')
+        printMatches: printMatchingClasses,
 
         // 调试信息
         debug: (courseCode = null) => {
