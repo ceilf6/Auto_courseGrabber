@@ -54,6 +54,11 @@
     let selectingQueue = [];                // 正在处理的选课任务队列
     let isProcessingQueue = false;          // 是否正在处理队列
 
+    // 定时开抢相关
+    let scheduledTime = null;               // 计划开抢时间
+    let schedulerIntervalId = null;         // 定时器ID
+    let isScheduled = false;                // 是否已设置定时
+
     // ========== 工具函数 ==========
     // 彩色日志函数
     function log(message, type = 'info', courseCode = null) {
@@ -1170,6 +1175,21 @@
             return debugInfo;
         },
 
+        // 定时开抢
+        schedule: (timeString) => {
+            const targetTime = new Date(timeString);
+            if (isNaN(targetTime.getTime())) {
+                log('❌ 时间格式错误！请使用如: "2025-12-19 14:00:00"', 'error');
+                return false;
+            }
+            setScheduledStart(targetTime);
+            return true;
+        },
+
+        cancelSchedule: () => {
+            cancelScheduledStart();
+        },
+
         // 配置管理
         config: {
             getCourses: () => TARGET_COURSES,
@@ -1531,6 +1551,33 @@
                 opacity: 0.7;
                 margin-top: 4px;
             }
+            .cg-timer-display {
+                background: rgba(255,255,255,0.15);
+                padding: 16px;
+                border-radius: 8px;
+                text-align: center;
+                font-size: 24px;
+                font-weight: bold;
+                letter-spacing: 2px;
+                margin-top: 12px;
+                font-family: 'Monaco', 'Menlo', monospace;
+            }
+            .cg-timer-active {
+                background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+                animation: timerPulse 2s infinite;
+            }
+            @keyframes timerPulse {
+                0%, 100% { transform: scale(1); }
+                50% { transform: scale(1.02); }
+            }
+            .cg-time-input-group {
+                display: flex;
+                gap: 8px;
+                align-items: center;
+            }
+            .cg-time-input-group input {
+                flex: 1;
+            }
             .cg-course-filters {
                 background: rgba(0,0,0,0.2);
                 padding: 8px;
@@ -1612,6 +1659,17 @@
                 <div class="cg-section">
                     <div class="cg-section-title">📋 课程列表</div>
                     <div class="cg-course-list" id="cg-course-list"></div>
+                </div>
+
+                <!-- 定时开抢 -->
+                <div class="cg-section">
+                    <div class="cg-section-title">⏰ 定时开抢</div>
+                    <div class="cg-time-input-group">
+                        <input type="datetime-local" class="cg-input" id="cg-schedule-time" placeholder="选择开抢时间">
+                        <button class="cg-btn cg-btn-secondary cg-btn-small" id="cg-schedule-btn">⏰ 设置</button>
+                    </div>
+                    <div class="cg-help-text">设置自动开抢时间，到时自动开始抢课</div>
+                    <div id="cg-timer-display" style="display: none;"></div>
                 </div>
 
                 <!-- 控制按钮 -->
@@ -1773,6 +1831,32 @@
             window.grab.debug();
         };
 
+        // 定时开抢
+        document.getElementById('cg-schedule-btn').onclick = () => {
+            const timeInput = document.getElementById('cg-schedule-time');
+            const timeValue = timeInput.value;
+
+            if (!timeValue) {
+                alert('请先选择开抢时间！');
+                return;
+            }
+
+            const scheduleTime = new Date(timeValue);
+            const now = new Date();
+
+            if (scheduleTime <= now) {
+                alert('开抢时间必须大于当前时间！');
+                return;
+            }
+
+            if (TARGET_COURSES.length === 0) {
+                alert('请先添加至少一门课程！');
+                return;
+            }
+
+            setScheduledStart(scheduleTime);
+        };
+
         // 定期更新状态
         setInterval(updateStatusDisplay, 1000);
     }
@@ -1907,6 +1991,130 @@
             const prefix = courseCode ? `[${courseCode}] ` : '';
             addUILog(type, prefix + message);
         };
+    }
+
+    // 设置定时开抢
+    function setScheduledStart(targetTime) {
+        // 取消之前的定时器
+        if (schedulerIntervalId) {
+            clearInterval(schedulerIntervalId);
+        }
+
+        scheduledTime = targetTime;
+        isScheduled = true;
+
+        // 显示倒计时
+        const timerDisplay = document.getElementById('cg-timer-display');
+        timerDisplay.style.display = 'block';
+        timerDisplay.className = 'cg-timer-display cg-timer-active';
+
+        // 禁用立即开始按钮
+        document.getElementById('cg-start-btn').disabled = true;
+        document.getElementById('cg-schedule-btn').textContent = '❌ 取消';
+        document.getElementById('cg-schedule-btn').onclick = cancelScheduledStart;
+
+        addUILog('info', `已设置定时开抢: ${targetTime.toLocaleString()}`);
+        log(`⏰ 定时开抢已设置，将在 ${targetTime.toLocaleString()} 自动开始`, 'success');
+
+        // 启动倒计时
+        schedulerIntervalId = setInterval(() => {
+            const now = new Date();
+            const diff = scheduledTime - now;
+
+            if (diff <= 0) {
+                // 时间到，开始抢课
+                clearInterval(schedulerIntervalId);
+                isScheduled = false;
+                timerDisplay.style.display = 'none';
+
+                addUILog('success', '⏰ 定时时间已到，开始抢课！');
+                log('⏰ 定时时间已到，自动开始抢课！', 'success');
+
+                // 重置按钮
+                document.getElementById('cg-schedule-btn').textContent = '⏰ 设置';
+                document.getElementById('cg-schedule-btn').onclick = document.getElementById('cg-schedule-btn').onclick;
+
+                // 开始抢课
+                window.grab.start();
+                document.getElementById('cg-start-btn').disabled = true;
+                document.getElementById('cg-stop-btn').disabled = false;
+            } else {
+                // 更新倒计时显示
+                updateCountdown(diff);
+            }
+        }, 100);
+    }
+
+    // 取消定时开抢
+    function cancelScheduledStart() {
+        if (schedulerIntervalId) {
+            clearInterval(schedulerIntervalId);
+        }
+
+        scheduledTime = null;
+        isScheduled = false;
+
+        const timerDisplay = document.getElementById('cg-timer-display');
+        timerDisplay.style.display = 'none';
+
+        document.getElementById('cg-start-btn').disabled = false;
+        document.getElementById('cg-schedule-btn').textContent = '⏰ 设置';
+
+        // 重新绑定设置事件
+        const scheduleBtn = document.getElementById('cg-schedule-btn');
+        scheduleBtn.onclick = () => {
+            const timeInput = document.getElementById('cg-schedule-time');
+            const timeValue = timeInput.value;
+
+            if (!timeValue) {
+                alert('请先选择开抢时间！');
+                return;
+            }
+
+            const scheduleTime = new Date(timeValue);
+            const now = new Date();
+
+            if (scheduleTime <= now) {
+                alert('开抢时间必须大于当前时间！');
+                return;
+            }
+
+            if (TARGET_COURSES.length === 0) {
+                alert('请先添加至少一门课程！');
+                return;
+            }
+
+            setScheduledStart(scheduleTime);
+        };
+
+        addUILog('warning', '已取消定时开抢');
+        log('⏰ 定时开抢已取消', 'warning');
+    }
+
+    // 更新倒计时显示
+    function updateCountdown(milliseconds) {
+        const timerDisplay = document.getElementById('cg-timer-display');
+        if (!timerDisplay) return;
+
+        const totalSeconds = Math.floor(milliseconds / 1000);
+        const hours = Math.floor(totalSeconds / 3600);
+        const minutes = Math.floor((totalSeconds % 3600) / 60);
+        const seconds = totalSeconds % 60;
+        const ms = Math.floor((milliseconds % 1000) / 10);
+
+        let timeString = '';
+        if (hours > 0) {
+            timeString = `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+        } else {
+            timeString = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}.${String(ms).padStart(2, '0')}`;
+        }
+
+        timerDisplay.textContent = `⏰ ${timeString}`;
+
+        // 最后10秒加速闪烁
+        if (totalSeconds <= 10 && totalSeconds > 0) {
+            timerDisplay.style.animation = 'timerPulse 0.5s infinite';
+        }
     }
 
     // 自动创建UI
