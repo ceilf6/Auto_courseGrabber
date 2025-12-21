@@ -1928,14 +1928,10 @@
                             <span>状态:</span>
                             <span id="cg-status-text">未运行</span>
                         </div>
-                        <div class="cg-status">
-                            <span>尝试次数:</span>
-                            <span id="cg-attempt-count">0</span>
-                        </div>
-                        <div class="cg-status">
-                            <span>成功课程:</span>
-                            <span id="cg-success-count">0</span>
-                        </div>
+                        // <div class="cg-status">
+                        //     <span>成功课程:</span>
+                        //     <span id="cg-success-count">0</span>
+                        // </div>
                     </div>
                 </div>
 
@@ -1969,7 +1965,7 @@
                     <div class="cg-section-title">⏰ 定时开抢</div>
                     <div class="cg-time-input-group">
                         <input type="datetime-local" class="cg-input" id="cg-schedule-time" placeholder="选择开抢时间">
-                        <button class="cg-btn cg-btn-secondary cg-btn-small" id="cg-schedule-btn">⏰ 设置</button>
+                        <button class="cg-btn cg-btn-secondary cg-btn-small" id="cg-schedule-btn">确定</button>
                     </div>
                     <div class="cg-help-text">设置自动开抢时间，到时自动开始抢课</div>
                     <div id="cg-timer-display" style="display: none;"></div>
