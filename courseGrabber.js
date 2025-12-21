@@ -463,49 +463,26 @@
     }
 
     // 检查教学班是否可选课
-    // 逻辑：检查 .full 元素是否可见，如果可见且显示"已满"则不选
-    // 否则只要有数字格式的容量信息就尝试选课
+    // 逻辑：只判断 .full 元素（"已满"标识）是否显示
     function checkTeachingClassCapacity(teachingClass) {
         try {
-            // 确保teachingClass和info存在
-            if (!teachingClass || !teachingClass.info) {
+            if (!teachingClass || !teachingClass.row) {
                 return false;
             }
 
-            const row = teachingClass.row;
-            if (!row) {
-                return false;
-            }
-
-            // 检查 .full 元素是否可见（教务系统的"已满"标识）
-            // 注意：即使有余量，.full 元素也可能存在但 display:none
-            const fullElement = row.querySelector('.full, td.full');
+            // 检查 .full 元素是否可见
+            const fullElement = teachingClass.row.querySelector('.full, td.full');
             if (fullElement) {
                 const style = window.getComputedStyle(fullElement);
                 const isVisible = style.display !== 'none' && style.visibility !== 'hidden';
-                if (isVisible && fullElement.textContent.includes('已满')) {
+                // 如果"已满"可见，返回 false
+                if (isVisible) {
                     return false;
                 }
             }
 
-            // 检查 .rsxx 元素中的容量信息（格式：【36/50】）
-            const rsxxElement = row.querySelector('.rsxx, td.rsxx');
-            if (rsxxElement) {
-                const rsxxText = rsxxElement.textContent || '';
-                // 只要有数字格式就认为可以选课
-                if (/\d+\/\d+/.test(rsxxText)) {
-                    return true;
-                }
-            }
-
-            // 备用：检查整行是否有数字格式的容量信息
-            const capacity = teachingClass.info.capacity;
-            if (capacity && /\d+/.test(capacity) && !capacity.includes('已满')) {
-                return true;
-            }
-
-            // 无法判断容量信息，默认不选
-            return false;
+            // "已满"不可见，可以选课
+            return true;
         } catch (error) {
             return false;
         }
