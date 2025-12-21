@@ -51,6 +51,7 @@
     const MAX_FAILED_ATTEMPTS = 10;          // 最大连续失败次数
     const RETRY_DELAY = 3000;               // 重试延迟(毫秒)
     const CONCURRENT_ENABLED = true;        // 是否启用并发抢课
+    const CLICK2EXPEND_ENABELD = true;      // 是否在 jQuery 后自动展开目标课程信息，用于时间筛选和教师筛选
 
     // ========== 过滤器配置 ==========
     // 全局时间过滤器（可选）- 留空表示不过滤，支持多个关键词，满足任意一个即可
@@ -940,7 +941,7 @@
             }
 
             // 🔥 刷新后强制恢复展开
-            setTimeout(forceExpandTargetCoursesAggressive, 600);
+            if (CLICK2EXPEND_ENABELD) setTimeout(forceExpandTargetCoursesAggressive, 600);
         } catch (e) {
             log(`刷新课程列表失败: ${e.message}`, 'warning');
         }
@@ -971,7 +972,7 @@
         const teachingClasses = findAllTeachingClasses(courseCode);
         if (teachingClasses.length === 0) {
             log('未找到教学班，尝试重新展开课程', 'warning', courseCode);
-            forceExpandTargetCoursesAggressive();
+            if (CLICK2EXPEND_ENABELD) forceExpandTargetCoursesAggressive();
             return;
         }
 
