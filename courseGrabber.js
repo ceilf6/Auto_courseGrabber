@@ -51,7 +51,7 @@
     const MAX_FAILED_ATTEMPTS = 10;          // 最大连续失败次数
     const RETRY_DELAY = 3000;               // 重试延迟(毫秒)
     const CONCURRENT_ENABLED = true;        // 是否启用并发抢课
-    const CLICK2EXPEND_ENABELD = true;      // 是否在 jQuery 后自动展开目标课程信息，用于时间筛选和教师筛选
+    let click2expend_enabled = true;      // 是否在 jQuery 后自动展开目标课程信息，用于时间筛选和教师筛选
 
     // ========== 过滤器配置 ==========
     // 全局时间过滤器（可选）- 留空表示不过滤，支持多个关键词，满足任意一个即可
@@ -941,7 +941,7 @@
             }
 
             // 🔥 刷新后强制恢复展开
-            if (CLICK2EXPEND_ENABELD) setTimeout(forceExpandTargetCoursesAggressive, 600);
+            if (click2expend_enabled) setTimeout(forceExpandTargetCoursesAggressive, 600);
         } catch (e) {
             log(`刷新课程列表失败: ${e.message}`, 'warning');
         }
@@ -972,7 +972,7 @@
         const teachingClasses = findAllTeachingClasses(courseCode);
         if (teachingClasses.length === 0) {
             log('未找到教学班，尝试重新展开课程', 'warning', courseCode);
-            if (CLICK2EXPEND_ENABELD) forceExpandTargetCoursesAggressive();
+            if (click2expend_enabled) forceExpandTargetCoursesAggressive();
             return;
         }
 
@@ -1182,6 +1182,34 @@
             const courseCode = typeof course === 'string' ? course : course.code;
             activeCourses.add(courseCode);
             initCourseState(courseCode);
+        }
+
+        // 自动判断是否需要展开功能（用于时间/教师过滤）
+        // 如果没有任何过滤器配置，则无需展开课程详情
+        const needsFiltering = (() => {
+            // 检查全局过滤器
+            if (GLOBAL_TIME_FILTER.length > 0 || GLOBAL_TEACHER_FILTER.length > 0) {
+                return true;
+            }
+            // 检查每门课程的单独过滤器
+            for (let course of coursesToGrab) {
+                if (typeof course === 'object') {
+                    if ((course.timeFilter && course.timeFilter.length > 0) ||
+                        (course.teacherFilter && course.teacherFilter.length > 0)) {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        })();
+
+        // 根据是否需要过滤自动设置 click2expend_enabled
+        if (!needsFiltering) {
+            click2expend_enabled = false;
+            log('📌 未检测到时间/教师过滤器配置，已自动禁用课程展开功能', 'info');
+        } else {
+            click2expend_enabled = true;
+            log('📌 检测到过滤器配置，已自动启用课程展开功能', 'info');
         }
 
         log(`🚀 开始监控 ${activeCourses.size} 门课程`, 'success');
