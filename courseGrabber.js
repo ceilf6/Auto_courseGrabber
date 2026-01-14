@@ -1,7 +1,6 @@
 // 仓库地址（持续维护、更新中）: https://github.com/ceilf6/Auto_courseGrabber
 // https://github.com/ceilf6
 // https://blog.csdn.net/2301_78856868
-// 3506456886@qq.com
 
 // 使用方法:
 // 1. 登录教务系统并进入选课页面

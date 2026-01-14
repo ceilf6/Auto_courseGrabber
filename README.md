@@ -317,14 +317,6 @@ Auto_courseGrabber/
 - 📚 单课程支持
 - 🔄 自动重试机制
 
-## 👨‍💻 作者
-
-**ceilf**
-- 学校: 中欧 信息工程
-- GitHub: [@ceilf6](https://github.com/ceilf6)
-- CSDN: [2301_78856868](https://blog.csdn.net/2301_78856868)
-- Email: 3506456886@qq.com
-
 ## 📜 许可证
 
 本项目采用 MIT 许可证 - 详见 [LICENSE](LICENSE) 文件
