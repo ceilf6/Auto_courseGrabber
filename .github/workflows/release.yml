@@ -15,10 +15,38 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Extract version from tag
+        id: get_version
+        run: |
+          VERSION=${GITHUB_REF#refs/tags/v}
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "Extracted version: $VERSION"
+
+      - name: Update README version badge
+        run: |
+          VERSION=${{ steps.get_version.outputs.version }}
+          sed -i "s/version-[0-9.]*-green/version-$VERSION-green/g" README.md
+          echo "Updated README.md with version $VERSION"
+
+      - name: Commit and push version update
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add README.md
+          if git diff --staged --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "chore: update version badge to ${{ steps.get_version.outputs.version }}"
+            git push origin HEAD:${{ github.event.repository.default_branch }}
+            echo "Version badge updated and pushed"
+          fi
 
       - name: Create Release
         uses: softprops/action-gh-release@v1
-        with:
+        with: # 本项目直接脚本文件即可，不需要build
           files: |
             courseGrabber.js
           generate_release_notes: true
