@@ -41,3 +41,5 @@ pids
 .env.production.local
 
 .claude/
+
+web结构/
