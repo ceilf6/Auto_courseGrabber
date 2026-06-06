@@ -242,9 +242,16 @@
   }
 
   function findMatchingCourseHeads(courseCodeOrName) {
-    return Array.from(document.querySelectorAll(".panel-heading.kc_head")).filter(
-      (head) => isCourseHeadMatching(head, courseCodeOrName),
-    );
+    const matchedHeads = [];
+    const heads = document.querySelectorAll(".panel-heading.kc_head");
+
+    for (let head of heads) {
+      if (isCourseHeadMatching(head, courseCodeOrName)) {
+        matchedHeads.push(head);
+      }
+    }
+
+    return matchedHeads;
   }
 
   function getCourseSectionFromHead(head) {
