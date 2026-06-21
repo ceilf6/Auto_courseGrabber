@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>自动抢课 UI 夹具</title>
+    <style>
+      body {
+        margin: 0;
+        min-height: 100vh;
+        background: #edf2f7;
+        color: #1f2933;
+        font: 16px/1.5 Georgia, "Noto Serif SC", serif;
+      }
+      main {
+        max-width: 860px;
+        padding: 48px 32px;
+      }
+      h1 {
+        margin: 0 0 12px;
+      }
+      .notice {
+        max-width: 560px;
+        padding: 20px;
+        border: 1px solid #cad6df;
+        border-radius: 8px;
+        background: #fff;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>正方教务系统</h1>
+      <div class="notice">此页面仅用于验证 courseGrabber 注入的控制面板。</div>
+    </main>
+    <script>window.alert = () => {};</script>
+    <script src="../courseGrabber.js"></script>
+  </body>
+</html>
