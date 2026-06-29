@@ -366,6 +366,16 @@ Auto_courseGrabber/
 
 本脚本仅供学习交流使用，使用者需遵守学校相关规定。因使用本脚本产生的任何问题，作者不承担任何责任。请合理使用，不要给服务器造成过大压力。
 
+## Friendly Links
+
+- [Linux.do](https://linux.do/) - Chinese AI learning and developer community.
+- [Aionui](https://github.com/iOfficeAI/AionUi) - Mobile remote-control UI for letting AI agents operate tasks from a phone.
+- [OfficeCLI](https://github.com/iOfficeAI/OfficeCLI) - Office suite designed for AI agents.
+- [deepseek-pp](https://github.com/zhu1090093659/deepseek-pp) - Browser extension for DeepSeek web conversations.
+- [MuseAI](https://github.com/yejiming/MuseAI) - Local AI companion, text adventure, and interactive fiction app.
+- [RedBox](https://github.com/Jamailar/RedBox) - Local AI creation workspace for Xiaohongshu creators.
+- [1flowbase](https://github.com/taichuy/1flowbase) - Virtual model gateway for publishing multi-model workflows as OpenAI/Claude-compatible endpoints, with trace, token, latency, and cost visibility.
+
 ---
 
 如果这个项目对你有帮助，欢迎 ⭐ Star 支持；也欢迎提交一份脱敏的[兼容性报告](.github/ISSUE_TEMPLATE/compatibility-report.md)，帮助其他使用正方教务系统的同学更快确认适用性。
