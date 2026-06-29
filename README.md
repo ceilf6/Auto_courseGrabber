@@ -20,7 +20,7 @@
 
 https://bilibili.com/video/BV15q3xz5EzY/
 
-https://v.douyin.com/RETYdIcsiTQ/
+https://www.douyin.com/video/7651581603861720441
 
 ## 🔎 适用范围与兼容性
 
