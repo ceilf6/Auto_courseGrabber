@@ -637,6 +637,130 @@
     return allClasses;
   }
 
+  function isElementClickable(element) {
+    if (!element) {
+      return false;
+    }
+
+    const tagName = element.tagName;
+    return (
+      tagName === "BUTTON" ||
+      tagName === "A" ||
+      (tagName === "INPUT" && element.getAttribute("type") === "button") ||
+      Boolean(element.onclick) ||
+      Boolean(element.getAttribute("onclick"))
+    );
+  }
+
+  function findClickableElementByText(root, targetText, excludedTexts = []) {
+    if (!root) {
+      return null;
+    }
+
+    const elements = root.querySelectorAll("*");
+    for (let element of elements) {
+      const elementText = (element.textContent || "").trim();
+      if (!elementText.includes(targetText)) {
+        continue;
+      }
+
+      if (excludedTexts.some((text) => elementText.includes(text))) {
+        continue;
+      }
+
+      if (isElementClickable(element)) {
+        return element;
+      }
+    }
+
+    return null;
+  }
+
+  function findSelectedCourseRows(courseCodeOrName, root = document) {
+    const rows = [];
+    const seenRows = new Set();
+    const input = String(courseCodeOrName).trim();
+    const isCode = isCourseCode(input);
+
+    const addRowsFromSection = (section) => {
+      if (!section) {
+        return;
+      }
+
+      const rowCandidates = section.querySelectorAll(
+        "li.list-group-item, table tbody tr, tr",
+      );
+      for (let row of rowCandidates) {
+        if (seenRows.has(row)) {
+          continue;
+        }
+
+        const dropButton = findClickableElementByText(row, "退选");
+        const rowText = row.textContent || "";
+        if (!dropButton && !rowText.includes("退选")) {
+          continue;
+        }
+
+        seenRows.add(row);
+        rows.push({
+          row: row,
+          button: dropButton,
+          courseCode: courseCodeOrName,
+        });
+      }
+    };
+
+    const matchesSelectedCourseSection = (section) => {
+      const sectionId = section.id || "";
+      const courseCodeInput = section.querySelector('input[name="right_kchid"]');
+      const sectionCourseCode = courseCodeInput
+        ? String(courseCodeInput.value).trim()
+        : "";
+      const headingText = section.querySelector("h6")?.textContent || "";
+
+      if (isCode) {
+        return (
+          sectionCourseCode === input ||
+          sectionId === `right_${input}` ||
+          sectionId === `right_ul_${input}` ||
+          headingText.includes(`(${input})`)
+        );
+      }
+
+      return headingText.includes(input);
+    };
+
+    const selectedSections = root.querySelectorAll(
+      '.outer_xkxx_list, [id^="right_"]',
+    );
+    for (let section of selectedSections) {
+      if (matchesSelectedCourseSection(section)) {
+        addRowsFromSection(section);
+      }
+    }
+
+    const rightCourseInputs = root.querySelectorAll('input[name="right_kchid"]');
+    for (let courseInput of rightCourseInputs) {
+      const sectionCourseCode = String(courseInput.value).trim();
+      if (isCode && sectionCourseCode !== input) {
+        continue;
+      }
+
+      const section =
+        courseInput.closest(".outer_xkxx_list") ||
+        courseInput.closest("ul") ||
+        courseInput.parentElement;
+      const headingText = section?.querySelector("h6")?.textContent || "";
+      if (!isCode && !headingText.includes(input)) {
+        continue;
+      }
+
+      addRowsFromSection(section);
+    }
+
+    return rows;
+  }
+
   // 提取教学班信息
   function extractTeachingClassInfo(row) {
     try {
@@ -857,22 +981,31 @@
       try {
         log(`🔄 开始退选课程: ${courseCode}`, "info", courseCode);
 
-        // 查找该课程的所有教学班
-        const teachingClasses = findAllTeachingClasses(courseCode);
+        const selectedCourseRows = findSelectedCourseRows(courseCode);
+        let dropClass = selectedCourseRows[0] || null;
 
-        if (teachingClasses.length === 0) {
-          log(`未找到课程 ${courseCode} 的教学班`, "warning", courseCode);
-          resolve(false);
-          return;
-        }
+        if (dropClass) {
+          log(`已在已选课程列表中找到课程 ${courseCode}`, "info", courseCode);
+        } else {
+          // 回退：部分页面会把已选课程同时保留在左侧课程卡片中
+          const teachingClasses = findAllTeachingClasses(courseCode);
 
-        // 查找包含"退选"按钮的教学班
-        let dropClass = null;
-        for (let tc of teachingClasses) {
-          const rowText = tc.row ? tc.row.textContent : "";
-          if (rowText.includes("退选")) {
-            dropClass = tc;
-            break;
+          if (teachingClasses.length === 0) {
+            log(`未找到课程 ${courseCode} 的教学班`, "warning", courseCode);
+            resolve(false);
+            return;
+          }
+
+          // 查找包含"退选"按钮的教学班
+          for (let tc of teachingClasses) {
+            const rowText = tc.row ? tc.row.textContent : "";
+            if (rowText.includes("退选")) {
+              dropClass = {
+                ...tc,
+                button: findClickableElementByText(tc.row, "退选"),
+              };
+              break;
+            }
           }
         }
 
@@ -884,23 +1017,8 @@
 
         // 查找退选按钮
         const row = dropClass.row;
-        const allElements = row.querySelectorAll("*");
-        let dropButton = null;
-
-        for (let element of allElements) {
-          const elementText = element.textContent.trim();
-          if (elementText === "退选" || elementText.includes("退选")) {
-            if (
-              element.tagName === "BUTTON" ||
-              element.tagName === "A" ||
-              element.onclick ||
-              element.getAttribute("onclick")
-            ) {
-              dropButton = element;
-              break;
-            }
-          }
-        }
+        let dropButton =
+          dropClass.button || findClickableElementByText(row, "退选");
 
         if (!dropButton) {
           log(`未找到课程 ${courseCode} 的退选按钮`, "warning", courseCode);
