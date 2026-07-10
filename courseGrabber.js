@@ -56,6 +56,7 @@
     const AUTO_LOAD_MORE_ENABLED = true;   // 目标课程尚未加载到页面时，自动触发“查看更多”
     const LOAD_MORE_COOLDOWN = 1200;       // 自动加载更多的节流间隔(毫秒)
     const LOAD_MORE_SETTLE_DELAY = 800;    // 等待页面追加课程 DOM 的时间(毫秒)
+    const PAGED_REFRESH_SKIP_LOG_INTERVAL = 120; // 瀑布分页环境下跳过全局刷新时的低频提示间隔(尝试次数)
 
     let click2expend_enabled = true;       // 用于脚本自动关闭
 
@@ -143,6 +144,7 @@
 
     /**
      * 判断输入是否为课程号（纯数字）
+     * 保持原始项目的纯数字语义，避免把含数字的课程名称（如 C语言程序设计2）误判为课程号。
      * @param {string} input - 用户输入
      * @returns {boolean} - 是否为课程号
      */
@@ -1038,6 +1040,91 @@
         return false;
     }
 
+    function runSelfTest() {
+        const results = [];
+        const addResult = (name, passed, details = '') => {
+            results.push({ name, passed, details });
+        };
+
+        addResult('isCourseCode: pure numeric', isCourseCode('23005523') === true);
+        addResult('isCourseCode: alphanumeric stays non-code', isCourseCode('CS102') === false);
+        addResult('isCourseCode: digit-bearing course name stays non-code', isCourseCode('C语言程序设计2') === false);
+
+        const capacityCases = [
+            { input: '10/50', full: false, valid: true },
+            { input: '50/50', full: true, valid: true },
+            { input: '139/48', full: true, valid: true },
+            { input: '42/0', full: true, valid: true },
+            { input: '已满', full: true, valid: true },
+            { input: '', full: false, valid: false },
+            { input: '未知容量', full: false, valid: false }
+        ];
+
+        for (let testCase of capacityCases) {
+            const parsed = parseCapacityText(testCase.input);
+            addResult(
+                `parseCapacityText: ${testCase.input || '<empty>'}`,
+                parsed.valid === testCase.valid && parsed.full === testCase.full,
+                JSON.stringify(parsed)
+            );
+        }
+
+        if (typeof document !== 'undefined' && document.createElement) {
+            const row = document.createElement('tr');
+            row.innerHTML = '<td class="do_jxb_id">do_1</td>';
+
+            addResult(
+                'getTeachingClassReadiness: ready with capacity and do_jxb_id',
+                getTeachingClassReadiness({
+                    row,
+                    info: {
+                        capacity: '10/50',
+                        timeInfo: '星期日第9-10节',
+                        teacher: '【宋南】',
+                        className: '测试教学班-0001'
+                    }
+                }, '__self_test__').ready === true
+            );
+
+            const noSubmitIdRow = document.createElement('tr');
+            addResult(
+                'getTeachingClassReadiness: blocks missing do_jxb_id',
+                getTeachingClassReadiness({
+                    row: noSubmitIdRow,
+                    info: {
+                        capacity: '10/50',
+                        timeInfo: '星期日第9-10节',
+                        teacher: '【宋南】',
+                        className: '测试教学班-0001'
+                    }
+                }, '__self_test__').ready === false
+            );
+
+            addResult(
+                'getTeachingClassReadiness: blocks zero capacity placeholder',
+                getTeachingClassReadiness({
+                    row,
+                    info: {
+                        capacity: '42/0',
+                        timeInfo: '星期日第9-10节',
+                        teacher: '【宋南】',
+                        className: '测试教学班-0001'
+                    }
+                }, '__self_test__').ready === false
+            );
+        }
+
+        const failed = results.filter(item => !item.passed);
+        console.table(results);
+        log(`自检完成: ${results.length - failed.length}/${results.length} 通过`, failed.length ? 'error' : 'success');
+
+        return {
+            passed: failed.length === 0,
+            total: results.length,
+            failed
+        };
+    }
+
     // 退选指定课程
     function dropCourse(courseCode) {
         return new Promise((resolve) => {
@@ -1810,6 +1897,11 @@
                     attemptGrabCourse();
                 }, 1000); // 刷新后等待1秒再尝试
             } else {
+                if (attemptCount > 0 &&
+                    attemptCount % PAGED_REFRESH_SKIP_LOG_INTERVAL === 0 &&
+                    shouldSkipPeriodicRefresh()) {
+                    log('分页列表环境中已跳过全局搜索刷新，避免已追加课程被重置；如页面长期无变化可手动刷新后重启脚本', 'info');
+                }
                 attemptGrabCourse();
             }
         }, CHECK_INTERVAL);
@@ -1932,6 +2024,9 @@
 
         // 查看状态
         status: getStatus,
+
+        // 运行轻量自检（不点击页面，不发请求）
+        selfTest: runSelfTest,
 
         // 手动加载更多课程
         // 示例: grab.loadMore() 或 grab.loadMore('CS103')
@@ -2110,6 +2205,7 @@
     console.log('  grab.start([{code:"CS101", priority:1}])  - 🚀 使用自定义课程列表');
     console.log('  grab.stop()   - ⏹️ 停止抢课');
     console.log('  grab.status() - 📊 查看状态');
+    console.log('  grab.selfTest() - 🧪 运行轻量自检');
     console.log('  grab.loadMore() - 📄 手动加载更多课程');
     console.log('  grab.debug()  - 🔍 调试所有课程');
     console.log('  grab.debug("CS101")  - 🔍 调试指定课程');
