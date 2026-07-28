@@ -24,18 +24,30 @@ jobs:
           github.event.pull_request.head.repo.full_name == github.repository
         ) ||
         (
-          github.event_name == 'issues'
+          github.event_name == 'issues' &&
+          contains(fromJSON('["OWNER","MEMBER","COLLABORATOR"]'), github.event.issue.author_association)
         ) ||
         (
           github.event_name == 'issue_comment' &&
           contains(fromJSON('["OWNER","MEMBER","COLLABORATOR"]'), github.event.comment.author_association)
         )
       )
-    runs-on: ubuntu-latest
+    # REPO_GUARD_RUNNER 指向自托管 runner(如 repo-guard-claude)时,
+    # REPO_GUARD_ENGINE=claude-code 在 runner 本机跑 Claude Code CLI 评审。
+    runs-on: ${{ vars.REPO_GUARD_RUNNER || 'ubuntu-latest' }}
+    timeout-minutes: 45
     steps:
+      # PR 评审的工作目录:checkout 即评审数据,凭据不落盘。
+      - uses: actions/checkout@v4
+        if: github.event_name == 'pull_request' || (github.event_name == 'issue_comment' && github.event.issue.pull_request)
+        with:
+          ref: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.sha || format('refs/pull/{0}/head', github.event.issue.number) }}
+          persist-credentials: false
       - uses: ceilf6/repo-guard@main
         with:
           type: both
+          engine: ${{ vars.REPO_GUARD_ENGINE || 'api' }}
+          claude-model: ${{ vars.CLAUDE_CODE_MODEL }}
           provider: ${{ vars.LLM_PROVIDER }}
           model: ${{ vars.LLM_MODEL }}
           api-key: ${{ secrets.LLM_API_KEY }}
