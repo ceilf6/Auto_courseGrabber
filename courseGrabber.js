@@ -1702,24 +1702,36 @@
         // 获取课程配置
         const courseConfig = TARGET_COURSES.find((c) => c.code === courseCode);
 
-        // 如果配置了替换课程，先执行退选
-        if (courseConfig && courseConfig.replaceCode) {
+        // 如果配置了替换课程，先执行退选（支持多门）
+        const _replaceCodes = courseConfig && courseConfig.replaceCodes && courseConfig.replaceCodes.length > 0
+          ? courseConfig.replaceCodes
+          : null;
+        if (_replaceCodes) {
+          const _codesList = _replaceCodes.join(", ");
           log(
-            `🔄 检测到需要替换课程 ${courseConfig.replaceCode}，立即执行退选...`,
+            `🔄 检测到需要替换课程 ${_codesList}，依次执行退选...`,
             "warning",
             courseCode,
           );
           addUILog &&
             addUILog(
               "warning",
-              `[${courseCode}] 🔄 发现空位！开始退选 ${courseConfig.replaceCode}`,
+              `[${courseCode}] 🔄 发现空位！开始退选 ${_codesList}`,
             );
 
-          // 异步执行退选，然后选课
-          dropCourse(courseConfig.replaceCode).then((dropSuccess) => {
+          // 依次退选所有替换课程，全部成功后再选新课
+          const dropSequentially = (codes) => {
+            if (codes.length === 0) return Promise.resolve(true);
+            return dropCourse(codes[0]).then((ok) => {
+              if (!ok) return Promise.resolve(false);
+              return dropSequentially(codes.slice(1));
+            });
+          };
+
+          dropSequentially(_replaceCodes).then((dropSuccess) => {
             if (dropSuccess) {
               log(
-                `✅ 退选成功，立即选择新课程 ${courseCode}`,
+                `✅ 全部退选成功，立即选择新课程 ${courseCode}`,
                 "success",
                 courseCode,
               );
@@ -2783,8 +2795,8 @@
                     <div class="cg-help-text">支持教师姓名或职称，满足任意一个即可</div>
 
                     <div class="cg-section-title" style="font-size: 13px; margin-top: 12px; margin-bottom: 8px;"> 替换课程 (可选)</div>
-                    <input type="text" class="cg-input cg-filter-input" id="cg-replace-code" placeholder="要替换的课程号 (例: 23306047)">
-                    <div class="cg-help-text">选中新课程前，先退选此课程（用于换课）</div>
+                    <input type="text" class="cg-input cg-filter-input" id="cg-replace-code" placeholder="要替换的课程号 (例: 23306047,23306048)">
+                    <div class="cg-help-text">多门课用逗号分隔，选中新课前依次退选这些课</div>
                     
                     <button class="cg-btn cg-btn-secondary cg-btn-small" id="cg-add-course" style="width: 100%; margin-top: 12px;">➕ 添加课程</button>
                 </div>
@@ -2918,7 +2930,7 @@
       const timeFilterEl = document.getElementById("cg-time-filter");
       const teacherFilterEl = document.getElementById("cg-teacher-filter");
 
-      const replaceCode = (replaceCodeEl ? replaceCodeEl.value : "").trim();
+      const replaceCodeInput = (replaceCodeEl ? replaceCodeEl.value : "").trim();
       const timeFilterInput = (timeFilterEl ? timeFilterEl.value : "").trim();
       const teacherFilterInput = (
         teacherFilterEl ? teacherFilterEl.value : ""
@@ -2926,7 +2938,8 @@
 
       // 构造最终要推入的课程对象，避免作用域或外部修改影响
       const finalCourse = { code: code, priority: priority };
-      if (replaceCode) finalCourse.replaceCode = replaceCode;
+      const finalReplaceCodes = safeParseFilterInput(replaceCodeInput);
+      if (finalReplaceCodes.length > 0) finalCourse.replaceCodes = finalReplaceCodes;
 
       // 使用安全的解析函数处理过滤器输入（避免被篡改的 Array.prototype.filter）
       const finalTimeFilter = safeParseFilterInput(timeFilterInput);
@@ -2952,8 +2965,8 @@
       updateCourseList();
 
       let logMsg = `已添加课程: ${code} (优先级: ${priority})`;
-      if (finalCourse.replaceCode)
-        logMsg += ` [替换: ${finalCourse.replaceCode}]`;
+      if (finalCourse.replaceCodes && finalCourse.replaceCodes.length > 0)
+        logMsg += ` [替换: ${finalCourse.replaceCodes.join(", ")}]`;
       if (finalCourse.timeFilter && finalCourse.timeFilter.length > 0) {
         logMsg += ` [时间过滤: ${finalCourse.timeFilter.join(", ")}]`;
       }
@@ -3035,13 +3048,13 @@
 
     list.innerHTML = TARGET_COURSES.map((course, index) => {
       const hasConfig =
-        course.replaceCode || course.timeFilter || course.teacherFilter;
+        (course.replaceCodes && course.replaceCodes.length > 0) || course.timeFilter || course.teacherFilter;
 
       let filterHTML = "";
       if (hasConfig) {
         filterHTML = '<div class="cg-course-filters">';
-        if (course.replaceCode) {
-          filterHTML += `<div class="cg-course-filter-item"><span class="cg-filter-label">🔄 替换:</span><span>${course.replaceCode}</span></div>`;
+        if (course.replaceCodes && course.replaceCodes.length > 0) {
+          filterHTML += `<div class="cg-course-filter-item"><span class="cg-filter-label">🔄 替换:</span><span>${course.replaceCodes.join(", ")}</span></div>`;
         }
         if (course.timeFilter) {
           filterHTML += `<div class="cg-course-filter-item"><span class="cg-filter-label">⏰ 时间:</span><span>${course.timeFilter.join(", ")}</span></div>`;
@@ -3084,12 +3097,12 @@
   window.editCourseUI = (index) => {
     const course = TARGET_COURSES[index];
 
-    const replaceCode = prompt(
-      `编辑课程 ${course.code} 的替换课程\n\n输入要替换的课程号，留空表示不替换\n例如: 23306047`,
-      course.replaceCode || "",
+    const replaceCodeInput = prompt(
+      `编辑课程 ${course.code} 的替换课程\n\n多门课用逗号分隔，留空表示不替换\n例如: 23306047,23306048`,
+      course.replaceCodes ? course.replaceCodes.join(",") : "",
     );
 
-    if (replaceCode === null) return; // 用户取消
+    if (replaceCodeInput === null) return; // 用户取消
 
     const timeFilter = prompt(
       `编辑课程 ${course.code} 的时间过滤器\n\n多个关键词用逗号分隔，留空表示不过滤\n例如: 星期一,第1-2节`,
@@ -3106,10 +3119,11 @@
     if (teacherFilter === null) return; // 用户取消
 
     // 更新课程配置
-    if (replaceCode.trim()) {
-      course.replaceCode = replaceCode.trim();
+    const parsedReplaceCodes = safeParseFilterInput(replaceCodeInput);
+    if (parsedReplaceCodes.length > 0) {
+      course.replaceCodes = parsedReplaceCodes;
     } else {
-      delete course.replaceCode;
+      delete course.replaceCodes;
     }
 
     // 使用安全的解析函数处理过滤器输入（避免被篡改的 Array.prototype.filter）
