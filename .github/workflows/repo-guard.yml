@@ -48,6 +48,7 @@ jobs:
           type: both
           engine: ${{ vars.REPO_GUARD_ENGINE || 'api' }}
           claude-model: ${{ vars.CLAUDE_CODE_MODEL }}
+          agy-model: ${{ vars.AGY_MODEL }}
           provider: ${{ vars.LLM_PROVIDER }}
           model: ${{ vars.LLM_MODEL }}
           api-key: ${{ secrets.LLM_API_KEY }}
